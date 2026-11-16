@@ -275,7 +275,8 @@ button{font-family:inherit}
 .photo-image{display:block;width:100%;height:auto;filter:url(#lisere) grayscale(1) contrast(1.08)}
 /* Photo non détourée (en attendant son détourage) : même traitement sans liseré, cadre griffonné autour */
 .photo-detouree:not([data-type="detoure"]) .photo-image{filter:url(#grain) grayscale(1) contrast(1.12)}
-.photo-trait{position:absolute;inset:-8px;width:calc(100% + 16px);height:calc(100% + 16px);overflow:hidden;z-index:2;pointer-events:none;fill:var(--t)}
+.photo-trait{position:absolute;inset:0;overflow:visible;z-index:2;pointer-events:none;fill:var(--t)}
+.carte-article .photo-trait,.corps-article .photo-trait{inset:-8px;width:calc(100% + 16px);height:calc(100% + 16px);overflow:hidden}
 .photo-detouree .aplat-fond{position:absolute;z-index:-1;width:118%;height:112%;left:-9%;top:-6%;overflow:visible}
 .accent-eclat{position:absolute;width:62px;z-index:3}
 
