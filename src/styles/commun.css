@@ -337,8 +337,12 @@ button{font-family:inherit}
 .sec-tete p{margin:0 0 8px;max-width:440px;font-size:16.5px}
 .bande{position:relative;padding:30px 0 10px}
 .lockups{position:relative;z-index:1;list-style:none;margin:0;padding:0;display:grid;grid-template-columns:repeat(5,1fr)}
-.fil-services{position:absolute;left:-44px;right:-44px;top:-26px;bottom:-14px;width:auto;height:auto;overflow:visible;pointer-events:none;fill:var(--t);opacity:.85}
+.fil-services{position:absolute;left:-14px;right:-14px;top:4px;height:130px;width:auto;overflow:visible;pointer-events:none;fill:var(--t);opacity:.8}
 .lockups li+li{border-left:0}
+/* Badges colorés des pictos (accueil uniquement) : le fil passe derrière, « tenu » par chaque badge */
+.lockups .lockup{position:relative;z-index:1;display:inline-flex;align-items:center;justify-content:center;width:84px;height:84px;border-radius:20px;background:var(--c);color:#fff}
+.lockups .lockup-boucle{display:none}
+.lockups .picto-service{height:38px;width:auto}
 /* Le fil s'écrit : le masque de chaque trait se dessine le long du geste (Fil.astro) */
 .js .fil-masque path{stroke-dasharray:1;stroke-dashoffset:1}
 .js .hero .fil-masque path{animation:fil-dessin 1.9s cubic-bezier(.45,.05,.2,1) .4s forwards}
@@ -348,8 +352,6 @@ button{font-family:inherit}
 @keyframes eclat-pop{to{opacity:1;transform:none}}
 @media (prefers-reduced-motion:reduce){.js .fil-masque path,.js .hero .accent-eclat{animation:none;stroke-dashoffset:0;opacity:1;transform:none}}
 .lockups a{display:flex;flex-direction:column;align-items:center;text-align:center;padding:4px 16px;height:100%}
-.lockups .lockup{align-items:center}
-.lockups .lockup-boucle{margin-left:34px}
 .lockups h3{font-size:clamp(24px,2.1vw,30px);margin:14px 0 6px}
 .lockups p{font-size:15px;line-height:1.4;margin:0 0 16px}
 .lockups a>svg:last-child{margin-top:auto}

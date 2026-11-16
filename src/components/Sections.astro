@@ -102,7 +102,7 @@ const coord = (l: any): { valeur: string; lien: string } => {
               {c.intro && <p>{c.intro}</p>}
             </div>
             <div class="bande anime-vue">
-              <FilServices graine={s.id} />
+              <FilServices graine={s.id} nombre={tous.length} />
               <ul class="lockups">
                 {tous.map((x) => (
                   <li><a class={`service t-${x.theme}`} href={`/services/${x.slug}`}>
