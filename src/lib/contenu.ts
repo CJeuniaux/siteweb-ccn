@@ -59,7 +59,7 @@ import { getImage } from 'astro:assets';
  *        « composite » (anciens visuels où l'aplat est déjà dans l'image : affichés tels quels),
  *        « dessin » (logo, picto, document : jamais traité ni masqué).
  */
-export type Image = { src: string; alt: string; largeur?: number; hauteur?: number; type?: string };
+export type Image = { src: string; alt: string; largeur?: number; hauteur?: number; type?: string; srcOriginal?: string };
 let resolues: Promise<Map<string, Image>> | null = null;
 
 async function toutesLesImages(): Promise<Map<string, Image>> {
@@ -67,17 +67,18 @@ async function toutesLesImages(): Promise<Map<string, Image>> {
   const carte = new Map<string, Image>();
   for (const m of fiches) {
     // L'espace « medias » est public : son adresse suffit (aucune clé), dès que PUBLIC_SUPABASE_URL est connue.
-    let src = url ? `${url}/storage/v1/object/public/medias/${encodeURI(m.fichier)}` : `/img/${m.fichier}`;
+    const srcBrut = url ? `${url}/storage/v1/object/public/medias/${encodeURI(m.fichier)}` : `/img/${m.fichier}`;
+    let src = srcBrut;
     if (url && m.largeur && m.hauteur) {
       const svg = /\.svg$/i.test(m.fichier);
       const largeur = svg ? m.largeur : Math.min(m.largeur, 1400);
-      // Photos : converties en webp et redimensionnées. Dessins (SVG) : recopiés tels quels.
-      // Dans les deux cas le fichier est rangé avec le site : il ne dépend plus de Supabase pour s'afficher.
-      const opt = await getImage({ src, width: largeur, height: Math.round((m.hauteur * largeur) / m.largeur), format: svg ? 'svg' : 'webp', quality: 80 });
+      const type = m.type_visuel ?? (svg ? 'dessin' : 'composite');
+      const format = svg ? 'svg' : type === 'detoure' ? 'png' : 'webp';
+      const opt = await getImage({ src, width: largeur, height: Math.round((m.hauteur * largeur) / m.largeur), format, quality: 80 });
       src = opt.src;
     }
     const type = m.type_visuel ?? (/\.svg$/i.test(m.fichier) ? 'dessin' : 'composite');
-    carte.set(m.id, { src, alt: m.alt ?? '', largeur: m.largeur, hauteur: m.hauteur, type });
+    carte.set(m.id, { src, alt: m.alt ?? '', largeur: m.largeur, hauteur: m.hauteur, type, srcOriginal: type === 'detoure' ? srcBrut : undefined });
   }
   return carte;
 }
