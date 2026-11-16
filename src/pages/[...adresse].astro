@@ -3,6 +3,7 @@
 // Les pages de service ont leur propre gabarit : services/[slug].astro.
 import Base from '../layouts/Base.astro';
 import Sections from '../components/Sections.astro';
+import ScrollThread from '../components/ScrollThread.astro';
 import { lire, sectionsDe } from '../lib/contenu';
 
 export async function getStaticPaths() {
@@ -17,5 +18,6 @@ const { p } = Astro.props;
 const sections = await sectionsDe(p.adresse);
 ---
 <Base titre={p.titre} description={p.description} theme={p.theme}>
+  {p.adresse === '/' && <ScrollThread />}
   <Sections sections={sections} />
 </Base>
