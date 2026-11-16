@@ -1,0 +1,6 @@
+[
+  { "id": "v-dignite", "numero": "01", "nom": "Dignité", "texte": "Chaque personne est reçue comme sujet, jamais comme dossier.", "ordre": 1, "publie": true },
+  { "id": "v-incond", "numero": "02", "nom": "Inconditionnalité", "texte": "L’accueil ne se mérite pas : il précède toute démarche.", "ordre": 2, "publie": true },
+  { "id": "v-lien", "numero": "03", "nom": "Lien", "texte": "Rien ne se fait seul : la relation est l’outil de travail.", "ordre": 3, "publie": true },
+  { "id": "v-autonomie", "numero": "04", "nom": "Autonomie", "texte": "Accompagner jusqu’à ne plus être nécessaire.", "ordre": 4, "publie": true }
+]

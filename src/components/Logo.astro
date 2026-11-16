@@ -1,0 +1,29 @@
+---
+// Logo général (BrandLogo) : quatre carrés PLEINS en grille 2 × 2, pictogrammes en réserve blanche
+// (mêmes chemins que les déclinaisons de service, source lib/pictos.ts), nom sur deux lignes.
+// Aucune bouclette dans les carrés. emblemeSeul : favicon / avatar.
+import { PICTOS, ORDRE_LOGO } from '../lib/pictos';
+import { services as tousServices } from '../lib/contenu';
+interface Props { nom?: string; emblemeSeul?: boolean; class?: string }
+const { nom = '', emblemeSeul = false, class: classe = '' } = Astro.props;
+const themes = Object.fromEntries((await tousServices()).map((s) => [s.slug, s.theme]));
+const C = 100, G = 6; // côté d'un carré, espace entre carrés
+const mots = nom.split(' ');
+const lignes = mots.length > 2 ? [mots[0], mots.slice(1).join(' ')] : [nom];
+---
+<span class={`logo ${classe}`.trim()}>
+  <svg class="logo-embleme" viewBox={`0 0 ${2 * C + G} ${2 * C + G}`} aria-hidden="true" focusable="false">
+    {ORDRE_LOGO.map((slug, i) => {
+      const p = PICTOS[slug];
+      const x0 = (i % 2) * (C + G), y0 = Math.floor(i / 2) * (C + G);
+      const k = (p.l * C) / p.largeur;
+      return (
+        <g>
+          <rect x={x0} y={y0} width={C} height={C} rx="11" style={`fill:var(--${themes[slug] ?? 'encre'})`} />
+          <path d={p.d} fill="#fff" fill-rule="evenodd" transform={`translate(${x0 + p.x * C} ${y0 + p.y * C}) scale(${k})`} />
+        </g>
+      );
+    })}
+  </svg>
+  {!emblemeSeul && nom && <span class="logo-nom">{lignes.map((l, i) => <>{i > 0 && <br />}{l}</>)}</span>}
+</span>

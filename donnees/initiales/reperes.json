@@ -1,0 +1,6 @@
+[
+  { "id": "r-1995", "annee": "1995", "texte": "Création par et pour les personnes démunies, sur base du volontariat", "ordre": 1, "publie": true },
+  { "id": "r-2000", "annee": "2000", "texte": "Membre fondateur du Relais Social de Charleroi", "ordre": 2, "publie": true },
+  { "id": "r-2002", "annee": "2002", "texte": "Recentrage sur les personnes sans logement", "ordre": 3, "publie": true },
+  { "id": "r-2023", "annee": "2023", "texte": "Agrément comme opérateur de Promotion de la Santé", "ordre": 4, "publie": true }
+]

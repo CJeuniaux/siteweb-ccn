@@ -1,0 +1,98 @@
+---
+// Polices hébergées avec le site (aucun appel externe), licence SIL OFL, accents français inclus (latin-ext) :
+// titres = Fraunces, réglage « soft » (sérif aux terminaisons arrondies : impactante et chic, demande de Charlotte),
+// textes, menus et données = Inter. Familles et réglages dans commun.css.
+import '@fontsource-variable/fraunces/full.css';
+import '@fontsource-variable/fraunces/full-italic.css';
+import '@fontsource/inter/400.css';
+import '@fontsource/inter/500.css';
+import '@fontsource/inter/600.css';
+import '../styles/commun.css';
+import EnTete from '../components/EnTete.astro';
+import Pied from '../components/Pied.astro';
+import { reglages } from '../lib/contenu';
+import { VERSION_TRAVAIL } from '../lib/etat';
+
+interface Props { titre: string; description?: string; theme?: string }
+const { titre, description, theme = 'rouge' } = Astro.props;
+const r = await reglages();
+---
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>{titre ? `${titre} — ${r.nom}` : r.nom}</title>
+  {description && <meta name="description" content={description} />}
+  {VERSION_TRAVAIL && <meta name="robots" content="noindex, nofollow, noarchive" />}
+  <link rel="icon" href="/favicon.ico" sizes="48x48" />
+  <link rel="icon" href="/favicon.svg" type="image/svg+xml" />
+  <link rel="apple-touch-icon" href="/apple-touch-icon.png" />
+  <link rel="manifest" href="/site.webmanifest" />
+  <meta name="theme-color" content="#121B30" />
+</head>
+<body class={`t-${theme}`}>
+  <!-- Filtres « CCN » des photos (noir et blanc + grain d'impression ; liseré blanc irrégulier pour les détourées).
+       Le passage en noir et blanc et le contraste sont faits en CSS (commun.css, .photo-image). -->
+  <svg width="0" height="0" style="position:absolute" aria-hidden="true" focusable="false"><defs>
+    <filter id="lisere" x="-4%" y="-4%" width="108%" height="108%" color-interpolation-filters="sRGB">
+      <feMorphology in="SourceAlpha" operator="dilate" radius="3" result="epais" />
+      <feTurbulence type="fractalNoise" baseFrequency="0.045" numOctaves="2" seed="7" result="bruit" />
+      <feDisplacementMap in="epais" in2="bruit" scale="5" xChannelSelector="R" yChannelSelector="G" result="bord" />
+      <feFlood flood-color="#ffffff" /><feComposite in2="bord" operator="in" result="blanc" />
+      <feTurbulence type="fractalNoise" baseFrequency="1.15" numOctaves="2" seed="3" result="fin" />
+      <feColorMatrix in="fin" type="matrix" values="0 0 0 0 0  0 0 0 0 0  0 0 0 0 0  0 0 0 -1.3 0.66" result="points" />
+      <feComposite in="points" in2="SourceAlpha" operator="in" result="grain" />
+      <feMerge><feMergeNode in="blanc" /><feMergeNode in="SourceGraphic" /><feMergeNode in="grain" /></feMerge>
+    </filter>
+    <filter id="grain" x="0" y="0" width="100%" height="100%" color-interpolation-filters="sRGB">
+      <feTurbulence type="fractalNoise" baseFrequency="1.15" numOctaves="2" seed="3" result="fin" />
+      <feColorMatrix in="fin" type="matrix" values="0 0 0 0 0  0 0 0 0 0  0 0 0 0 0  0 0 0 -1.3 0.66" result="points" />
+      <feComposite in="points" in2="SourceAlpha" operator="in" result="grain" />
+      <feMerge><feMergeNode in="SourceGraphic" /><feMergeNode in="grain" /></feMerge>
+    </filter>
+  </defs></svg>
+  <EnTete />
+  <main id="contenu">
+    <slot />
+  </main>
+  <Pied />
+  <script is:inline>
+    document.documentElement.classList.add('js');
+
+    // Filtres de la liste des actualités
+    document.querySelectorAll('.liste-articles').forEach((bloc) => {
+      const boutons = bloc.querySelectorAll('.filtre');
+      boutons.forEach((b) => b.addEventListener('click', () => {
+        const cat = b.dataset.cat;
+        boutons.forEach((x) => { const actif = x === b; x.classList.toggle('actif', actif); x.setAttribute('aria-pressed', String(actif)); });
+        bloc.querySelectorAll('.carte-article').forEach((c) => { c.hidden = !!cat && c.dataset.categorie !== cat; });
+      }));
+    });
+
+    // Copier l'IBAN
+    document.querySelectorAll('.copier-iban').forEach((b) => b.addEventListener('click', async () => {
+      const iban = document.querySelector('.iban')?.textContent?.trim();
+      try { await navigator.clipboard.writeText(iban); const t = b.textContent; b.textContent = b.dataset.ok || t; setTimeout(() => (b.textContent = t), 2500); } catch (e) {}
+    }));
+
+    // Formulaires : vérification dans le navigateur, puis envoi à la fonction serveur du site
+    document.querySelectorAll('form.formulaire').forEach((f) => f.addEventListener('submit', async (e) => {
+      e.preventDefault();
+      if (f.dataset.inactif) return; // formulaire pas encore installé : aucun envoi
+      const etat = f.querySelector('.etat');
+      const cases = [...f.querySelectorAll('fieldset')].filter((fs) => fs.querySelector('legend span') && !fs.querySelector('input:checked'));
+      if (!f.checkValidity() || cases.length) { etat.textContent = f.dataset.invalide || ''; (f.querySelector(':invalid') || cases[0]?.querySelector('input'))?.focus(); return; }
+      const donnees = { formulaire: f.dataset.formulaire, reponses: {} };
+      new FormData(f).forEach((v, k) => { donnees.reponses[k] = k in donnees.reponses ? [].concat(donnees.reponses[k], v) : v; });
+      f.querySelector('button[type=submit]').disabled = true;
+      try {
+        const r = await fetch('/api/formulaire', { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify(donnees) });
+        if (!r.ok) throw new Error();
+        f.reset(); etat.textContent = f.dataset.envoye || '';
+      } catch (err) { etat.textContent = f.dataset.erreur || ''; }
+      finally { f.querySelector('button[type=submit]').disabled = false; }
+    }));
+  </script>
+</body>
+</html>

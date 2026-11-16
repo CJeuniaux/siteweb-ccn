@@ -1,0 +1,118 @@
+---
+// Carte des lieux d'aide (page /aide). La liste est fabriquée côté serveur : elle reste lisible
+// sans JavaScript et au lecteur d'écran. La carte, les filtres et « Centres près de moi » s'y ajoutent.
+// La position du visiteur est calculée dans son navigateur et n'est jamais envoyée.
+import { lire, reglages } from '../lib/contenu';
+
+interface Props { c: Record<string, any> }
+const { c } = Astro.props;
+const r = await reglages();
+// Lieux de Comme Chez Nous : adresse et téléphone viennent du réglage unique (réglages du CMS), jamais du lieu.
+// Le statut « à vérifier / vérifié » et sa date sont internes (administration) : jamais affichés ici.
+const lieux = (await lire('lieux_aide')).map((l) => l.coordonnees_ccn
+  ? { ...l, adresse: [r.adresse_ligne1, r.adresse_ligne2].filter(Boolean).join(', '), telephone: r.telephone ?? '' }
+  : l);
+const categories = [...new Set(lieux.map((l) => l.categorie))];
+// Couleurs des catégories : mise en page (dans le code), tirées de la palette de la charte
+// (au-delà de 5 catégories, on reprend la palette : la catégorie reste nommée à côté de la pastille)
+const PALETTE = ['#D4705C', '#5B8DB1', '#EFC25E', '#86A873', '#121B30'];
+const couleur = Object.fromEntries(categories.map((cat, i) => [cat, PALETTE[i % PALETTE.length]]));
+const tel = (t: string) => (t ?? '').replace(/[^\d+]/g, '');
+const points = lieux.filter((l) => l.latitude != null && l.longitude != null)
+  .map((l) => ({ id: l.id, nom: l.nom, cat: l.categorie, lat: Number(l.latitude), lng: Number(l.longitude), couleur: couleur[l.categorie] }));
+---
+<section class="bloc serre carte-aide" data-points={JSON.stringify(points)} data-centre={JSON.stringify([c.centre_latitude ?? 50.4108, c.centre_longitude ?? 4.4446])}
+  data-recherche={c.recherche_position} data-refus={c.position_refusee}>
+  <div class="wrap">
+    <div class="filtres" role="group" aria-label={c.libelle_filtres}>
+      <button type="button" class="filtre actif" data-cat="" aria-pressed="true">{c.bouton_tout}</button>
+      {categories.map((cat) => <button type="button" class="filtre" data-cat={cat} aria-pressed="false" style={`--pt:${couleur[cat]}`}><i aria-hidden="true"></i>{cat}</button>)}
+      <button type="button" class="filtre pres" hidden>{c.bouton_pres}</button>
+    </div>
+    <p class="etat-position" role="status" aria-live="polite"></p>
+    <div class="carte-lieux" role="region" aria-label={c.libelle_carte} hidden></div>
+    <div class="liste-lieux">
+      {categories.map((cat) => (
+        <div class="groupe" data-cat={cat}>
+          <h2 class="h3" style={`--pt:${couleur[cat]}`}><i aria-hidden="true"></i>{cat}</h2>
+          <div class="lieux">
+            {lieux.filter((l) => l.categorie === cat).map((l) => (
+              <article class="lieu" id={`lieu-${l.id}`} data-id={l.id} data-cat={cat}>
+                <h3>{l.nom}</h3>
+                {l.adresse && <p>{l.adresse}</p>}
+                {l.horaires && <p>{l.horaires}</p>}
+                {l.description && <p class="desc">{l.description}</p>}
+                {l.telephone && <a class="tel-lieu" href={`tel:${tel(l.telephone)}`}>{l.telephone}</a>}
+                {l.site && <a href={l.site}>{l.site.replace(/^https?:\/\//, '')}</a>}
+                <span class="distance"></span>
+              </article>
+            ))}
+          </div>
+        </div>
+      ))}
+    </div>
+  </div>
+</section>
+
+<script>
+  import L from 'leaflet';
+  import 'leaflet/dist/leaflet.css';
+
+  document.querySelectorAll<HTMLElement>('.carte-aide').forEach((bloc) => {
+    const points: { id: string; nom: string; cat: string; lat: number; lng: number; couleur: string }[] = JSON.parse(bloc.dataset.points || '[]');
+    const centre = JSON.parse(bloc.dataset.centre || '[50.4108,4.4446]');
+    const zone = bloc.querySelector<HTMLElement>('.carte-lieux')!;
+    const etat = bloc.querySelector<HTMLElement>('.etat-position')!;
+    zone.hidden = false;
+
+    const carte = L.map(zone, { scrollWheelZoom: false }).setView(centre, 14);
+    L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+      maxZoom: 19, attribution: '&copy; OpenStreetMap',
+    }).addTo(carte);
+
+    const marqueurs = points.map((p) => {
+      const m = L.circleMarker([p.lat, p.lng], { radius: 9, color: '#fff', weight: 2.5, fillColor: p.couleur, fillOpacity: 1 })
+        .bindTooltip(p.nom).addTo(carte);
+      m.on('click', () => document.getElementById(`lieu-${p.id}`)?.scrollIntoView({ behavior: 'smooth', block: 'center' }));
+      return { p, m };
+    });
+
+    const filtrer = (cat: string) => {
+      bloc.querySelectorAll<HTMLButtonElement>('.filtre[data-cat]').forEach((b) => {
+        const actif = b.dataset.cat === cat; b.classList.toggle('actif', actif); b.setAttribute('aria-pressed', String(actif));
+      });
+      bloc.querySelectorAll<HTMLElement>('.groupe').forEach((g) => (g.hidden = !!cat && g.dataset.cat !== cat));
+      const visibles = marqueurs.filter(({ p }) => !cat || p.cat === cat);
+      marqueurs.forEach(({ p, m }) => (!cat || p.cat === cat ? m.addTo(carte) : m.remove()));
+      if (visibles.length) carte.fitBounds(L.latLngBounds(visibles.map(({ p }) => [p.lat, p.lng])), { padding: [40, 40], maxZoom: 16 });
+    };
+    bloc.querySelectorAll<HTMLButtonElement>('.filtre[data-cat]').forEach((b) => b.addEventListener('click', () => filtrer(b.dataset.cat || '')));
+    filtrer(''); // cadre la carte sur tous les lieux dès l'ouverture
+
+    // « Centres près de moi » : calcul local, aucune donnée envoyée
+    const pres = bloc.querySelector<HTMLButtonElement>('.pres')!;
+    if ('geolocation' in navigator) pres.hidden = false;
+    const km = (a: [number, number], b: [number, number]) => {
+      const r = (d: number) => (d * Math.PI) / 180;
+      const x = Math.sin(r(b[0] - a[0]) / 2) ** 2 + Math.cos(r(a[0])) * Math.cos(r(b[0])) * Math.sin(r(b[1] - a[1]) / 2) ** 2;
+      return 12742 * Math.asin(Math.sqrt(x));
+    };
+    pres.addEventListener('click', () => {
+      etat.textContent = bloc.dataset.recherche || '';
+      navigator.geolocation.getCurrentPosition((pos) => {
+        const ici: [number, number] = [pos.coords.latitude, pos.coords.longitude];
+        filtrer('');
+        bloc.querySelectorAll<HTMLElement>('.lieux').forEach((liste) => {
+          [...liste.querySelectorAll<HTMLElement>('.lieu')]
+            .map((el) => { const p = points.find((x) => x.id === el.dataset.id); const d = p ? km(ici, [p.lat, p.lng]) : Infinity;
+              const s = el.querySelector<HTMLElement>('.distance'); if (s && isFinite(d)) s.textContent = d < 1 ? `${Math.round(d * 1000)} m` : `${d.toFixed(1).replace('.', ',')} km`;
+              return { el, d }; })
+            .sort((a, b) => a.d - b.d).forEach(({ el }) => liste.appendChild(el));
+        });
+        L.circleMarker(ici, { radius: 7, color: '#121B30', weight: 3, fillColor: '#EFC25E', fillOpacity: 1 }).addTo(carte);
+        carte.setView(ici, 15);
+        etat.textContent = '';
+      }, () => { etat.textContent = bloc.dataset.refus || ''; }, { enableHighAccuracy: false, timeout: 10000 });
+    });
+  });
+</script>

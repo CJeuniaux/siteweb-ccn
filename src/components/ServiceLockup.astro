@@ -1,0 +1,12 @@
+---
+// Déclinaison de service (ServiceLockup) : pictogramme en couleur + UNE petite ligne souple terminée
+// par une bouclette, de la même couleur. La bouclette n'existe jamais dans le logo 2 × 2.
+import Picto from './Picto.astro';
+import Trait from './Trait.astro';
+interface Props { service: string; theme: string; picto?: string | null; class?: string }
+const { service, theme, picto, class: classe = '' } = Astro.props;
+---
+<span class={`lockup t-${theme} ${classe}`.trim()} aria-hidden="true">
+  <Picto service={service} picto={picto} />
+  <Trait variante="bouclette" graine={`lockup:${service}`} couleur={theme} class="lockup-boucle" />
+</span>

@@ -1,0 +1,38 @@
+[
+  {
+    "id": "e-crapez",
+    "nom": "Sophie Crapez",
+    "fonction": "Directrice",
+    "photo": "",
+    "photo_alt": "",
+    "ordre": 1,
+    "publie": true
+  },
+  {
+    "id": "e-culin",
+    "nom": "Alexandra Culin",
+    "fonction": "Coordinatrice",
+    "photo": "",
+    "photo_alt": "",
+    "ordre": 2,
+    "publie": true
+  },
+  {
+    "id": "e-moreau",
+    "nom": "Julien Moreau",
+    "fonction": "Travailleur Social",
+    "photo": "",
+    "photo_alt": "",
+    "ordre": 3,
+    "publie": false
+  },
+  {
+    "id": "e-traore",
+    "nom": "Awa Traoré",
+    "fonction": "Travailleuse sociale",
+    "photo": "",
+    "photo_alt": "",
+    "ordre": 4,
+    "publie": false
+  }
+]

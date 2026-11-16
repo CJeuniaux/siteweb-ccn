@@ -1,0 +1,138 @@
+[
+  {
+    "id": "le-rebond",
+    "slug": "le-rebond",
+    "ordre": 1,
+    "publie": true,
+    "nom": "Le Rebond",
+    "theme": "rouge",
+    "picto": "m-picto-rebond",
+    "photo": "m-service-rebond",
+    "photo_alt": "Trois hommes rient autour d’un café au Rebond",
+    "rotation": 1.5,
+    "accroche": "Un endroit où souffler, se poser, et repartir.",
+    "sous_titre": "Accueil, repas et convivialité",
+    "chapo": "",
+    "ariane": "Nos services",
+    "description_seo": "",
+    "horaires": [
+      {
+        "jours": "Lundi, mercredi, jeudi",
+        "heures": "9h-11h30 et 13h30-16h"
+      },
+      {
+        "jours": "Mardi",
+        "heures": "13h30-16h"
+      },
+      {
+        "jours": "Vendredi",
+        "heures": "9h-11h30"
+      },
+      {
+        "jours": "Samedi, dimanche et jours fériés",
+        "heures": "10h-15h"
+      }
+    ],
+    "telephone": "",
+    "contact": ""
+  },
+  {
+    "id": "chez-toit",
+    "slug": "chez-toit",
+    "ordre": 2,
+    "publie": true,
+    "nom": "Chez Toît",
+    "theme": "bleu",
+    "picto": "m-picto-chez-toit",
+    "photo": "m-service-chez-toit",
+    "photo_alt": "Façade en briques d’une maison de Chez Toît",
+    "rotation": 1.5,
+    "accroche": "Un logement, et tout ce qu’il faut pour y rester.",
+    "sous_titre": "Logement et ancrage",
+    "chapo": "",
+    "ariane": "Nos services",
+    "description_seo": "",
+    "horaires": [
+      {
+        "jours": "Du lundi au vendredi",
+        "heures": "9h-16h45"
+      }
+    ],
+    "telephone": "",
+    "contact": ""
+  },
+  {
+    "id": "parent-elle",
+    "slug": "parent-elle",
+    "ordre": 3,
+    "publie": true,
+    "nom": "Parent’Elle",
+    "theme": "jaune",
+    "picto": "m-picto-parent-elle",
+    "photo": "m-service-parent-elle",
+    "photo_alt": "Une mère et sa fille accompagnées par Parent’Elle, souriantes",
+    "rotation": 2,
+    "accroche": "Des femmes à la parentalité en errance.",
+    "sous_titre": "Soutien aux familles et à la parentalité",
+    "chapo": "",
+    "ariane": "Nos services",
+    "description_seo": "",
+    "horaires": [
+      {
+        "jours": "",
+        "heures": "Sur prise de contact"
+      }
+    ],
+    "telephone": "",
+    "contact": "Sophie Crapez, Directrice"
+  },
+  {
+    "id": "toudi-boudji",
+    "slug": "toudi-boudji",
+    "ordre": 4,
+    "publie": true,
+    "nom": "Toudi Boudji",
+    "theme": "vert",
+    "picto": "m-picto-toudi-boudji",
+    "photo": "m-service-toudi-boudji",
+    "photo_alt": "Trois hommes de dos, bras sur les épaules",
+    "rotation": -1.5,
+    "accroche": "On avance mieux à plusieurs.",
+    "sous_titre": "Insertion sociale et entraide",
+    "chapo": "",
+    "ariane": "Nos services",
+    "description_seo": "",
+    "horaires": [
+      {
+        "jours": "Du lundi au vendredi",
+        "heures": "9h-16h30"
+      }
+    ],
+    "telephone": "",
+    "contact": ""
+  },
+  {
+    "id": "promotion-sante",
+    "slug": "promotion-sante",
+    "ordre": 5,
+    "publie": true,
+    "nom": "Promotion de la santé",
+    "theme": "mauve",
+    "picto": "",
+    "photo": "",
+    "photo_alt": "",
+    "rotation": 0,
+    "accroche": "La santé pour avancer plus loin",
+    "sous_titre": "Un accompagnement transversal",
+    "chapo": "La santé fait partie du chemin. Nous créons des occasions simples de parler, de prévenir, de recevoir des soins et de retrouver confiance, sans jugement et au rythme de chacun.",
+    "ariane": "Nos services",
+    "description_seo": "",
+    "transversal": true,
+    "bloc_transversal_sur": "Transversal",
+    "bloc_transversal_texte": "Prendre soin de soi aide aussi à reprendre pied. Depuis 2023, notre programme de promotion de la santé réunit prévention, partage d’expérience et accompagnement. Un médecin bénévole, une infirmière, une psychologue et une équipe de soins à domicile travaillent ensemble, au plus près des personnes.",
+    "bloc_transversal_bouton": "Lire plus",
+    "horaires": [],
+    "telephone": "",
+    "contact": ""
+  }
+]

@@ -1,0 +1,36 @@
+---
+import Logo from './Logo.astro';
+import { reglages, menu, lire } from '../lib/contenu';
+
+const r = await reglages();
+const urgences = await lire('numeros_utiles', (n) => n.emplacement === 'bandeau');
+const principal = await menu('principal');
+const boutons = await menu('boutons');
+const chemin = Astro.url.pathname.replace(/\.html$/, '').replace(/\/$/, '') || '/';
+const actif = (lien: string) => lien !== '/' && (chemin === lien || chemin.startsWith(lien + '/'));
+---
+{r.lien_evitement && <a class="evitement" href="#contenu">{r.lien_evitement}</a>}
+<div class="urgence"><div class="wrap">
+  {r.bandeau_texte && <span>{r.bandeau_texte}</span>}
+  {urgences.map((n) => <a href={`tel:${n.tel}`}>{n.libelle} <b>{n.numero}</b></a>)}
+</div></div>
+<header class="wrap top">
+  <a class="brand" href="/" aria-label={`${r.nom}, accueil`}>
+    <Logo nom={r.nom} />
+  </a>
+  <nav aria-label="Navigation principale">
+    {principal.map((m) => m.enfants.length ? (
+      <div class="sous">
+        <a href={m.lien} aria-current={actif(m.lien) || m.enfants.some((e) => actif(e.lien)) ? 'page' : undefined}>{m.libelle}</a>
+        <ul>
+          {m.enfants.map((e) => <li><a href={e.lien} aria-current={chemin === e.lien ? 'page' : undefined}>{e.libelle}</a></li>)}
+        </ul>
+      </div>
+    ) : (
+      <a href={m.lien} aria-current={actif(m.lien) ? 'page' : undefined}>{m.libelle}</a>
+    ))}
+  </nav>
+  {boutons.map((b) => (
+    <a class={`btn ${b.style ?? 'contour'}`} href={b.lien}>{b.libelle}</a>
+  ))}
+</header>

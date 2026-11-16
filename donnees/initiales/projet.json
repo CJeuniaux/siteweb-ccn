@@ -1,0 +1,4 @@
+[
+  { "id": "pj-budget-1", "type": "budget", "titre": "", "montant": "2 263 266 €", "description": "Achat du bâtiment n°40 et travaux des n°36, 38 et 40", "lien": "", "ordre": 1, "publie": true },
+  { "id": "pj-budget-2", "type": "budget", "titre": "", "montant": "686 550 €", "description": "Achat rue Dagnelies, mise en conformité et rénovation énergétique", "lien": "", "ordre": 2, "publie": true }
+]

@@ -1,0 +1,21 @@
+---
+// Affiche une image du CMS. « ref » = fiche de la médiathèque (ou adresse directe).
+// Le texte alternatif saisi pour cet usage prime ; sinon celui de la fiche est utilisé.
+import { image } from '../lib/contenu';
+
+interface Props { ref?: string | null; alt?: string; class?: string; style?: string; loading?: 'lazy' | 'eager'; width?: string | number; height?: string | number }
+const { ref, alt, class: classe, style, loading, width, height } = Astro.props;
+const img = await image(ref);
+---
+{img && (
+  <img
+    class={classe}
+    src={img.src}
+    alt={alt ? alt : img.alt}
+    width={width ?? img.largeur}
+    height={height ?? img.hauteur}
+    style={style}
+    loading={loading}
+    decoding="async"
+  />
+)}

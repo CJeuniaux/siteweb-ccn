@@ -1,0 +1,21 @@
+---
+// Toutes les pages déclarées dans la table « pages » du CMS (accueil, Nos services, association…).
+// Les pages de service ont leur propre gabarit : services/[slug].astro.
+import Base from '../layouts/Base.astro';
+import Sections from '../components/Sections.astro';
+import { lire, sectionsDe } from '../lib/contenu';
+
+export async function getStaticPaths() {
+  const pages = await lire('pages');
+  return pages.map((p) => ({
+    params: { adresse: p.adresse === '/' ? undefined : p.adresse.replace(/^\//, '') },
+    props: { p },
+  }));
+}
+
+const { p } = Astro.props;
+const sections = await sectionsDe(p.adresse);
+---
+<Base titre={p.titre} description={p.description} theme={p.theme}>
+  <Sections sections={sections} />
+</Base>

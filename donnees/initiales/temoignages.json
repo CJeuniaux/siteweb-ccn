@@ -1,0 +1,5 @@
+[
+  { "id": "t-ct-1", "service": "chez-toit", "texte": "Pour certains, la visite que nous rendons à domicile est le seul contact de la journée. On prend le temps de discuter et de s’assurer que la personne va bien. Tout se fait sur base volontaire.", "auteur": "Un travailleur social", "ordre": 1, "publie": true },
+  { "id": "t-ct-2", "service": "chez-toit", "texte": "En rue, tu n’es jamais physiquement seul. Dans tes 4 murs, il n’y a plus personne, tu te retrouves seul avec toi-même et tu n’en as pas forcément envie.", "auteur": "Edmond (prénom d’emprunt)", "ordre": 2, "publie": true },
+  { "id": "t-pe-1", "service": "parent-elle", "texte": "J’ai poussé la porte de Parent’Elle lorsque mes deux grandes filles, de 15 et 17 ans, sont rentrées à la maison. Parent’Elle m’a aidée dans mon rôle de parent et dans la gestion de conflits avec mes adolescentes en crise. J’ai aussi réussi à obtenir des visites encadrées avec ma petite dernière, qui est en famille d’accueil. Par la suite, j’ai participé à des ateliers d’estime de soi où j’ai pu retrouver ma confiance en moi.", "auteur": "Christelle, 42 ans", "ordre": 1, "publie": true }
+]

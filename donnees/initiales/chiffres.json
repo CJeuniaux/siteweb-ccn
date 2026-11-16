@@ -1,0 +1,23 @@
+[
+  { "id": "c-as-1", "contexte": "association", "service": null, "valeur": "1 294", "libelle": "personnes accompagnées", "annee": "", "ordre": 1, "publie": true },
+  { "id": "c-as-2", "contexte": "association", "service": null, "valeur": "850", "libelle": "enfants concernés", "annee": "", "ordre": 2, "publie": true },
+  { "id": "c-as-3", "contexte": "association", "service": null, "valeur": "3 886", "libelle": "douches", "annee": "", "ordre": 3, "publie": true },
+  { "id": "c-as-4", "contexte": "association", "service": null, "valeur": "10 536", "libelle": "démarches", "annee": "", "ordre": 4, "publie": true },
+
+  { "id": "c-rb-1", "contexte": "service", "service": "le-rebond", "valeur": "1 566", "libelle": "personnes accueillies (dont 253 femmes, 16,2 %)", "annee": "2023", "ordre": 1, "publie": true },
+  { "id": "c-rb-2", "contexte": "service", "service": "le-rebond", "valeur": "3 886", "libelle": "douches", "annee": "2023", "ordre": 2, "publie": true },
+  { "id": "c-rb-3", "contexte": "service", "service": "le-rebond", "valeur": "17 567", "libelle": "démarches réalisées", "annee": "2023", "ordre": 3, "publie": true },
+  { "id": "c-rb-4", "contexte": "service", "service": "le-rebond", "valeur": "100 → 1 566", "libelle": "personnes différentes accueillies, de 2000 à 2023", "annee": "2000–2023", "ordre": 4, "publie": true },
+
+  { "id": "c-ct-1", "contexte": "service", "service": "chez-toit", "valeur": "92", "libelle": "personnes accompagnées à domicile (dont 19 femmes)", "annee": "2023", "ordre": 1, "publie": true },
+  { "id": "c-ct-2", "contexte": "service", "service": "chez-toit", "valeur": "≈ 100", "libelle": "ménages accompagnés par an de manière intensive", "annee": "2023", "ordre": 2, "publie": true },
+  { "id": "c-ct-3", "contexte": "service", "service": "chez-toit", "valeur": "> 85 %", "libelle": "de taux de maintien en logement", "annee": "2023", "ordre": 3, "publie": true },
+
+  { "id": "c-tb-1", "contexte": "service", "service": "toudi-boudji", "valeur": "153", "libelle": "personnes ont fréquenté le SIS", "annee": "2023", "ordre": 1, "publie": true },
+
+  { "id": "c-pe-1", "contexte": "service", "service": "parent-elle", "valeur": "88", "libelle": "enfants de 0 à 17 ans accompagnés (dont 44 de 0 à 7 ans)", "annee": "2022", "ordre": 1, "publie": true },
+  { "id": "c-pe-2", "contexte": "service", "service": "parent-elle", "valeur": "158 + 53", "libelle": "femmes et hommes accompagnés", "annee": "2022", "ordre": 2, "publie": true },
+  { "id": "c-pe-3", "contexte": "service", "service": "parent-elle", "valeur": "1 156", "libelle": "ateliers menés avec et pour les femmes", "annee": "2022", "ordre": 3, "publie": true },
+  { "id": "c-pe-4", "contexte": "service", "service": "parent-elle", "valeur": "137", "libelle": "enfants ont reçu cadeaux de Noël, fournitures scolaires ou vêtements", "annee": "2022", "ordre": 4, "publie": true },
+  { "id": "c-pe-5", "contexte": "service", "service": "parent-elle", "valeur": "850", "libelle": "enfants à Charleroi dont au moins un parent est sans-abri", "annee": "2022", "ordre": 5, "publie": true }
+]

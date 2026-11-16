@@ -1,0 +1,24 @@
+---
+// Pictogramme d'un service (ServicePictogram), en couleur, sans carré.
+// 1. Les quatre services du logo : chemin de la SOURCE UNIQUE lib/pictos.ts (identique au logo 2 × 2).
+// 2. Les autres services (Promotion de la santé) : le pictogramme choisi dans le CMS (champ « picto » du service),
+//    sinon un pictogramme provisoire au trait (lib/pictos.ts, PICTOS_PROVISOIRES).
+import Media from './Media.astro';
+import { PICTOS, PICTOS_PROVISOIRES } from '../lib/pictos';
+interface Props { service: string; picto?: string | null; class?: string; titre?: string }
+const { service, picto, class: classe = '', titre } = Astro.props;
+const p = PICTOS[service];
+const provisoire = !p && !picto ? PICTOS_PROVISOIRES[service] : undefined;
+const a11y = titre ? { role: 'img', 'aria-label': titre } : { 'aria-hidden': 'true' };
+---
+{p ? (
+  <svg class={`picto-service ${classe}`.trim()} viewBox={`0 0 ${p.largeur} ${p.hauteur}`} {...a11y} focusable="false">
+    <path d={p.d} fill-rule="evenodd" />
+  </svg>
+) : picto ? (
+  <Media class={`picto-service picto-cms ${classe}`.trim()} ref={picto} alt={titre ?? ''} />
+) : provisoire && (
+  <svg class={`picto-service ${classe}`.trim()} viewBox={`0 0 ${provisoire.largeur} ${provisoire.hauteur}`} {...a11y} focusable="false">
+    <path d={provisoire.d} fill="none" stroke="currentColor" stroke-width={provisoire.trait} stroke-linejoin="round" />
+  </svg>
+)}

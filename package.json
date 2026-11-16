@@ -1,0 +1,27 @@
+{
+  "name": "comme-chez-nous",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "dev": "astro dev",
+    "build": "astro build",
+    "preview": "astro preview",
+    "test:base": "node supabase/tests/securite.test.mjs supabase/migrations/0001_schema.sql",
+    "test:texte": "node --experimental-strip-types src/lib/texte.test.ts"
+  },
+  "dependencies": {
+    "@astrojs/preact": "^4.1.3",
+    "@astrojs/vercel": "^8.2.11",
+    "@fontsource-variable/fraunces": "^5.3.0",
+    "@fontsource/inter": "^5.3.0",
+    "@supabase/supabase-js": "^2.119.0",
+    "astro": "^5.18.2",
+    "leaflet": "^1.9.4",
+    "preact": "^10.29.8",
+    "qrcode": "^1.5.4",
+    "sanitize-html": "^2.18.2"
+  },
+  "devDependencies": {
+    "@electric-sql/pglite": "^0.3.16"
+  }
+}

@@ -1,0 +1,49 @@
+---
+import ServiceLockup from '../../components/ServiceLockup.astro';
+import Trait from '../../components/Trait.astro';
+import { PICTOS, PICTOS_PROVISOIRES } from '../../lib/pictos';
+import Visuel from '../../components/Visuel.astro';
+// Gabarit des pages de service (modèle : MODELES/SERVICE.html). Tout le contenu vient du CMS.
+import Base from '../../layouts/Base.astro';
+import Icone from '../../components/Icone.astro';
+import Sections from '../../components/Sections.astro';
+import { services, sectionsDe, reglages, menu } from '../../lib/contenu';
+
+export async function getStaticPaths() {
+  return (await services()).map((s) => ({ params: { slug: s.slug }, props: { s } }));
+}
+
+const { s } = Astro.props;
+const r = await reglages();
+const sections = await sectionsDe(`/services/${s.slug}`);
+const aide = (await menu('boutons')).find((b) => b.lien === '/aide');
+const aDesInfos = sections.some((x) => x.type === 'infos');
+---
+<Base titre={s.nom} description={s.description_seo || s.accroche} theme={s.theme}>
+  <section class="tete tete-service"><div class="wrap">
+    <div>
+      <p class="ariane"><a href="/services">{s.ariane}</a> &nbsp;›&nbsp; {s.nom}</p>
+      <h1 class="titre-service">{(PICTOS[s.slug] || PICTOS_PROVISOIRES[s.slug] || s.picto) && <ServiceLockup service={s.slug} theme={s.theme} picto={s.picto} class="grand" />}<span>{s.nom}</span></h1>
+      {s.accroche && <p class="accroche">{s.accroche}</p>}
+      {s.chapo && <p class="chapo">{s.chapo}</p>}
+      <div class="cta">
+        {aDesInfos && r.bouton_infos && <a class="btn plein" href="#infos">{r.bouton_infos} <Icone nom="fleche" /></a>}
+        {aide && <a class="btn contour" href={aide.lien}>{aide.libelle}</a>}
+      </div>
+    </div>
+    {!s.photo && (
+      <div class="visuel visuel-trait" aria-hidden="true">
+        <Trait variante="boucle-droite" graine={`/services/${s.slug}:tete-trait`} couleur={['rouge', 'bleu', 'jaune', 'vert', 'mauve'].includes(s.theme) ? s.theme : 'rouge'} epaisseur={6} />
+      </div>
+    )}
+    {s.photo && (
+      <div class="visuel">
+        <Trait variante="eclat" graine={`/services/${s.slug}:eclat`} couleur={s.theme} class="accent-eclat" />
+        <Visuel class="ph" ref={s.photo} alt={s.photo_alt ?? ''} graine={`/services/${s.slug}:photo`} couleur={s.theme} loading="eager" aplat={s.aplat ?? false} contour={s.trait !== false} />
+      </div>
+    )}
+  </div>
+  </section>
+
+  <Sections sections={sections} axe={s.theme} />
+</Base>

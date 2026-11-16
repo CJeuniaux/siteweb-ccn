@@ -1,0 +1,16 @@
+---
+// Tracé manuscrit de la charte (HanddrawnLine). Variantes dans lib/traces.ts ; rendu « stylo » dans lib/stylo.ts.
+// couleur : nom d'un thème (rouge, bleu, jaune, vert, encre) ou toute couleur CSS. Décoratif : masqué aux lecteurs d'écran.
+import { TRACES, type VarianteTrace } from '../lib/traces';
+import { traitStylo, varier } from '../lib/stylo';
+
+interface Props { variante: VarianteTrace; graine: string; couleur?: string; class?: string; epaisseur?: number; style?: string }
+const { variante, graine, couleur = 'encre', class: classe = '', epaisseur, style } = Astro.props;
+const t = TRACES[variante] ?? TRACES.libre;
+const e = epaisseur ?? t.epaisseur;
+const formes = t.traits.map((pts, i) => traitStylo(varier(pts, `${graine}:${i}`, Math.min(t.largeur, t.hauteur) * 0.04 * ((t as { tremble?: number }).tremble ?? 1)), { epaisseur: e, graine: `${graine}:${i}`, tremble: (t as { tremble?: number }).tremble ?? 1, pression: (t as { pression?: number }).pression ?? 0.3 }));
+const teinte = /^[a-z]+$/.test(couleur) ? `var(--${couleur})` : couleur;
+---
+<svg class={`trait trait-${variante} ${classe}`.trim()} viewBox={`0 0 ${t.largeur} ${t.hauteur}`} style={`--t:${teinte};${style ?? ''}`} aria-hidden="true" focusable="false">
+  {formes.map((d) => <path d={d} />)}
+</svg>

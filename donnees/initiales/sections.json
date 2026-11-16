@@ -1,0 +1,1960 @@
+[
+  {
+    "id": "rb-1",
+    "page": "/services/le-rebond",
+    "type": "duo",
+    "ordre": 1,
+    "publie": true,
+    "contenu": {
+      "sur": "Ici, on peut souffler",
+      "colonnes": [
+        {
+          "etiquette": "En quelques mots",
+          "pinceau": "rouge",
+          "titre": "L’accueil d’urgence et l’accompagnement en journée",
+          "paragraphes": [
+            "Au Rebond, chacun peut d’abord souffler, manger, se laver et être écouté. C’est souvent dans ces moments simples qu’un lien se crée. À partir de là, nos équipes peuvent accompagner les premières démarches et ouvrir, avec la personne, un chemin vers la suite."
+          ]
+        },
+        {
+          "etiquette": "Pour qui ?",
+          "pinceau": "jaune",
+          "paragraphes": [
+            "Les personnes sans-abri ou en situation de grande précarité qui ont besoin d’un accueil de jour, de répondre à leurs besoins primaires ou d’être accompagnées."
+          ]
+        }
+      ]
+    }
+  },
+  {
+    "id": "rb-2",
+    "page": "/services/le-rebond",
+    "type": "etapes",
+    "ordre": 2,
+    "publie": true,
+    "contenu": {
+      "titre": "Une journée au Rebond",
+      "paragraphes": [
+        "Dans notre centre d’accueil, ouvert 7j/7 et 365 jours par an, les personnes peuvent se poser, se restaurer et dialoguer dans un cadre convivial. Elles peuvent prendre une douche, utiliser les toilettes, bénéficier de la machine à laver, et faire appel à une infirmière et une psychologue."
+      ],
+      "image": "m-rebond-repas",
+      "image_alt": "Un repas partagé au Rebond",
+      "rotation": -1.5,
+      "etapes": [
+        {
+          "titre": "Se poser, se restaurer et dialoguer"
+        },
+        {
+          "titre": "Prendre une douche et utiliser les toilettes"
+        },
+        {
+          "titre": "Utiliser la machine à laver"
+        },
+        {
+          "titre": "Faire appel à une infirmière"
+        },
+        {
+          "titre": "Rencontrer une psychologue"
+        }
+      ]
+    }
+  },
+  {
+    "id": "rb-3",
+    "page": "/services/le-rebond",
+    "type": "chiffres",
+    "ordre": 3,
+    "publie": true,
+    "contenu": {
+      "titre": "Le Rebond en chiffres (2023)",
+      "contexte": "service",
+      "service": "le-rebond"
+    }
+  },
+  {
+    "id": "rb-4",
+    "page": "/services/le-rebond",
+    "type": "graphique",
+    "ordre": 4,
+    "publie": true,
+    "contenu": {
+      "service": "le-rebond",
+      "graphique": "Démarches par catégorie",
+      "titre": "Les démarches par catégorie (2023)",
+      "paragraphes": [
+        "Avant de penser au long terme, il faut pouvoir manger, se laver, se reposer et prendre soin de sa santé. Ces besoins essentiels sont le point de départ de tout accompagnement."
+      ],
+      "note": "17 567 démarches répertoriées en 2023."
+    }
+  },
+  {
+    "id": "rb-5",
+    "page": "/services/le-rebond",
+    "type": "infos",
+    "ordre": 5,
+    "publie": true,
+    "contenu": {
+      "service": "le-rebond"
+    }
+  },
+  {
+    "id": "rb-6",
+    "page": "/services/le-rebond",
+    "type": "autres_services",
+    "ordre": 6,
+    "publie": true,
+    "contenu": {
+      "service": "le-rebond"
+    }
+  },
+  {
+    "id": "rb-7",
+    "page": "/services/le-rebond",
+    "type": "transversal",
+    "ordre": 7,
+    "publie": false,
+    "contenu": {}
+  },
+  {
+    "id": "rb-8",
+    "page": "/services/le-rebond",
+    "type": "don",
+    "ordre": 8,
+    "publie": true,
+    "contenu": {}
+  },
+  {
+    "id": "ct-1",
+    "page": "/services/chez-toit",
+    "type": "duo",
+    "ordre": 1,
+    "publie": true,
+    "contenu": {
+      "sur": "Un chez-soi, pas à pas",
+      "colonnes": [
+        {
+          "etiquette": "En quelques mots",
+          "pinceau": "bleu",
+          "titre": "Un accompagnement vers et dans le logement",
+          "paragraphes": [
+            "Trouver un logement ne suffit pas toujours à s’y sentir chez soi. Chez Toît accompagne les personnes avant et après leur installation : prendre leurs repères, gérer le quotidien, rompre l’isolement et créer des liens dans le quartier. L’objectif est simple : pouvoir rester chez soi durablement et éviter un retour à la rue."
+          ]
+        },
+        {
+          "etiquette": "Pour qui ?",
+          "pinceau": "jaune",
+          "paragraphes": [
+            "Des adultes qui souhaitent retrouver un logement après la rue et y construire une vie stable. Deux premières rencontres permettent de faire connaissance, puis les visites s’adaptent aux besoins de chacun, au moins deux fois par mois."
+          ]
+        }
+      ]
+    }
+  },
+  {
+    "id": "ct-2",
+    "page": "/services/chez-toit",
+    "type": "texte",
+    "ordre": 2,
+    "publie": true,
+    "contenu": {
+      "titre": "Nos approches (Association de Promotion du Logement)",
+      "paragraphes": [
+        "Chez Toît aide chacun à chercher un logement, à comprendre ses droits et à prendre ses marques une fois installé. L’équipe se déplace aussi à domicile et peut soutenir un projet de formation ou d’emploi. Ce travail se construit avec les partenaires du logement à Charleroi, notamment dans le cadre de Housing First."
+      ],
+      "liste_style": "puces",
+      "liste": [
+        "Axe 1 — Accompagnement vers et dans le logement (le cœur du service)",
+        "Axe 2 — Formation & information : formations sur le logement, aide à l’inscription auprès de la Sambrienne, principalement en salle au Rebond (95 % des premiers contacts)",
+        "Axe 3 — Innovation : déploiement de deux tiny houses en 2024, pour explorer l’habitat léger et modulable, un chaînon manquant sur le territoire"
+      ]
+    }
+  },
+  {
+    "id": "ct-3",
+    "page": "/services/chez-toit",
+    "type": "texte",
+    "ordre": 3,
+    "publie": true,
+    "contenu": {
+      "titre": "Le type d’intervention",
+      "liste_style": "coches",
+      "colonnes": 2,
+      "liste": [
+        "Recouvrement des droits sociaux",
+        "Assistance budgétaire",
+        "Aide à la gestion de la vie quotidienne",
+        "Suivi psycho-médico-social",
+        "Appui à la création de lien avec son environnement",
+        "Affiliation à une mutuelle",
+        "Inscription à une maison médicale",
+        "Accompagnement vers une formation ou un emploi"
+      ]
+    }
+  },
+  {
+    "id": "ct-4",
+    "page": "/services/chez-toit",
+    "type": "texte",
+    "ordre": 4,
+    "publie": true,
+    "contenu": {
+      "titre": "Autres projets",
+      "liste_style": "puces",
+      "liste": [
+        "Plan de cohésion sociale d’Anderlues — permanence hebdomadaire de prévention",
+        "Projet « Pose ton sac » — hébergement hybride au Château de Mondron"
+      ]
+    }
+  },
+  {
+    "id": "ct-5",
+    "page": "/services/chez-toit",
+    "type": "chiffres",
+    "ordre": 5,
+    "publie": true,
+    "contenu": {
+      "titre": "Chez Toît en chiffres (2023)",
+      "contexte": "service",
+      "service": "chez-toit"
+    }
+  },
+  {
+    "id": "ct-6",
+    "page": "/services/chez-toit",
+    "type": "temoignages",
+    "ordre": 6,
+    "publie": true,
+    "contenu": {
+      "titre": "Témoignages",
+      "service": "chez-toit"
+    }
+  },
+  {
+    "id": "ct-7",
+    "page": "/services/chez-toit",
+    "type": "infos",
+    "ordre": 7,
+    "publie": true,
+    "contenu": {
+      "service": "chez-toit"
+    }
+  },
+  {
+    "id": "ct-8",
+    "page": "/services/chez-toit",
+    "type": "autres_services",
+    "ordre": 8,
+    "publie": true,
+    "contenu": {
+      "service": "chez-toit"
+    }
+  },
+  {
+    "id": "ct-9",
+    "page": "/services/chez-toit",
+    "type": "transversal",
+    "ordre": 9,
+    "publie": false,
+    "contenu": {}
+  },
+  {
+    "id": "ct-10",
+    "page": "/services/chez-toit",
+    "type": "don",
+    "ordre": 10,
+    "publie": true,
+    "contenu": {}
+  },
+  {
+    "id": "pe-1",
+    "page": "/services/parent-elle",
+    "type": "duo",
+    "ordre": 1,
+    "publie": true,
+    "contenu": {
+      "sur": "Grandir ensemble",
+      "colonnes": [
+        {
+          "etiquette": "En quelques mots",
+          "pinceau": "jaune",
+          "titre": "Le service Parent’Elle",
+          "paragraphes": [
+            "Parent’Elle accueille les femmes, avec ou sans enfant, ainsi que les hommes qui souhaitent avancer dans leur rôle de parent. Le service offre aux femmes et à leurs enfants un espace rien qu’à elles, et permet aux futurs parents comme aux parents de parler librement de leur quotidien et de préparer l’avenir."
+          ]
+        },
+        {
+          "etiquette": "Pour qui ?",
+          "pinceau": "rouge",
+          "paragraphes": [
+            "Les femmes et leurs enfants, les femmes enceintes et les familles ayant besoin d’un espace collectif ou d’un accompagnement individualisé."
+          ]
+        }
+      ]
+    }
+  },
+  {
+    "id": "pe-2",
+    "page": "/services/parent-elle",
+    "type": "texte",
+    "ordre": 2,
+    "publie": true,
+    "contenu": {
+      "titre": "Un espace sécurisant et non-mixte",
+      "paragraphes": [
+        "De nombreuses femmes vivant sans logement ont connu des violences liées à leur genre. Parent’Elle leur offre depuis 18 ans un espace non mixte où elles peuvent se sentir en sécurité, être entendues et reprendre confiance, entourées de leurs enfants si elles le souhaitent."
+      ],
+      "liste_style": "coches",
+      "liste": [
+        "Un lieu sécurisant exclusivement dédié aux femmes et à leurs enfants",
+        "Une approche genrée développée depuis 18 ans",
+        "Des activités collectives qui rompent l’isolement"
+      ]
+    }
+  },
+  {
+    "id": "pe-3",
+    "page": "/services/parent-elle",
+    "type": "texte_image",
+    "ordre": 3,
+    "publie": true,
+    "contenu": {
+      "titre": "Un espace chaleureux, un lien de confiance",
+      "paragraphes": [
+        "Partager un café, prendre une douche, parler sans crainte : la confiance se construit dans ces gestes simples. Elle permet ensuite d’aborder la santé, le suivi médical ou la contraception. Les ateliers aident chacune à reprendre confiance, à faire ses propres choix et à sortir de l’isolement."
+      ],
+      "image": "m-parent-elle-jeu",
+      "image_alt": "Le service Parent’Elle",
+      "rotation": 1.5
+    }
+  },
+  {
+    "id": "pe-4",
+    "page": "/services/parent-elle",
+    "type": "texte",
+    "ordre": 4,
+    "publie": true,
+    "contenu": {
+      "titre": "Des actions autour de la parentalité",
+      "paragraphes": [
+        "L’équipe prépare avec les parents les rencontres importantes, les aide à prendre confiance dans leur rôle et à mettre des mots sur leurs questions. Retrouver une vie avec son enfant peut devenir un appui essentiel pour sortir durablement de la rue."
+      ]
+    }
+  },
+  {
+    "id": "pe-5",
+    "page": "/services/parent-elle",
+    "type": "chiffres",
+    "ordre": 5,
+    "publie": true,
+    "contenu": {
+      "titre": "Parent’Elle en chiffres (2022)",
+      "contexte": "service",
+      "service": "parent-elle"
+    }
+  },
+  {
+    "id": "pe-6",
+    "page": "/services/parent-elle",
+    "type": "temoignages",
+    "ordre": 6,
+    "publie": true,
+    "contenu": {
+      "titre": "Témoignage",
+      "service": "parent-elle"
+    }
+  },
+  {
+    "id": "pe-7",
+    "page": "/services/parent-elle",
+    "type": "infos",
+    "ordre": 7,
+    "publie": true,
+    "contenu": {
+      "service": "parent-elle"
+    }
+  },
+  {
+    "id": "pe-8",
+    "page": "/services/parent-elle",
+    "type": "autres_services",
+    "ordre": 8,
+    "publie": true,
+    "contenu": {
+      "service": "parent-elle"
+    }
+  },
+  {
+    "id": "pe-9",
+    "page": "/services/parent-elle",
+    "type": "transversal",
+    "ordre": 9,
+    "publie": false,
+    "contenu": {}
+  },
+  {
+    "id": "pe-10",
+    "page": "/services/parent-elle",
+    "type": "don",
+    "ordre": 10,
+    "publie": true,
+    "contenu": {}
+  },
+  {
+    "id": "tb-1",
+    "page": "/services/toudi-boudji",
+    "type": "duo",
+    "ordre": 1,
+    "publie": true,
+    "contenu": {
+      "sur": "On avance mieux à plusieurs",
+      "colonnes": [
+        {
+          "etiquette": "En quelques mots",
+          "pinceau": "vert",
+          "titre": "L’insertion sociale",
+          "paragraphes": [
+            "Toudi Boudji signifie « toujours en mouvement », un nom choisi par les personnes accueillies. Ici, des ateliers en groupe et des rencontres individuelles permettent de reprendre confiance, de créer des liens et de faire avancer un projet personnel ou professionnel."
+          ]
+        },
+        {
+          "etiquette": "Pour qui ?",
+          "pinceau": "jaune",
+          "paragraphes": [
+            "Les personnes qui souhaitent rompre l’isolement, retrouver leur place, reprendre confiance et avancer vers l’autonomie. La prise de contact se fait par les professionnels de l’aide sociale."
+          ]
+        }
+      ]
+    }
+  },
+  {
+    "id": "tb-2",
+    "page": "/services/toudi-boudji",
+    "type": "texte_image",
+    "ordre": 2,
+    "publie": true,
+    "contenu": {
+      "titre": "Des ateliers collectifs, pas de l’occupationnel",
+      "paragraphes": [
+        "Les ateliers ne servent pas seulement à occuper le temps. Dans un cadre détendu, chacun peut participer, essayer, parler librement et nouer une relation de confiance. Des besoins parfois difficiles à exprimer trouvent alors leur place."
+      ],
+      "liste_style": "coches",
+      "liste": [
+        "Rompre l’isolement social",
+        "Permettre la participation à la vie sociale, économique, politique et culturelle",
+        "Promouvoir la reconnaissance sociale",
+        "Améliorer le bien-être et la qualité de vie",
+        "Favoriser l’autonomie"
+      ],
+      "image": "m-atelier-cuisine",
+      "image_alt": "Trois personnes épluchent des légumes ensemble lors d’un atelier cuisine",
+      "rotation": -1.5
+    }
+  },
+  {
+    "id": "tb-3",
+    "page": "/services/toudi-boudji",
+    "type": "texte",
+    "ordre": 3,
+    "publie": true,
+    "contenu": {
+      "titre": "Un suivi individualisé",
+      "paragraphes": [
+        "Les ateliers et les rencontres individuelles se complètent. Le lien construit au fil du temps permet de parler de ce qui compte vraiment, puis d’engager des démarches concrètes et d’imaginer la suite."
+      ]
+    }
+  },
+  {
+    "id": "tb-4",
+    "page": "/services/toudi-boudji",
+    "type": "texte",
+    "ordre": 4,
+    "publie": true,
+    "contenu": {
+      "titre": "Un travail ancré dans l’approche à 360°",
+      "paragraphes": [
+        "Les ateliers prennent encore plus de sens lorsqu’ils avancent avec les autres services. En retrouvant des liens et de la confiance, les participants sont mieux armés pour faire face au quotidien, notamment pour chercher un logement et s’y installer."
+      ]
+    }
+  },
+  {
+    "id": "tb-5",
+    "page": "/services/toudi-boudji",
+    "type": "texte",
+    "ordre": 5,
+    "publie": true,
+    "contenu": {
+      "titre": "Décret insertion sociale",
+      "paragraphes": [
+        "Le service accueille des adultes de 18 à 67 ans qui traversent une période d’éloignement social ou professionnel. Son cadre officiel poursuit des objectifs très concrets : sortir de l’isolement, participer à la vie collective, retrouver du bien-être et gagner en autonomie."
+      ]
+    }
+  },
+  {
+    "id": "tb-6",
+    "page": "/services/toudi-boudji",
+    "type": "chiffres",
+    "ordre": 6,
+    "publie": true,
+    "contenu": {
+      "titre": "Toudi Boudji en chiffres (2023)",
+      "contexte": "service",
+      "service": "toudi-boudji"
+    }
+  },
+  {
+    "id": "tb-7",
+    "page": "/services/toudi-boudji",
+    "type": "graphique",
+    "ordre": 7,
+    "publie": true,
+    "contenu": {
+      "service": "toudi-boudji",
+      "graphique": "Participants par âge",
+      "titre": "Répartition des participants par âge"
+    }
+  },
+  {
+    "id": "tb-8",
+    "page": "/services/toudi-boudji",
+    "type": "graphique",
+    "ordre": 8,
+    "publie": true,
+    "contenu": {
+      "service": "toudi-boudji",
+      "graphique": "Ateliers en heures",
+      "titre": "Les ateliers en heures (2023)"
+    }
+  },
+  {
+    "id": "tb-9",
+    "page": "/services/toudi-boudji",
+    "type": "infos",
+    "ordre": 9,
+    "publie": true,
+    "contenu": {
+      "service": "toudi-boudji"
+    }
+  },
+  {
+    "id": "tb-10",
+    "page": "/services/toudi-boudji",
+    "type": "autres_services",
+    "ordre": 10,
+    "publie": true,
+    "contenu": {
+      "service": "toudi-boudji"
+    }
+  },
+  {
+    "id": "tb-11",
+    "page": "/services/toudi-boudji",
+    "type": "transversal",
+    "ordre": 11,
+    "publie": false,
+    "contenu": {}
+  },
+  {
+    "id": "tb-12",
+    "page": "/services/toudi-boudji",
+    "type": "don",
+    "ordre": 12,
+    "publie": true,
+    "contenu": {}
+  },
+  {
+    "id": "ps-2",
+    "page": "/services/promotion-sante",
+    "type": "texte",
+    "ordre": 2,
+    "publie": true,
+    "contenu": {
+      "titre": "La santé, au plus près des personnes",
+      "paragraphes": [
+        "Depuis 2023, notre programme de promotion de la santé relie prévention, écoute et accompagnement. Il part des questions et des besoins rencontrés dans la vie quotidienne, pour rendre les soins plus accessibles et aider chacun à devenir acteur de sa santé."
+      ]
+    }
+  },
+  {
+    "id": "ps-3",
+    "page": "/services/promotion-sante",
+    "type": "cartes_texte",
+    "ordre": 3,
+    "publie": true,
+    "contenu": {
+      "titre": "Prévenir, écouter et accompagner",
+      "cartes": [
+        {
+          "titre": "Prévenir",
+          "texte": "Des temps d’information et de sensibilisation pour mieux comprendre sa santé et repérer les situations qui demandent de l’attention."
+        },
+        {
+          "titre": "Soigner",
+          "texte": "Une présence de proximité pour écouter, orienter et faciliter l’accès aux soins lorsque les démarches semblent trop difficiles."
+        },
+        {
+          "titre": "Partager",
+          "texte": "Des échanges où l’expérience de chacun compte, pour rompre l’isolement et retrouver des repères utiles au quotidien."
+        }
+      ]
+    }
+  },
+  {
+    "id": "ps-4",
+    "page": "/services/promotion-sante",
+    "type": "texte",
+    "ordre": 4,
+    "publie": true,
+    "contenu": {
+      "titre": "Une équipe qui travaille ensemble",
+      "paragraphes": [
+        "Un médecin bénévole, une infirmière, une psychologue et une équipe de soins à domicile croisent leurs regards. Ensemble, ils proposent une présence attentive et des réponses adaptées à la réalité de chaque personne."
+      ]
+    }
+  },
+  {
+    "id": "ps-5",
+    "page": "/services/promotion-sante",
+    "type": "autres_services",
+    "ordre": 5,
+    "publie": true,
+    "contenu": {
+      "service": "promotion-sante"
+    }
+  },
+  {
+    "id": "ps-6",
+    "page": "/services/promotion-sante",
+    "type": "don",
+    "ordre": 6,
+    "publie": true,
+    "contenu": {}
+  },
+  {
+    "id": "ac-1",
+    "page": "/",
+    "type": "accueil_hero",
+    "ordre": 1,
+    "publie": true,
+    "contenu": {
+      "titre": "Des parcours\nqui se croisent.\nDes liens qui\nse tissent.",
+      "texte": "À Charleroi, nous accueillons, écoutons et accompagnons les personnes en situation de précarité, vers une sortie durable de la rue.",
+      "portrait": "m-hero-rebond",
+      "portrait_alt": "Portrait d’un homme souriant, bonnet de laine, regard tourné vers le haut",
+      "decor": "m-hero-immeuble",
+      "boutons": [
+        {
+          "libelle": "Découvrir l’association",
+          "lien": "/association",
+          "style": "plein",
+          "icone": "fleche"
+        },
+        {
+          "libelle": "Nous soutenir",
+          "lien": "/soutenir",
+          "style": "contour",
+          "icone": "coeur"
+        }
+      ]
+    }
+  },
+  {
+    "id": "ac-2",
+    "page": "/",
+    "type": "aide_rapide",
+    "ordre": 3,
+    "publie": true,
+    "contenu": {
+      "titre": "Besoin d’aide maintenant ?"
+    }
+  },
+  {
+    "id": "ac-3",
+    "page": "/",
+    "type": "grille_services",
+    "ordre": 2,
+    "publie": true,
+    "contenu": {
+      "titre": "Nos services",
+      "intro": "Quatre parcours complémentaires pour un même objectif : une sortie durable de la rue."
+    }
+  },
+  {
+    "id": "ac-4",
+    "page": "/",
+    "type": "liens_actus",
+    "ordre": 4,
+    "publie": true,
+    "contenu": {
+      "etiquette": "Actualités\n& ressources",
+      "liens": [
+        {
+          "libelle": "Publications\net guides",
+          "lien": "/actualites",
+          "icone": "livre"
+        },
+        {
+          "libelle": "Projets\nen cours",
+          "lien": "/actualites",
+          "icone": "calendrier"
+        },
+        {
+          "libelle": "Événements\net actions",
+          "lien": "/actualites",
+          "icone": "megaphone"
+        },
+        {
+          "libelle": "Ressources\nutiles",
+          "lien": "/actualites",
+          "icone": "pousse"
+        }
+      ]
+    }
+  },
+  {
+    "id": "ac-5",
+    "page": "/",
+    "type": "don",
+    "ordre": 5,
+    "publie": true,
+    "contenu": {}
+  },
+  {
+    "id": "sv-1",
+    "page": "/services",
+    "type": "tete",
+    "ordre": 1,
+    "publie": true,
+    "contenu": {
+      "sur": "Nos services",
+      "theme": "rouge",
+      "titre": "Chaque besoin a sa porte d’entrée.",
+      "chapo": "Quatre services complémentaires, une seule ambition : accompagner la personne dans toutes les dimensions de sa vie.",
+      "fil": [
+        "rouge",
+        "bleu",
+        "jaune",
+        "vert"
+      ],
+      "image": "m-echange-sourires-detoure",
+      "image_alt": "Un jeune homme et une intervenante échangent en riant"
+    }
+  },
+  {
+    "id": "sv-2",
+    "page": "/services",
+    "type": "rangs_services",
+    "ordre": 2,
+    "publie": true,
+    "contenu": {
+      "titre": "Quatre portes, une même maison.",
+      "intro": "L’accompagnement à 360° : les services ne sont pas cloisonnés, ils s’articulent autour de la personne.",
+      "bouton": "Découvrir",
+      "rangs": [
+        {
+          "service": "le-rebond",
+          "texte": "Au Rebond, chacun peut d’abord souffler, manger, se laver et être écouté. C’est souvent dans ces moments simples qu’un lien se crée.",
+          "image": "m-service-rebond",
+          "image_alt": "Trois hommes rient autour d’un café au Rebond",
+          "rotation": -1.5
+        },
+        {
+          "service": "chez-toit",
+          "texte": "Trouver un logement ne suffit pas toujours à s’y sentir chez soi. Chez Toît accompagne les personnes avant et après leur installation : prendre leurs repères, gérer le quotidien, rompre l’isolement et créer des liens dans le quartier.",
+          "image": "m-chez-toit-cles",
+          "image_alt": "Le service Chez Toît",
+          "rotation": 1.5
+        },
+        {
+          "service": "toudi-boudji",
+          "texte": "Toudi Boudji signifie « toujours en mouvement », un nom choisi par les personnes accueillies. Ici, des ateliers en groupe et des rencontres individuelles permettent de reprendre confiance, de créer des liens et de faire avancer un projet personnel ou professionnel.",
+          "image": "m-service-toudi-boudji",
+          "image_alt": "Trois hommes de dos, bras sur les épaules",
+          "rotation": -1
+        },
+        {
+          "service": "parent-elle",
+          "texte": "Parent’Elle accueille les femmes, avec ou sans enfant, ainsi que les hommes qui souhaitent avancer dans leur rôle de parent. Le service offre aux femmes et à leurs enfants un espace rien qu’à elles, et permet aux futurs parents comme aux parents de parler librement de leur quotidien et de préparer l’avenir.",
+          "image": "m-service-parent-elle",
+          "image_alt": "Une mère et sa fille accompagnées par Parent’Elle, souriantes",
+          "rotation": 1.5
+        },
+        {
+          "service": "promotion-sante",
+          "texte": "La santé fait partie du chemin. Nous créons des occasions simples de parler, de prévenir, de recevoir des soins et de retrouver confiance, sans jugement et au rythme de chacun.",
+          "image": "",
+          "image_alt": ""
+        }
+      ]
+    }
+  },
+  {
+    "id": "sv-3",
+    "page": "/services",
+    "type": "transversal",
+    "ordre": 3,
+    "publie": false,
+    "contenu": {}
+  },
+  {
+    "id": "sv-4",
+    "page": "/services",
+    "type": "partenaires",
+    "ordre": 4,
+    "publie": true,
+    "contenu": {
+      "sur": "Ils nous soutiennent",
+      "titre": "Partenaires de Comme Chez Nous",
+      "type": "financeur"
+    }
+  },
+  {
+    "id": "sv-5",
+    "page": "/services",
+    "type": "don",
+    "ordre": 5,
+    "publie": true,
+    "contenu": {}
+  },
+  {
+    "id": "as-1",
+    "page": "/association",
+    "type": "tete",
+    "ordre": 1,
+    "publie": true,
+    "contenu": {
+      "sur": "L’association",
+      "titre": "À hauteur d’humain, depuis 1995.",
+      "chapo": "À Charleroi, Comme Chez Nous propose un accueil et un accompagnement humain, social et médical aux personnes sans logement.",
+      "image": "m-asso-equipe",
+      "image_alt": "L’accueil de Comme Chez Nous à Charleroi",
+      "rotation": -1.5,
+      "boutons": [
+        {
+          "libelle": "Découvrir nos services",
+          "lien": "/services",
+          "style": "c",
+          "icone": "fleche"
+        }
+      ],
+      "fil": [
+        "rouge"
+      ]
+    }
+  },
+  {
+    "id": "as-2",
+    "page": "/association",
+    "type": "deux_colonnes",
+    "ordre": 2,
+    "publie": true,
+    "contenu": {
+      "colonnes": [
+        {
+          "sur": "Notre mission",
+          "titre": "Accueillir sans condition.",
+          "paragraphes": [
+            "Depuis 1995, Comme Chez Nous accueille, écoute et accompagne les personnes en situation de grande précarité à Charleroi, vers une sortie durable de la rue."
+          ],
+          "liste": [
+            "Ouvert 7j/7, 365 jours par an",
+            "Accueil inconditionnel"
+          ],
+          "signature": "Sophie Crapez, directrice"
+        },
+        {
+          "sur": "Notre manière d’agir",
+          "theme": "bleu",
+          "titre": "Notre approche à 360°",
+          "paragraphes": [
+            "Vivre sans logement touche bien plus qu’une adresse. La santé, les papiers, la famille, les liens avec les autres ou le retour vers l’emploi peuvent aussi devenir difficiles. Nos services travaillent ensemble pour que la personne n’ait pas à raconter son histoire à chaque porte et puisse avancer à son rythme."
+          ]
+        }
+      ]
+    }
+  },
+  {
+    "id": "as-3",
+    "page": "/association",
+    "type": "chiffres",
+    "ordre": 3,
+    "publie": true,
+    "contenu": {
+      "sur": "En 2023, à Comme Chez Nous",
+      "contexte": "association"
+    }
+  },
+  {
+    "id": "as-4",
+    "page": "/association",
+    "type": "chiffres",
+    "ordre": 4,
+    "publie": true,
+    "contenu": {
+      "sur": "À Charleroi",
+      "titre": "Le sans-abrisme en chiffres",
+      "contexte": "charleroi"
+    }
+  },
+  {
+    "id": "as-5",
+    "page": "/association",
+    "type": "texte_image",
+    "ordre": 5,
+    "publie": true,
+    "contenu": {
+      "theme": "vert",
+      "titre": "Nos enjeux & défis",
+      "paragraphes": [
+        "De plus en plus de personnes viennent frapper à notre porte, alors que nos locaux sont devenus trop petits. Nous voulons continuer à accueillir chacun dignement et offrir à nos équipes un lieu adapté pour bien travailler."
+      ],
+      "liste_style": "coches",
+      "liste": [
+        "Des locaux plus dignes et adaptés",
+        "Une réponse à l’augmentation des besoins",
+        "De bonnes conditions de travail pour les équipes",
+        "Un chantier pour doubler la superficie et atteindre 1 200 m²"
+      ],
+      "image": "m-rebond-repas",
+      "image_alt": "Un repas partagé au Rebond",
+      "rotation": 1.5,
+      "image_position": "gauche"
+    }
+  },
+  {
+    "id": "as-6",
+    "page": "/association",
+    "type": "reperes",
+    "ordre": 6,
+    "publie": true,
+    "contenu": {
+      "sur": "Depuis 1995",
+      "titre": "Une histoire ancrée à Charleroi.",
+      "intro": "Comme Chez Nous est née en 1995, portée par des personnes démunies et des bénévoles. En 2000, l’association participe à la création du Relais Social de Charleroi et peut engager ses premiers travailleurs. Depuis 2002, elle concentre son action auprès des personnes sans logement. Cette histoire collective est racontée dans l’ouvrage « Construire avec les Naufragés » (2020)."
+    }
+  },
+  {
+    "id": "as-7",
+    "page": "/association",
+    "type": "valeurs",
+    "ordre": 7,
+    "publie": true,
+    "contenu": {
+      "sur": "Ce qui nous guide",
+      "titre": "Accueillir d’abord. Construire ensuite."
+    }
+  },
+  {
+    "id": "as-8",
+    "page": "/association",
+    "type": "equipe",
+    "ordre": 8,
+    "publie": true,
+    "contenu": {
+      "sur": "Celles et ceux qui font vivre la maison",
+      "titre": "L’équipe",
+      "paragraphes": [
+        "Une trentaine de personnes font vivre Comme Chez Nous au quotidien : assistants sociaux, éducateurs, infirmière, psychologue, professionnels de la santé, psychomotricien, équipe administrative et de nombreux bénévoles. Des métiers différents, réunis autour d’une même attention aux personnes."
+      ],
+      "image": "m-echange-sourires",
+      "image_alt": "Un jeune homme et une intervenante échangent en riant",
+      "rotation": -1,
+      "boutons": [
+        {
+          "libelle": "Devenir bénévole",
+          "lien": "/soutenir/benevolat",
+          "style": "nuit",
+          "icone": "fleche"
+        }
+      ]
+    }
+  },
+  {
+    "id": "as-9",
+    "page": "/association",
+    "type": "transversal",
+    "ordre": 9,
+    "publie": false,
+    "contenu": {}
+  },
+  {
+    "id": "as-10",
+    "page": "/association",
+    "type": "partenaires",
+    "ordre": 10,
+    "publie": true,
+    "contenu": {
+      "sur": "Ils nous soutiennent",
+      "titre": "Partenaires de Comme Chez Nous",
+      "type": "financeur"
+    }
+  },
+  {
+    "id": "as-11",
+    "page": "/association",
+    "type": "don",
+    "ordre": 11,
+    "publie": true,
+    "contenu": {}
+  },
+  {
+    "id": "so-1",
+    "page": "/soutenir",
+    "type": "tete",
+    "ordre": 1,
+    "publie": true,
+    "contenu": {
+      "sur": "Nous aider",
+      "titre": "Nous aider",
+      "accroche": "Chaque geste compte",
+      "chapo": "Don, bénévolat ou partenariat : chaque forme de soutien renforce l’accueil inconditionnel à Charleroi.",
+      "image": "m-don-mains",
+      "image_alt": "Une poignée de main",
+      "rotation": -1.5,
+      "boutons": [
+        {
+          "libelle": "Faire un don",
+          "lien": "/soutenir/don",
+          "style": "plein",
+          "icone": "coeur"
+        }
+      ],
+      "fil": [
+        "rouge"
+      ]
+    }
+  },
+  {
+    "id": "so-2",
+    "page": "/soutenir",
+    "type": "cartes_liens",
+    "ordre": 2,
+    "publie": true,
+    "contenu": {
+      "sur": "Toutes les façons d’aider",
+      "titre": "Choisissez votre manière de soutenir",
+      "cartes": [
+        {
+          "titre": "Faire un don",
+          "texte": "Votre don finance directement l’accueil, l’accompagnement et le grand projet de reconstruction.",
+          "lien": "/soutenir/don",
+          "bouton": "En savoir plus"
+        },
+        {
+          "titre": "Don en nature",
+          "texte": "Vêtements, produits d’hygiène, couvertures, matériel de cuisine : vos dons en nature servent directement aux personnes accueillies.",
+          "lien": "/soutenir/don-en-nature",
+          "bouton": "En savoir plus"
+        },
+        {
+          "titre": "Devenir bénévole",
+          "texte": "Nous sommes constamment à la recherche de bénévoles : distribution du café, tâches administratives, gestion de bases de données… peu importe vos compétences, nous trouverons un poste qui vous correspond.",
+          "lien": "/soutenir/benevolat",
+          "bouton": "En savoir plus"
+        },
+        {
+          "titre": "Mécénat d’entreprise & teambuilding",
+          "texte": "Entreprises : soutenez un projet concret ou venez vivre une journée solidaire avec votre équipe, au plus près du terrain.",
+          "lien": "/soutenir/partenariat",
+          "bouton": "En savoir plus"
+        },
+        {
+          "titre": "Devenir partenaire",
+          "texte": "Entreprises, associations et institutions : sponsoring, mécénat et soutien aux missions. Construisons une collaboration utile au territoire.",
+          "lien": "/partenaires",
+          "bouton": "En savoir plus"
+        }
+      ]
+    }
+  },
+  {
+    "id": "so-3",
+    "page": "/soutenir",
+    "type": "texte",
+    "ordre": 3,
+    "publie": true,
+    "contenu": {
+      "sur": "Notre grand projet",
+      "titre": "Comme Chez Nous se redessine",
+      "paragraphes": [
+        "Une meilleure articulation entre les services, une augmentation de l’offre et des économies d’énergie.",
+        "Un vaste chantier de déconstruction et reconstruction des bâtiments historiques rue de Charleville 36, 38 et 40 est mené avec Atelier4D. Objectif : doubler la superficie dédiée aux missions pour atteindre 1 200 m², améliorer l’accueil et créer de nouveaux logements temporaires."
+      ]
+    }
+  },
+  {
+    "id": "so-4",
+    "page": "/soutenir",
+    "type": "partenaires",
+    "ordre": 4,
+    "publie": true,
+    "contenu": {
+      "sur": "Ils nous soutiennent",
+      "titre": "Partenaires de Comme Chez Nous",
+      "type": "financeur"
+    }
+  },
+  {
+    "id": "do-1",
+    "page": "/soutenir/don",
+    "type": "tete",
+    "ordre": 1,
+    "publie": true,
+    "contenu": {
+      "sur": "Nous aider",
+      "titre": "Votre soutien nous est précieux. Chaque geste compte.",
+      "accroche": "Merci d’être là",
+      "chapo": "Votre don finance directement l’accueil, l’accompagnement et les projets de reconstruction pour sortir durablement les personnes de la rue et de la grande précarité.",
+      "image": "m-tasse-partagee-detoure",
+      "image_alt": "Une main tend une tasse chaude à une autre main",
+      "rotation": -1.5,
+      "fil": [
+        "rouge"
+      ]
+    }
+  },
+  {
+    "id": "do-2",
+    "page": "/soutenir/don",
+    "type": "virement",
+    "ordre": 2,
+    "publie": true,
+    "contenu": {
+      "sur": "Don financier",
+      "titre": "Faire un don par virement",
+      "libelle_iban": "IBAN",
+      "libelle_beneficiaire": "Bénéficiaire",
+      "bouton_copier": "Copier l’IBAN",
+      "copie_ok": "IBAN copié",
+      "communication": "N’oubliez pas d’indiquer vos coordonnées (nom, prénom, adresse) en communication pour recevoir votre attestation fiscale.",
+      "bon_a_savoir_titre": "Bon à savoir",
+      "qr_legende": "Scannez avec votre app bancaire",
+      "qr_alt": "QR code de virement SEPA vers l’ASBL Comme Chez Nous"
+    }
+  },
+  {
+    "id": "do-3",
+    "page": "/soutenir/don",
+    "type": "cartes_liens",
+    "ordre": 3,
+    "publie": true,
+    "contenu": {
+      "titre": "Deux façons de nous aider",
+      "cartes": [
+        {
+          "titre": "Don financier",
+          "texte": "Un virement ponctuel ou permanent, déductible fiscalement.",
+          "lien": "#virement",
+          "bouton": "Faire un virement"
+        },
+        {
+          "titre": "Don matériel",
+          "texte": "Vêtements, hygiène, matériel : ce qui est utile au quotidien.",
+          "lien": "/soutenir/don-en-nature",
+          "bouton": "Voir les besoins"
+        }
+      ]
+    }
+  },
+  {
+    "id": "do-4",
+    "page": "/soutenir/don",
+    "type": "texte",
+    "ordre": 4,
+    "publie": true,
+    "contenu": {
+      "titre": "À quoi servent vos dons ?",
+      "liste_style": "coches",
+      "liste": [
+        "Achat de denrées alimentaires",
+        "Achat de matériel d’hygiène",
+        "Création de possibilités de relogement (temporaires ou non)",
+        "Investissement en matériel d’accueil pour le nouveau centre"
+      ],
+      "sous_titre": "Toute l’année",
+      "sous_texte": "Poursuivre notre action d’accueil et d’accompagnement 365 jours par an, à travers les axes d’intervention de notre approche à 360°."
+    }
+  },
+  {
+    "id": "do-5",
+    "page": "/soutenir/don",
+    "type": "budget",
+    "ordre": 5,
+    "publie": true,
+    "contenu": {
+      "titre": "Le grand projet de reconstruction",
+      "paragraphes": [
+        "Déconstruction et reconstruction rue de Charleville, achat rue Dagnelies, doublement de la superficie et amélioration énergétique : ce chantier prépare un accueil plus digne et plus fluide."
+      ],
+      "bouton": "Lire plus"
+    }
+  },
+  {
+    "id": "do-6",
+    "page": "/soutenir/don",
+    "type": "partenaires",
+    "ordre": 6,
+    "publie": true,
+    "contenu": {
+      "sur": "Ils nous soutiennent",
+      "titre": "Partenaires de Comme Chez Nous",
+      "type": "financeur"
+    }
+  },
+  {
+    "id": "dn-1",
+    "page": "/soutenir/don-en-nature",
+    "type": "tete",
+    "ordre": 1,
+    "publie": true,
+    "contenu": {
+      "sur": "Nous aider",
+      "titre": "Donner en nature",
+      "accroche": "Ce qui dort chez vous peut servir ici",
+      "chapo": "Certains objets du quotidien font une vraie différence. Avant de venir, appelez-nous : nos besoins changent selon les saisons.",
+      "image": "m-don-mains",
+      "image_alt": "Une poignée de main",
+      "rotation": -1.5,
+      "fil": [
+        "rouge"
+      ]
+    }
+  },
+  {
+    "id": "dn-2",
+    "page": "/soutenir/don-en-nature",
+    "type": "texte",
+    "ordre": 2,
+    "publie": true,
+    "contenu": {
+      "titre": "Ce dont nous avons besoin",
+      "liste_style": "coches",
+      "liste": [
+        "Vêtements propres et en bon état, surtout pour hommes",
+        "Sous-vêtements et chaussettes neufs",
+        "Produits d’hygiène (savon, dentifrice, rasoirs, protections périodiques)",
+        "Couvertures et sacs de couchage",
+        "Café, sucre et denrées non périssables"
+      ]
+    }
+  },
+  {
+    "id": "dn-3",
+    "page": "/soutenir/don-en-nature",
+    "type": "texte",
+    "ordre": 3,
+    "publie": true,
+    "contenu": {
+      "titre": "Comment déposer",
+      "paragraphes": [
+        "Contactez-nous au 071 30 76 85 pour convenir d’un moment de dépôt à l’accueil, rue de Charleville à Charleroi."
+      ],
+      "boutons": [
+        {
+          "libelle": "Nous contacter",
+          "lien": "/contact",
+          "style": "c",
+          "icone": "fleche"
+        }
+      ]
+    }
+  },
+  {
+    "id": "dn-4",
+    "page": "/soutenir/don-en-nature",
+    "type": "partenaires",
+    "ordre": 4,
+    "publie": true,
+    "contenu": {
+      "sur": "Ils nous soutiennent",
+      "titre": "Partenaires de Comme Chez Nous",
+      "type": "financeur"
+    }
+  },
+  {
+    "id": "be-1",
+    "page": "/soutenir/benevolat",
+    "type": "tete",
+    "ordre": 1,
+    "publie": true,
+    "contenu": {
+      "sur": "Nous aider",
+      "titre": "Devenez bénévole chez Comme Chez Nous",
+      "accroche": "Un peu de temps, beaucoup de lien",
+      "chapo": "Donnez un peu de votre temps, changez une vie.",
+      "image": "m-atelier-cuisine-detoure",
+      "image_alt": "Trois personnes épluchent des légumes ensemble lors d’un atelier cuisine",
+      "rotation": -1.5,
+      "fil": [
+        "rouge"
+      ]
+    }
+  },
+  {
+    "id": "be-2",
+    "page": "/soutenir/benevolat",
+    "type": "texte",
+    "ordre": 2,
+    "publie": true,
+    "contenu": {
+      "titre": "Le bénévolat, dans notre ADN",
+      "paragraphes": [
+        "Nos bénévoles sont une part essentielle de notre association. Comme Chez Nous a été créée en 1995 par et pour des personnes démunies, et fonctionnait à l’origine uniquement grâce au volontariat. Aujourd’hui encore, aux côtés de notre équipe pluridisciplinaire d’une trentaine de salariés, nos bénévoles font vivre l’accueil au quotidien et sont au cœur de nos missions."
+      ]
+    }
+  },
+  {
+    "id": "be-3",
+    "page": "/soutenir/benevolat",
+    "type": "texte",
+    "ordre": 3,
+    "publie": true,
+    "contenu": {
+      "sur": "S’engager à nos côtés",
+      "titre": "Ce que vous pouvez faire",
+      "paragraphes": [
+        "Peu importe vos compétences, votre disponibilité ou votre expérience : nous trouverons un rôle qui vous correspond. Quelques exemples :"
+      ],
+      "liste_style": "coches",
+      "colonnes": 2,
+      "liste": [
+        "Distribution du café et des repas",
+        "Écoute et présence auprès des personnes accueillies",
+        "Aide aux ateliers (cuisine, sport, activités collectives)",
+        "Tâches administratives",
+        "Gestion de bases de données",
+        "Soutien logistique et événementiel"
+      ],
+      "apres_liste": "Cette liste n’est pas exhaustive — parlez-nous de vos envies et de vos talents, on trouvera ensemble votre place."
+    }
+  },
+  {
+    "id": "be-4",
+    "page": "/soutenir/benevolat",
+    "type": "cartes_texte",
+    "ordre": 4,
+    "publie": true,
+    "contenu": {
+      "sur": "Une expérience qui compte",
+      "titre": "Pourquoi devenir bénévole chez nous",
+      "numeros": true,
+      "cartes": [
+        {
+          "texte": "Rejoindre une équipe engagée et bienveillante"
+        },
+        {
+          "texte": "Agir concrètement contre le sans-abrisme et la grande précarité, à Charleroi"
+        },
+        {
+          "texte": "Vivre une expérience humaine forte, au plus près des personnes"
+        },
+        {
+          "texte": "Être formé·e et accompagné·e dans votre rôle"
+        }
+      ]
+    }
+  },
+  {
+    "id": "be-5",
+    "page": "/soutenir/benevolat",
+    "type": "formulaire",
+    "ordre": 5,
+    "publie": true,
+    "contenu": {
+      "formulaire": "benevolat",
+      "sur": "Votre candidature",
+      "titre": "Prêt·e à nous rejoindre ?",
+      "intro": "Dites-nous quand vous êtes disponible et ce que vous aimeriez faire. Nous vous recontacterons pour en parler simplement.",
+      "bouton": "Envoyer ma candidature",
+      "encart_titre": "Une question avant de vous lancer ?",
+      "encart_texte": "contact@asblcommecheznous.be · 0495 35 24 26",
+      "encart_boutons": [
+        {
+          "libelle": "Écrire",
+          "lien": "mailto:contact@asblcommecheznous.be",
+          "style": "contour"
+        },
+        {
+          "libelle": "Appeler",
+          "lien": "tel:+32495352426",
+          "style": "contour"
+        }
+      ],
+      "message_envoye": "Merci, votre message a bien été envoyé. Nous vous recontacterons rapidement.",
+      "message_erreur": "L’envoi n’a pas fonctionné. Vous pouvez réessayer ou nous écrire à contact@asblcommecheznous.be.",
+      "message_invalide": "Merci de compléter les champs obligatoires (marqués d’un astérisque)."
+    }
+  },
+  {
+    "id": "be-6",
+    "page": "/soutenir/benevolat",
+    "type": "partenaires",
+    "ordre": 6,
+    "publie": true,
+    "contenu": {
+      "sur": "Ils nous soutiennent",
+      "titre": "Partenaires de Comme Chez Nous",
+      "type": "financeur"
+    }
+  },
+  {
+    "id": "pr-1",
+    "page": "/soutenir/partenariat",
+    "type": "tete",
+    "ordre": 1,
+    "publie": true,
+    "contenu": {
+      "sur": "Devenir partenaire / mécène",
+      "titre": "Devenez partenaire de nos projets",
+      "accroche": "Construire ensemble",
+      "chapo": "Comme Chez Nous traverse un tournant majeur de son histoire. Nous cherchons des partenaires soucieux de réduire les inégalités sociales et prêts à soutenir nos projets, au bénéfice des personnes que nous accompagnons et de nos équipes.",
+      "image": "m-don-mains",
+      "image_alt": "Une poignée de main",
+      "rotation": -1.5,
+      "fil": [
+        "rouge"
+      ]
+    }
+  },
+  {
+    "id": "pr-2",
+    "page": "/soutenir/partenariat",
+    "type": "texte",
+    "ordre": 2,
+    "publie": true,
+    "contenu": {
+      "sur": "Le projet à soutenir",
+      "titre": "Déconstruire pour mieux reconstruire",
+      "paragraphes": [
+        "Notre association entreprend un vaste chantier de déconstruction et de reconstruction de ses locaux historiques (rue de Charleville), confié au bureau d’architecture Atelier4D. La nouvelle configuration permettra de doubler la superficie dédiée à nos missions, portant à 1 200 m² la surface totale du Centre d’accueil de jour et de l’ensemble des services, et de créer de nouveaux logements temporaires."
+      ]
+    }
+  },
+  {
+    "id": "pr-3",
+    "page": "/soutenir/partenariat",
+    "type": "texte",
+    "ordre": 3,
+    "publie": true,
+    "contenu": {
+      "sur": "Pourquoi",
+      "titre": "Pourquoi nous soutenir",
+      "paragraphes": [
+        "Malgré les défis économiques, notre ASBL a toujours maintenu une gestion financière saine. Votre engagement à nos côtés permet de bâtir l’avenir de l’association et de poursuivre nos missions pour endiguer le sans-abrisme."
+      ]
+    }
+  },
+  {
+    "id": "pr-4",
+    "page": "/soutenir/partenariat",
+    "type": "cartes_texte",
+    "ordre": 4,
+    "publie": true,
+    "contenu": {
+      "sur": "Comment",
+      "titre": "Comment votre entreprise peut s’engager",
+      "intro": "Il existe plusieurs façons de nous rejoindre. Choisissons ensemble celle qui correspond à votre entreprise.",
+      "cartes": [
+        {
+          "titre": "Mécénat d’entreprise",
+          "texte": "Un soutien financier à un projet précis — le chantier de reconstruction, un atelier, un service — avec un suivi régulier de ce que votre contribution a permis."
+        },
+        {
+          "titre": "Teambuilding solidaire",
+          "texte": "Une journée avec votre équipe sur le terrain : rénovation, cuisine, logistique. Une expérience humaine forte, utile et encadrée par nos équipes."
+        },
+        {
+          "titre": "Don en nature",
+          "texte": "Matériel, équipements, produits ou compétences : vos ressources peuvent répondre directement à nos besoins quotidiens."
+        }
+      ]
+    }
+  },
+  {
+    "id": "pr-5",
+    "page": "/soutenir/partenariat",
+    "type": "projet",
+    "ordre": 5,
+    "publie": true,
+    "contenu": {
+      "sur": "Le chantier",
+      "titre": "Les 3 axes du projet",
+      "sous_titre": "Un accueil plus digne",
+      "type": "axe"
+    }
+  },
+  {
+    "id": "pr-6",
+    "page": "/soutenir/partenariat",
+    "type": "projet",
+    "ordre": 6,
+    "publie": true,
+    "contenu": {
+      "titre": "Ce que le projet apporte",
+      "type": "benefice"
+    }
+  },
+  {
+    "id": "pr-7",
+    "page": "/soutenir/partenariat",
+    "type": "budget",
+    "ordre": 7,
+    "publie": true,
+    "contenu": {
+      "titre": "Le budget",
+      "paragraphes": [
+        "Budget total du projet : environ 2,7 millions d’euros. 1,8 million déjà mobilisés en deniers publics. Il reste 1 million d’euros à récolter."
+      ],
+      "note": "La flambée des prix des matériaux (+35 %) a fortement grevé l’enveloppe initiale.",
+      "bon_a_savoir_titre": "Bon à savoir",
+      "bon_a_savoir": "Pour tout don à partir de 40 € sur base annuelle, une attestation fiscale permet de récupérer 45 % du montant sous forme de réduction d’impôts.",
+      "bouton": "Lire plus"
+    }
+  },
+  {
+    "id": "pr-8",
+    "page": "/soutenir/partenariat",
+    "type": "formulaire",
+    "ordre": 8,
+    "publie": true,
+    "contenu": {
+      "formulaire": "partenariat",
+      "sur": "Construisons ensemble",
+      "titre": "Demander le dossier de partenariat",
+      "bouton": "Envoyer",
+      "encart_titre": "Un dossier de partenariat détaillé est disponible sur demande.",
+      "encart_texte": "Sophie Crapez, Directrice · contact@asblcommecheznous.be · 0495 35 24 26",
+      "encart_boutons": [
+        {
+          "libelle": "Écrire à Sophie Crapez",
+          "lien": "mailto:contact@asblcommecheznous.be",
+          "style": "contour"
+        }
+      ],
+      "message_envoye": "Merci, votre message a bien été envoyé. Nous vous recontacterons rapidement.",
+      "message_erreur": "L’envoi n’a pas fonctionné. Vous pouvez réessayer ou nous écrire à contact@asblcommecheznous.be.",
+      "message_invalide": "Merci de compléter les champs obligatoires (marqués d’un astérisque)."
+    }
+  },
+  {
+    "id": "pr-9",
+    "page": "/soutenir/partenariat",
+    "type": "partenaires",
+    "ordre": 9,
+    "publie": true,
+    "contenu": {
+      "sur": "Ils nous soutiennent",
+      "titre": "Partenaires de Comme Chez Nous",
+      "type": "financeur"
+    }
+  },
+  {
+    "id": "co-1",
+    "page": "/contact",
+    "type": "tete",
+    "ordre": 1,
+    "publie": true,
+    "contenu": {
+      "sur": "Contact",
+      "theme": "bleu",
+      "titre": "La porte est ouverte.",
+      "accroche": "À l’écoute, tout simplement",
+      "chapo": "Une question, une demande ou l’envie de construire quelque chose avec nous ? Écrivez-nous ou appelez-nous.",
+      "fil": [
+        "bleu"
+      ],
+      "image": "m-accompagnement-entretien-detoure",
+      "image_alt": "Une intervenante écoute un homme lors d’un entretien"
+    }
+  },
+  {
+    "id": "co-2",
+    "page": "/contact",
+    "type": "formulaire",
+    "ordre": 2,
+    "publie": true,
+    "contenu": {
+      "formulaire": "contact",
+      "titre": "Écrivez-nous",
+      "bouton": "Envoyer",
+      "encart_lignes": [
+        {
+          "libelle": "Téléphone",
+          "valeur": "",
+          "lien": "",
+          "reglage": "telephone"
+        },
+        {
+          "libelle": "E-mail",
+          "valeur": "",
+          "lien": "",
+          "reglage": "email"
+        },
+        {
+          "libelle": "Adresse",
+          "valeur": "",
+          "lien": "",
+          "reglage": "adresse"
+        },
+        {
+          "libelle": "Ouverture",
+          "valeur": "Ouvert 7j/7, 365 jours par an · Accueil inconditionnel",
+          "lien": ""
+        }
+      ],
+      "message_envoye": "Merci, votre message a bien été envoyé. Nous vous recontacterons rapidement.",
+      "message_erreur": "L’envoi n’a pas fonctionné. Vous pouvez réessayer ou nous écrire à contact@asblcommecheznous.be.",
+      "message_invalide": "Merci de compléter les champs obligatoires (marqués d’un astérisque)."
+    }
+  },
+  {
+    "id": "co-3",
+    "page": "/contact",
+    "type": "partenaires",
+    "ordre": 3,
+    "publie": true,
+    "contenu": {
+      "sur": "Ils nous soutiennent",
+      "titre": "Partenaires de Comme Chez Nous",
+      "type": "financeur"
+    }
+  },
+  {
+    "id": "ai-1",
+    "page": "/aide",
+    "type": "tete",
+    "ordre": 1,
+    "publie": true,
+    "contenu": {
+      "titre": "Où trouver de l’aide à Charleroi",
+      "chapo": "Choisissez le type d’aide dont vous avez besoin. Les lieux s’affichent sur la carte et dans la liste en dessous. Appelez avant de vous déplacer : les horaires peuvent changer.",
+      "fil": [
+        "rouge"
+      ],
+      "image": "m-accompagnement-formulaire-detoure",
+      "image_alt": "Une intervenante aide un homme à remplir un formulaire"
+    }
+  },
+  {
+    "id": "ai-2",
+    "page": "/aide",
+    "type": "carte_aide",
+    "ordre": 2,
+    "publie": true,
+    "contenu": {
+      "libelle_filtres": "Filtrer par type d’aide",
+      "bouton_tout": "Tout voir",
+      "bouton_pres": "Centres près de moi",
+      "recherche_position": "Recherche de votre position…",
+      "position_refusee": "Votre position n’est pas disponible. Choisissez un type d’aide ou parcourez la liste.",
+      "libelle_carte": "Carte des lieux d’aide à Charleroi",
+      "centre_latitude": 50.4108,
+      "centre_longitude": 4.4446
+    }
+  },
+  {
+    "id": "ai-3",
+    "page": "/aide",
+    "type": "texte",
+    "ordre": 3,
+    "publie": true,
+    "contenu": {
+      "titre": "Trouver plus d’aide",
+      "paragraphes": [
+        "Cette carte reprend les principaux lieux d’aide de Charleroi. Pour une liste complète et tenue à jour par des professionnels, consultez l’annuaire du Relais Social de Charleroi."
+      ],
+      "boutons": [
+        {
+          "libelle": "Voir l’annuaire du Relais Social",
+          "lien": "https://www.relaissocialcharleroi.be/",
+          "style": "c",
+          "icone": "fleche"
+        }
+      ]
+    }
+  },
+  {
+    "id": "ai-4",
+    "page": "/aide",
+    "type": "numeros",
+    "ordre": 4,
+    "publie": true,
+    "contenu": {
+      "sur": "Urgence sociale · 24h/24, 7j/7",
+      "titre": "Besoin d’aide tout de suite, la nuit ou le week-end ? Appelez, c’est gratuit et confidentiel.",
+      "emplacement": "aide"
+    }
+  },
+  {
+    "id": "ai-5",
+    "page": "/aide",
+    "type": "fiches",
+    "ordre": 5,
+    "publie": true,
+    "contenu": {
+      "titre": "Accueil de jour Le Rebond",
+      "intro": "Appelez avant de vous déplacer.",
+      "telephone": "",
+      "tel": "",
+      "fiches": [
+        {
+          "titre": "Horaires",
+          "texte": "Ouvert 7j/7, 365 jours par an."
+        },
+        {
+          "titre": "Ce que vous y trouvez",
+          "texte": "Café, repas, douche, soins infirmiers, accompagnement social et administratif, information logement."
+        },
+        {
+          "titre": "Adresse",
+          "texte": "",
+          "lien_libelle": "Ouvrir l’itinéraire",
+          "lien": "",
+          "reglage": "adresse"
+        },
+        {
+          "titre": "En cas de danger immédiat",
+          "texte": "Appelez les secours au 112.",
+          "lien_libelle": "Appeler le 112",
+          "lien": "tel:112"
+        }
+      ]
+    }
+  },
+  {
+    "id": "pa-1",
+    "page": "/partenaires",
+    "type": "tete",
+    "ordre": 1,
+    "publie": true,
+    "contenu": {
+      "sur": "Ensemble",
+      "theme": "nuit",
+      "titre": "Partenaires & soutiens",
+      "accroche": "Personne n’avance seul",
+      "chapo": "Personne n’avance seul. Voici ceux qui agissent à nos côtés sur le terrain, et ceux qui rendent notre travail possible.",
+      "fil": [
+        "rouge",
+        "bleu",
+        "jaune",
+        "vert"
+      ],
+      "image": "m-echange-sourires-detoure",
+      "image_alt": "Des personnes se retrouvent au centre social"
+    }
+  },
+  {
+    "id": "pa-2",
+    "page": "/partenaires",
+    "type": "partenaires",
+    "ordre": 2,
+    "publie": true,
+    "contenu": {
+      "sur": "Sur le terrain",
+      "titre": "Nos partenaires",
+      "type": "terrain",
+      "intro": "Les organisations avec qui nous menons des actions ensemble, au service des personnes accompagnées."
+    }
+  },
+  {
+    "id": "pa-3",
+    "page": "/partenaires",
+    "type": "partenaires",
+    "ordre": 3,
+    "publie": true,
+    "contenu": {
+      "sur": "Ils rendent nos missions possibles",
+      "titre": "Ils nous soutiennent",
+      "type": "financeur",
+      "intro": "Les pouvoirs publics, fondations et institutions qui financent et soutiennent notre travail."
+    }
+  },
+  {
+    "id": "pa-4",
+    "page": "/partenaires",
+    "type": "texte",
+    "ordre": 4,
+    "publie": true,
+    "contenu": {
+      "titre": "Et si vous nous rejoigniez ?",
+      "boutons": [
+        {
+          "libelle": "Devenir partenaire",
+          "lien": "/soutenir/partenariat",
+          "style": "plein",
+          "icone": "fleche"
+        }
+      ]
+    }
+  },
+  {
+    "id": "cf-1",
+    "page": "/confidentialite",
+    "type": "tete",
+    "ordre": 1,
+    "publie": true,
+    "contenu": {
+      "sur": "RGPD",
+      "theme": "nuit",
+      "titre": "Votre vie privée compte.",
+      "accroche": "Vos données restent les vôtres",
+      "chapo": "Nous recueillons uniquement les informations nécessaires pour répondre à vos demandes.",
+      "fil": [
+        "bleu"
+      ]
+    }
+  },
+  {
+    "id": "ac-a1",
+    "page": "/actualites",
+    "type": "tete",
+    "ordre": 1,
+    "publie": true,
+    "contenu": {
+      "sur": "Actualités & ressources",
+      "theme": "bleu",
+      "titre": "Comprendre, partager, agir.",
+      "accroche": "Rester informé et faire du lien",
+      "chapo": "Actualités, ressources, publications, campagnes et événements de l’association.",
+      "fil": [
+        "bleu"
+      ],
+      "image": "m-echange-brochures-detoure",
+      "image_alt": "Une intervenante sourit à un homme assis en face d’elle"
+    }
+  },
+  {
+    "id": "ac-a2",
+    "page": "/actualites",
+    "type": "liste_articles",
+    "ordre": 2,
+    "publie": true,
+    "contenu": {
+      "libelle_filtres": "Filtrer par catégorie",
+      "bouton_tout": "Tout",
+      "categories": [
+        "Actualité",
+        "Ressource",
+        "Publication",
+        "Campagne",
+        "Événement"
+      ]
+    }
+  },
+  {
+    "id": "ac-a3",
+    "page": "/actualites",
+    "type": "partenaires",
+    "ordre": 3,
+    "publie": true,
+    "contenu": {
+      "sur": "Ils nous soutiennent",
+      "titre": "Partenaires de Comme Chez Nous",
+      "type": "financeur"
+    }
+  },
+  {
+    "id": "cf-2",
+    "page": "/confidentialite",
+    "type": "texte",
+    "ordre": 2,
+    "publie": true,
+    "contenu": {
+      "sur": "Responsable du traitement",
+      "titre": "Qui est responsable de vos données ?",
+      "paragraphes": [
+        "L’ASBL Comme Chez Nous est responsable des données recueillies sur ce site."
+      ],
+      "coordonnees": true,
+      "a_valider": true,
+      "note_interne": "À compléter : numéro d’entreprise et personne de contact pour la vie privée. Source : DONNEES-PERSONNELLES.md (14/11/2026)."
+    }
+  },
+  {
+    "id": "cf-3",
+    "page": "/confidentialite",
+    "type": "donnees_formulaires",
+    "ordre": 3,
+    "publie": true,
+    "contenu": {
+      "sur": "Données collectées",
+      "titre": "Ce que nous recueillons par les formulaires",
+      "intro": "Nous recueillons uniquement ce qui est nécessaire pour répondre à votre demande. Vos informations ne sont ni revendues ni partagées.",
+      "libelle_champs": "Données",
+      "libelle_duree": "Conservation",
+      "formulaires": [
+        {
+          "formulaire": "contact",
+          "nom": "Contact",
+          "but": "Répondre à votre demande",
+          "duree": "12 mois après réception"
+        },
+        {
+          "formulaire": "benevolat",
+          "nom": "Bénévolat",
+          "but": "Étudier votre candidature et vous recontacter",
+          "duree": "24 mois après réception"
+        },
+        {
+          "formulaire": "partenariat",
+          "nom": "Partenariat",
+          "but": "Vous envoyer le dossier et suivre la relation",
+          "duree": "24 mois après réception"
+        }
+      ],
+      "note": "Nous enregistrons aussi le type de formulaire ainsi que la date et l’heure d’envoi. Aucune adresse IP n’est enregistrée. Passé le délai, les messages sont supprimés automatiquement.",
+      "a_valider": false,
+      "note_interne": "Durées validées par Charlotte le 14/11/2026. Source : DONNEES-PERSONNELLES.md (14/11/2026)."
+    }
+  },
+  {
+    "id": "cf-4",
+    "page": "/confidentialite",
+    "type": "texte",
+    "ordre": 4,
+    "publie": true,
+    "contenu": {
+      "sur": "Vos droits",
+      "titre": "Vous gardez la main",
+      "paragraphes": [
+        "Vous pouvez demander l’accès à vos données, leur rectification ou leur effacement, ou vous opposer à leur traitement, en écrivant à l’association. Nous répondons dans un délai d’un mois.",
+        "Vous pouvez aussi introduire une plainte auprès de l’Autorité de protection des données (autoriteprotectiondonnees.be)."
+      ],
+      "a_valider": true,
+      "note_interne": "Délai de réponse d’un mois = délai légal RGPD ; à confirmer par l’association. Source : DONNEES-PERSONNELLES.md (14/11/2026)."
+    }
+  },
+  {
+    "id": "cf-5",
+    "page": "/confidentialite",
+    "type": "texte",
+    "ordre": 5,
+    "publie": true,
+    "contenu": {
+      "sur": "Cookies",
+      "titre": "Cookies et services extérieurs",
+      "paragraphes": [
+        "Le site public n’utilise aucun cookie.",
+        "La carte de la page d’aide charge ses fonds de plan depuis OpenStreetMap, qui reçoit donc l’adresse IP des visiteurs de cette page.",
+        "La fonction « Centres près de moi » calcule votre position dans votre appareil : elle n’est jamais envoyée ni enregistrée."
+      ],
+      "a_valider": true,
+      "note_interne": "À revoir si une mesure d’audience est activée (Vercel Web Analytics, sans cookie). Source : DONNEES-PERSONNELLES.md (14/11/2026)."
+    }
+  },
+  {
+    "id": "cf-6",
+    "page": "/confidentialite",
+    "type": "texte",
+    "ordre": 6,
+    "publie": true,
+    "contenu": {
+      "sur": "Contact",
+      "titre": "Une question sur vos données ?",
+      "paragraphes": [
+        "Écrivez-nous ou passez à l’accueil : nous vous répondrons."
+      ],
+      "coordonnees": true,
+      "a_valider": false
+    }
+  }
+]

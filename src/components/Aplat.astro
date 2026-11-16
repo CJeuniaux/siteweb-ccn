@@ -1,0 +1,25 @@
+---
+// Aplat de pinceau (BrushStroke), dessiné par le code (voir dessinPinceau dans src/lib/pinceau.ts) :
+// coup de pinceau sec asymétrique, bords irréguliers, 7 formes. Jamais incrusté dans une photo.
+// - couleur : thème (rouge, bleu, jaune, vert ; encre) → variable CSS de commun.css, ou toute couleur CSS
+// - graine : texte stable (ex. « /services/le-rebond:rb-1:0 ») → même forme à chaque chargement
+// - variante : facultative, choisie dans le CMS (0 à 6) ; sinon tirée de la graine
+import { dessinPinceau, pose, hasard } from '../lib/pinceau';
+
+interface Props { couleur?: string; graine: string; variante?: number | string | null; class?: string; opacite?: number; tourner?: boolean }
+const { couleur = 'rouge', graine, variante, class: classe = 'aplat', opacite = 0.55, tourner = true } = Astro.props;
+const v = variante === null || variante === undefined || variante === '' || variante === 'auto' ? undefined : Number(variante);
+const ps = pose(graine);
+const id = 'pinceau-' + Math.floor(hasard('id:' + graine).n() * 1e9).toString(36);
+const transforme = [
+  tourner ? `rotate(${ps.rotation} 200 130)` : '',
+  ps.miroirX ? 'translate(400 0) scale(-1 1)' : '',
+  ps.miroirY ? 'translate(0 260) scale(1 -1)' : '',
+].filter(Boolean).join(' ');
+const teinte = ['rouge', 'bleu', 'jaune', 'vert', 'encre', 'nuit', 'mauve'].includes(couleur) ? `var(--${couleur})` : couleur;
+const { defs, corps } = dessinPinceau(id, graine, v, teinte, transforme);
+---
+<svg class={classe} viewBox="0 0 400 260" preserveAspectRatio="none" aria-hidden="true" focusable="false" data-cote={ps.cote}>
+  <defs set:html={defs} />
+  <g opacity={opacite} set:html={corps} />
+</svg>

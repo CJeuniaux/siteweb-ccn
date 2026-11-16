@@ -1,0 +1,23 @@
+---
+// Icônes dessinées des modèles. Le CMS choisit l'icône par son nom.
+interface Props { nom: string }
+const { nom } = Astro.props;
+---
+{nom === 'coeur' && (
+  <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.3" stroke-linejoin="round" aria-hidden="true"><path d="M12 20s-7-4.4-7-10a4 4 0 0 1 7-2.6A4 4 0 0 1 19 10c0 5.6-7 10-7 10Z" /></svg>
+)}
+{nom === 'fleche' && (
+  <svg width="24" height="16" viewBox="0 0 26 18" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M2 9h21M16 2l7 7-7 7" /></svg>
+)}
+{nom === 'livre' && (
+  <svg width="54" height="46" viewBox="0 0 54 46" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M27 10C21 5 12 5 5 8v30c7-3 16-3 22 2 6-5 15-5 22-2V8c-7-3-16-3-22 2Z" /><path d="M27 10v30" /></svg>
+)}
+{nom === 'calendrier' && (
+  <svg width="50" height="46" viewBox="0 0 50 46" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="5" y="8" width="40" height="33" rx="5" /><path d="M5 17h40M15 4v8M35 4v8" /><path d="M14 25h3M24 25h3M34 25h3M14 33h3M24 33h3" /></svg>
+)}
+{nom === 'megaphone' && (
+  <svg width="56" height="46" viewBox="0 0 56 46" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M8 19v9l6 1 3 11h6l-2-10 17 7V10L14 18Z" /><path d="M46 14l5-4M47 23h6M46 32l5 4" /></svg>
+)}
+{nom === 'pousse' && (
+  <svg width="46" height="46" viewBox="0 0 46 46" fill="none" stroke="#86A873" stroke-width="2.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M23 42V22" /><path d="M23 24C12 24 7 17 7 8c10 0 16 5 16 16Z" /><path d="M23 22c0-9 5-14 15-14 0 9-5 14-15 14Z" /></svg>
+)}

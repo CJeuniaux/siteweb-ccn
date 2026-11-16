@@ -1,0 +1,119 @@
+[
+  {
+    "id": "p-accueil",
+    "adresse": "/",
+    "titre": "",
+    "description": "Les services de Comme Chez Nous et les contacts d’urgence à Charleroi.",
+    "theme": "rouge",
+    "ordre": 1,
+    "publie": true
+  },
+  {
+    "id": "p-services",
+    "adresse": "/services",
+    "titre": "Nos services",
+    "description": "Le Rebond, Chez Toît, Parent’Elle, Toudi Boudji et la Promotion de la santé : cinq services pour accompagner chaque personne vers une sortie durable de la rue.",
+    "theme": "nuit",
+    "ordre": 2,
+    "publie": true
+  },
+  {
+    "id": "p-association",
+    "adresse": "/association",
+    "titre": "L’association",
+    "description": "Accueil et accompagnement à Charleroi depuis 1995.",
+    "theme": "rouge",
+    "ordre": 3,
+    "publie": true
+  },
+  {
+    "id": "p-soutenir",
+    "adresse": "/soutenir",
+    "titre": "Nous aider",
+    "description": "Don, don en nature, bénévolat, mécénat ou partenariat : toutes les façons de soutenir l’accueil inconditionnel de Comme Chez Nous à Charleroi.",
+    "theme": "rouge",
+    "ordre": 4,
+    "publie": true
+  },
+  {
+    "id": "p-don",
+    "adresse": "/soutenir/don",
+    "titre": "Faire un don",
+    "description": "Faites un don à Comme Chez Nous : il finance l’accueil, l’accompagnement et le projet de reconstruction. Virement simple, déductible fiscalement.",
+    "theme": "rouge",
+    "ordre": 5,
+    "publie": true
+  },
+  {
+    "id": "p-nature",
+    "adresse": "/soutenir/don-en-nature",
+    "titre": "Donner en nature",
+    "description": "Vêtements, hygiène, matériel : ce qui dort chez vous peut servir ici. Découvrez les besoins de Comme Chez Nous et comment déposer vos dons.",
+    "theme": "rouge",
+    "ordre": 6,
+    "publie": true
+  },
+  {
+    "id": "p-benevolat",
+    "adresse": "/soutenir/benevolat",
+    "titre": "Devenir bénévole",
+    "description": "",
+    "theme": "rouge",
+    "ordre": 7,
+    "publie": true
+  },
+  {
+    "id": "p-partenariat",
+    "adresse": "/soutenir/partenariat",
+    "titre": "Devenir partenaire",
+    "description": "",
+    "theme": "rouge",
+    "ordre": 8,
+    "publie": true
+  },
+  {
+    "id": "p-contact",
+    "adresse": "/contact",
+    "titre": "Contact",
+    "description": "Contacter Comme Chez Nous à Charleroi : téléphone, e-mail, adresse et formulaire. Une question, une demande ou un projet ? La porte est ouverte.",
+    "theme": "bleu",
+    "ordre": 9,
+    "publie": true
+  },
+  {
+    "id": "p-aide",
+    "adresse": "/aide",
+    "titre": "J’ai besoin d’aide à Charleroi",
+    "description": "Où trouver de l’aide à Charleroi : accueils de jour, hébergement, repas, soins, logement. Carte des lieux et numéros d’urgence, 24 h/24.",
+    "theme": "rouge",
+    "ordre": 10,
+    "publie": true
+  },
+  {
+    "id": "p-partenaires",
+    "adresse": "/partenaires",
+    "titre": "Partenaires & soutiens",
+    "description": "Les partenaires et soutiens de Comme Chez Nous : pouvoirs publics, fondations et associations qui rendent l’accompagnement possible à Charleroi.",
+    "theme": "nuit",
+    "ordre": 11,
+    "publie": true
+  },
+  {
+    "id": "p-confidentialite",
+    "adresse": "/confidentialite",
+    "titre": "Vie privée & cookies",
+    "description": "Vie privée sur le site de Comme Chez Nous : données recueillies par les formulaires, durées de conservation, vos droits et cookies.",
+    "theme": "nuit",
+    "ordre": 12,
+    "publie": true
+  },
+  {
+    "id": "p-actualites",
+    "adresse": "/actualites",
+    "titre": "Actualités & ressources",
+    "description": "Actualités, publications, projets et événements de Comme Chez Nous à Charleroi : suivez la vie de l’association et de ses services.",
+    "theme": "bleu",
+    "ordre": 13,
+    "publie": true
+  }
+]

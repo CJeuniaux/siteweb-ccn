@@ -1,0 +1,38 @@
+---
+import Media from './Media.astro';
+import Logo from './Logo.astro';
+import { reglages, menu } from '../lib/contenu';
+import Icone from './Icone.astro';
+
+const r = await reglages();
+const services = await menu('pied_services');
+const pratique = await menu('pied_pratique');
+const don = (await menu('boutons')).find((b) => b.icone === 'coeur');
+const tel = (r.telephone ?? '').replace(/\D/g, '');
+---
+<footer><div class="wrap">
+  <div class="cols">
+    <div>
+      <a class="brand" href="/" aria-label={`${r.nom}, accueil`}><Logo nom={r.nom} /></a>{r.sous_nom && <p class="sous-nom">{r.sous_nom}</p>}
+      {r.slogan && <p class="slogan">{r.slogan}</p>}
+      {don && <a class="btn plein" href={don.lien}>{don.libelle} <Icone nom="fleche" /></a>}
+    </div>
+    <div><h2>{r.pied_titre_services}</h2><ul>
+      {services.map((m) => <li><a href={m.lien}>{m.libelle}</a></li>)}
+    </ul></div>
+    <div><h2>{r.pied_titre_trouver}</h2><ul>
+      <li>{r.adresse_ligne1}<br />{r.adresse_ligne2}</li>
+      {r.telephone && <li><a href={`tel:${tel}`}>{r.telephone}</a></li>}
+      {r.email && <li><a href={`mailto:${r.email}`}>{r.email}</a></li>}
+    </ul></div>
+    <div><h2>{r.pied_titre_pratique}</h2><ul>
+      {pratique.map((m) => <li><a href={m.lien}>{m.libelle}</a></li>)}
+    </ul></div>
+  </div>
+  {(r.phrase_fin || r.credit_lien) && <div class="bas">
+    {r.phrase_fin && <p>{r.phrase_fin}</p>}
+    {r.credit_lien && <a class="credit" href={r.credit_lien} target="_blank" rel="noopener" title={r.credit_libelle} aria-label={r.credit_libelle}>
+      {r.credit_logo && <Media ref={r.credit_logo} alt="" width="32" height="32" />}
+    </a>}
+  </div>}
+</div></footer>

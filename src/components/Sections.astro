@@ -1,0 +1,624 @@
+---
+import Media from './Media.astro';
+// Affiche les sections d'une page, dans l'ordre du CMS. Chaque type de bloc a sa mise en page ;
+// les textes et images viennent tous du CMS.
+import { lire, reglages, services as tousServices } from '../lib/contenu';
+import Icone from './Icone.astro';
+import Lignes from './Lignes.astro';
+import QRCode from 'qrcode';
+import CarteAide from './CarteAide.astro';
+import CarteArticle from './CarteArticle.astro';
+import Visuel from './Visuel.astro';
+import Trait from './Trait.astro';
+import ServiceLockup from './ServiceLockup.astro';
+import { FORMULAIRES_ACTIFS } from '../lib/etat';
+
+interface Props { sections: Record<string, any>[]; /** couleur de l'axe (pages de service) */ axe?: string }
+const { sections, axe } = Astro.props;
+// Couleur d'une section : son thème s'il est une couleur d'axe, sinon l'axe de la page de service,
+// sinon une couleur tournante (deux sections voisines n'ont jamais la même).
+const AXES = ['rouge', 'bleu', 'jaune', 'vert', 'mauve'];
+const teinteDe = (c: Record<string, any>, i: number) => (AXES.includes(c.theme) ? c.theme : axe && AXES.includes(axe) ? axe : AXES.slice(0, 4)[i % 4]);
+const g = (s: Record<string, any>, k: string | number = 0) => `${s.page}:${s.id}:${k}`;
+const r = await reglages();
+const services = await tousServices();
+const tel = (t?: string) => (t ?? '').replace(/\D/g, '');
+const svc = (slug?: string) => services.find((s) => s.slug === slug);
+
+// Données liées, chargées une fois
+const chiffres = await lire('chiffres');
+const graphiques = await lire('graphiques');
+const temoignages = await lire('temoignages');
+const partenaires = await lire('partenaires');
+const reperes = await lire('reperes');
+const valeurs = await lire('valeurs');
+const equipe = await lire('equipe');
+const numeros = await lire('numeros_utiles');
+const urgences = numeros.filter((n) => n.emplacement === 'bandeau');
+const projet = await lire('projet');
+const articles = await lire('articles');
+const champs = await lire('formulaires_champs');
+const themes = ['rouge', 'bleu', 'jaune', 'vert'];
+// QR code de virement SEPA (norme EPC), fabriqué à partir de l'IBAN et du bénéficiaire saisis dans le CMS
+const ibanCompact = (r.iban ?? '').replace(/\s/g, '');
+const qrVirement = ibanCompact
+  ? await QRCode.toString(['BCD', '002', '1', 'SCT', '', r.beneficiaire ?? '', ibanCompact, '', '', '', ''].join('\n'),
+      { type: 'svg', errorCorrectionLevel: 'M', margin: 1, color: { dark: '#121B30', light: '#FFFFFF' } })
+  : '';
+const serviceDe = (slug?: string) => services.find((x) => x.slug === slug);
+const btnClasse = (style?: string) => `btn ${style ?? 'plein'}`;
+// Coordonnées de Comme Chez Nous : un seul réglage du CMS, réutilisé partout (une ligne marquée « reglage » le lit)
+const adresseCCN = [r.adresse_ligne1, r.adresse_ligne2].filter(Boolean).join(', ');
+const coord = (l: any): { valeur: string; lien: string } => {
+  if (l.reglage === 'telephone') return { valeur: r.telephone ?? '', lien: r.telephone ? `tel:${tel(r.telephone)}` : '' };
+  if (l.reglage === 'email') return { valeur: r.email ?? '', lien: r.email ? `mailto:${r.email}` : '' };
+  if (l.reglage === 'adresse') return { valeur: adresseCCN, lien: adresseCCN ? `https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(adresseCCN)}` : '' };
+  return { valeur: l.valeur ?? l.texte ?? '', lien: l.lien ?? '' };
+};
+---
+{sections.map(async (s, iSection) => {
+  const c = s.contenu ?? {};
+  const teinte = teinteDe(c, iSection);
+  const surStyle = c.theme ? `--c:var(--${c.theme})` : undefined;
+  switch (s.type) {
+    case 'accueil_hero': return (
+      <section class="hero">
+        <div class="wrap hero-grille">
+          <div class="hero-txt">
+            <h1><Lignes texte={c.titre} /></h1>
+            {c.texte && <p class="chapo">{c.texte}</p>}
+            <div class="cta">
+              {(c.boutons ?? []).map((b: any) => <a class={btnClasse(b.style)} href={b.lien}>{b.libelle} {b.icone === 'fleche' && <Icone nom="fleche" />}</a>)}
+            </div>
+          </div>
+          <div class="hero-visuel">
+            <Trait variante="eclat" graine={g(s, 'eclat')} couleur={teinte} class="accent-eclat" />
+            {c.portrait && <Visuel class="hero-portrait" ref={c.portrait} alt={c.portrait_alt ?? ''} graine={g(s, 'portrait')} couleur={teinte} loading="eager" aplat={c.aplat ?? false} contour={c.trait !== false} />}
+          </div>
+        </div>
+      </section>
+    );
+
+    case 'aide_rapide': return (
+      <section class="bloc serre"><div class="wrap"><div class="aide-rapide">
+        <h2>{c.titre}</h2>
+        <ul>
+          {urgences.map((n) => <li><a class="num" href={`tel:${n.tel}`}>{n.libelle}{' '}<b>{n.numero}</b></a></li>)}
+          {r.telephone && <li><a href={`tel:${tel(r.telephone)}`}>{r.telephone}</a></li>}
+          {r.email && <li><a href={`mailto:${r.email}`}>{r.email}</a></li>}
+          <li>{r.adresse_ligne1}, {r.adresse_ligne2}</li>
+        </ul>
+      </div></div></section>
+    );
+
+    case 'grille_services': {
+      const tous = services;
+      return (
+        <section class="services-accueil">
+          <div class="wrap">
+            <div class="sec-tete">
+              <h2>{c.titre}</h2>
+              {c.intro && <p>{c.intro}</p>}
+            </div>
+            <div class="bande">
+              <ul class="lockups">
+                {tous.map((x) => (
+                  <li><a class={`service t-${x.theme}`} href={`/services/${x.slug}`}>
+                    <ServiceLockup service={x.slug} theme={x.theme} picto={x.picto} />
+                    <h3><span class="nom-souligne">{x.nom}<Trait variante="souligne" graine={`survol:${x.slug}`} couleur={x.theme} class="souligne-survol" /></span></h3>
+                    <p>{x.sous_titre}</p>
+                    <Icone nom="fleche" />
+                  </a></li>
+                ))}
+              </ul>
+            </div>
+          </div>
+        </section>
+      );
+    }
+
+    case 'liens_actus': return (
+      <section class="actus"><div class="wrap">
+        <h2 class="actus-titre"><Lignes texte={c.etiquette} /></h2>
+        <div class="liens">
+          {(c.liens ?? []).map((l: any) => <a href={l.lien}><span>{l.icone && <Icone nom={l.icone} />}</span><span><Lignes texte={l.libelle} /></span></a>)}
+        </div>
+      </div></section>
+    );
+
+    case 'tete': return (
+      <section class={`tete${c.image ? '' : ' sans-image'}`}><div class="wrap">
+        <div>
+          {c.sur && <span class="sur" style={surStyle}>{c.sur}</span>}
+          <h1>{c.titre}</h1>
+          {c.accroche && <p class="accroche">{c.accroche}</p>}
+          {c.chapo && <p class="chapo" style={c.accroche ? undefined : 'margin-top:20px'}>{c.chapo}</p>}
+          {c.boutons?.length > 0 && <div class="cta">{c.boutons.map((b: any) => <a class={btnClasse(b.style)} href={b.lien}>{b.libelle} {b.icone && <Icone nom={b.icone} />}</a>)}</div>}
+        </div>
+        {c.image && <div class="visuel"><Visuel class="ph" ref={c.image} alt={c.image_alt ?? ''} graine={g(s, 'image')} couleur={teinte} loading="eager" aplat={c.aplat ?? false} contour={c.trait !== false} /></div>}
+      </div>
+      </section>
+    );
+
+    case 'rangs_services': return (
+      <section class="bloc serre"><div class="wrap">
+        {c.titre && <h2 class="h2">{c.titre}</h2>}
+        {c.intro && <p class="intro">{c.intro}</p>}
+        {(c.rangs ?? []).map((rg: any, i: number, tous: any[]) => {
+          const x = serviceDe(rg.service);
+          if (!x) return null;
+          return <>
+            <div class={`rang t-${x.theme}`}>
+              <div class="txt">
+                <ServiceLockup service={x.slug} theme={x.theme} picto={x.picto} />
+                <h2>{x.nom}</h2>
+                {x.accroche && <p class="accroche">{x.accroche}</p>}
+                {rg.texte && <p>{rg.texte}</p>}
+                <a class="btn plein" href={`/services/${x.slug}`}>{c.bouton} <Icone nom="fleche" /></a>
+              </div>
+              {!rg.image && <div class="visuel visuel-trait" aria-hidden="true"><Trait variante="boucle-droite" graine={g(s, `${rg.service}:trait`)} couleur={x.theme} epaisseur={6} /></div>}
+              {rg.image && <div class="visuel"><Visuel class="ph" ref={rg.image} alt={rg.image_alt ?? ''} graine={g(s, rg.service)} couleur={x.theme} loading="lazy" aplat={rg.aplat ?? false} contour={rg.trait !== false} /></div>}
+            </div>
+          </>;
+        })}
+      </div></section>
+    );
+
+    case 'deux_colonnes': return (
+      <section class="bloc"><div class="wrap duo">
+        {(c.colonnes ?? []).map((col: any) => (
+          <div>
+            {col.sur && <span class="sur" style={col.theme ? `--c:var(--${col.theme})` : undefined}>{col.sur}</span>}
+            {col.titre && <h2 class="h2">{col.titre}</h2>}
+            {(col.paragraphes ?? []).map((p: string) => <p>{p}</p>)}
+            {col.liste?.length > 0 && <ul class="coches">{col.liste.map((l: string) => <li>{l}</li>)}</ul>}
+            {col.signature && <p class="signature">{col.signature}</p>}
+          </div>
+        ))}
+      </div></section>
+    );
+
+    case 'reperes': return reperes.length > 0 && (
+      <section class="bloc serre"><div class="wrap">
+        {c.sur && <span class="sur">{c.sur}</span>}
+        {c.titre && <h2 class="h2">{c.titre}</h2>}
+        {c.intro && <p class="intro">{c.intro}</p>}
+        <ol class="reperes">
+          {reperes.map((x, i) => <li class={`t-${themes[i % themes.length]}`}><b>{x.annee}</b><span>{x.texte}</span></li>)}
+        </ol>
+      </div></section>
+    );
+
+    case 'valeurs': return valeurs.length > 0 && (
+      <section class="bloc"><div class="wrap">
+        {c.sur && <span class="sur">{c.sur}</span>}
+        {c.titre && <h2 class="h2">{c.titre}</h2>}
+        <div class="valeurs">
+          {valeurs.map((v, i) => <div class={`valeur t-${themes[i % themes.length]}`}>{v.numero && <i>{v.numero}</i>}<h3>{v.nom}</h3><p>{v.texte}</p></div>)}
+        </div>
+      </div></section>
+    );
+
+    case 'equipe': return (
+      <section class="bloc"><div class="wrap duo photo">
+        <div>
+          {c.sur && <span class="sur" style="--c:var(--bleu)">{c.sur}</span>}
+          {c.titre && <h2 class="h2">{c.titre}</h2>}
+          {(c.paragraphes ?? []).map((p: string) => <p>{p}</p>)}
+          {equipe.length > 0 && (
+            <ul class="equipe">
+              {equipe.map((m) => <li>{m.photo && <Media ref={m.photo} alt={m.photo_alt ?? ''} loading="lazy" />}<b>{m.nom}</b>{m.fonction && <span>{m.fonction}</span>}</li>)}
+            </ul>
+          )}
+          {(c.boutons ?? []).map((b: any) => <a class={btnClasse(b.style)} href={b.lien}>{b.libelle} {b.icone && <Icone nom={b.icone} />}</a>)}
+        </div>
+        {c.image && <Visuel class="ph" ref={c.image} alt={c.image_alt ?? ''} graine={g(s, 'image')} couleur={teinte} loading="lazy" aplat={c.aplat ?? false} contour={c.trait !== false} />}
+      </div></section>
+    );
+
+    case 'partenaires': {
+      const liste = partenaires.filter((p) => !c.type || p.type === c.type);
+      return liste.length > 0 && (
+        <section class="bloc serre"><div class="wrap">
+          {c.sur && <span class="sur">{c.sur}</span>}
+          {c.titre && <h2 class="h2">{c.titre}</h2>}
+          {c.intro && <p class="intro">{c.intro}</p>}
+          <ul class={`parts${liste.some((p) => p.logo) ? ' avec-logos' : ''}`}>
+            {liste.map((p) => {
+              const contenu = p.logo ? <Media class="logo-partenaire" ref={p.logo} alt={p.nom} loading="lazy" /> : <span>{p.nom}</span>;
+              return <li>{p.site ? <a href={p.site} target="_blank" rel="noopener" aria-label={p.logo ? `${p.nom} (nouvel onglet)` : undefined}>{contenu}</a> : contenu}</li>;
+            })}
+          </ul>
+        </div></section>
+      );
+    }
+
+    case 'duo': return (
+      <section class="bloc"><div class="wrap">
+        {c.sur && <span class="sur">{c.sur}</span>}
+        <div class="duo">
+          {(c.colonnes ?? []).map((col: any) => (
+            <div>
+              {col.etiquette && <p class="etiq" style={col.pinceau ? `--c:var(--${col.pinceau})` : undefined}>{col.etiquette}</p>}
+              {col.titre && <h3 class="h3">{col.titre}</h3>}
+              {(col.paragraphes ?? []).map((p: string) => <p>{p}</p>)}
+              {col.liste?.length > 0 && <ul class="coches">{col.liste.map((l: string) => <li>{l}</li>)}</ul>}
+            </div>
+          ))}
+        </div>
+      </div></section>
+    );
+
+    case 'etapes': return (
+      <section class="bloc serre"><div class="wrap">
+        <div class={c.image ? 'duo photo' : ''}>
+          <div>
+            <h2 class="h2">{c.titre}</h2>
+            {(c.paragraphes ?? []).map((p: string) => <p class="intro">{p}</p>)}
+          </div>
+          {c.image && <Visuel class="ph" ref={c.image} alt={c.image_alt ?? ''} graine={g(s, 'image')} couleur={teinte} loading="lazy" aplat={c.aplat ?? false} contour={c.trait !== false} />}
+        </div>
+        <ol class="etapes">
+          {(c.etapes ?? []).map((e: any, i: number) => <li><i>{i + 1}</i><b>{e.titre}</b>{e.texte && <span>{e.texte}</span>}</li>)}
+        </ol>
+      </div></section>
+    );
+
+    case 'texte':
+    case 'texte_image': return (
+      <section class="bloc serre"><div class="wrap">
+        <div class={c.image ? `duo photo${c.image_position === 'gauche' ? ' image-gauche' : ''}` : 'texte'}>
+          <div>
+            {c.sur && <span class="sur" style={surStyle}>{c.sur}</span>}
+            {c.titre && <h2 class="h2">{c.titre}</h2>}
+            {(c.paragraphes ?? []).map((p: string) => <p class="intro">{p}</p>)}
+            {c.liste?.length > 0 && (
+              <ul class={`${c.liste_style === 'coches' ? 'coches' : 'puces'}${c.colonnes === 2 ? ' deux' : ''}`}>
+                {c.liste.map((l: string) => <li>{l}</li>)}
+              </ul>
+            )}
+            {c.apres_liste && <p class="intro" style="margin-top:18px">{c.apres_liste}</p>}
+            {c.sous_titre && <h3 class="h3" style="margin-top:28px">{c.sous_titre}</h3>}
+            {c.sous_texte && <p>{c.sous_texte}</p>}
+            {c.coordonnees && (adresseCCN || r.email || r.telephone) && (
+              <p class="coordonnees-bloc">{r.nom}{adresseCCN && <><br />{adresseCCN}</>}{r.telephone && <><br /><a href={`tel:${tel(r.telephone)}`}>{r.telephone}</a></>}{r.email && <><br /><a href={`mailto:${r.email}`}>{r.email}</a></>}</p>
+            )}
+            {c.boutons?.length > 0 && <div class="cta-bloc">{c.boutons.map((b: any) => <a class={btnClasse(b.style)} href={b.lien}>{b.libelle} {b.icone && <Icone nom={b.icone} />}</a>)}</div>}
+          </div>
+          {c.image && <Visuel class="ph" ref={c.image} alt={c.image_alt ?? ''} graine={g(s, 'image')} couleur={teinte} loading="lazy" aplat={c.aplat ?? false} contour={c.trait !== false} />}
+        </div>
+      </div></section>
+    );
+
+    case 'donnees_formulaires': {
+      // Données recueillies : les champs viennent directement de la définition des formulaires (jamais recopiés)
+      const lignes = (c.formulaires ?? []).map((f: any) => ({ ...f, champs: champs.filter((x) => x.formulaire === f.formulaire).map((x) => x.libelle) })).filter((f: any) => f.champs.length);
+      return lignes.length > 0 && (
+        <section class="bloc serre"><div class="wrap texte">
+          {c.sur && <span class="sur">{c.sur}</span>}
+          {c.titre && <h2 class="h2">{c.titre}</h2>}
+          {c.intro && <p class="intro">{c.intro}</p>}
+          <div class="table-defile"><table class="tableau-donnees">
+            <thead><tr><th scope="col"></th><th scope="col">{c.libelle_champs}</th><th scope="col">{c.libelle_duree}</th></tr></thead>
+            <tbody>{lignes.map((f: any) => <tr><th scope="row">{f.nom}{f.but && <small>{f.but}</small>}</th><td>{f.champs.join(', ')}</td><td>{f.duree}</td></tr>)}</tbody>
+          </table></div>
+          {c.note && <p class="note">{c.note}</p>}
+        </div></section>
+      );
+    }
+
+    case 'cartes_texte': {
+      const cartes = c.cartes ?? [];
+      return (
+        <section class="bloc serre"><div class="wrap">
+          {c.sur && <span class="sur" style={surStyle}>{c.sur}</span>}
+          {c.titre && <h2 class="h2">{c.titre}</h2>}
+          {c.intro && <p class="intro">{c.intro}</p>}
+          <div class={`valeurs${cartes.length === 3 ? ' trois' : ''}`}>
+            {cartes.map((k: any, i: number) => (
+              <div class={`valeur t-${themes[i % themes.length]}`}>
+                {c.numeros && <i>{String(i + 1).padStart(2, '0')}</i>}
+                {k.titre && <h3>{k.titre}</h3>}
+                {k.texte && <p>{k.texte}</p>}
+              </div>
+            ))}
+          </div>
+        </div></section>
+      );
+    }
+
+    case 'cartes_liens': {
+      const cartes = c.cartes ?? [];
+      return (
+        <section class="bloc serre"><div class="wrap">
+          {c.sur && <span class="sur" style={surStyle}>{c.sur}</span>}
+          {c.titre && <h2 class="h2">{c.titre}</h2>}
+          <div class={`cartes-liens n${Math.min(cartes.length, 5)}`}>
+            {cartes.map((k: any, i: number) => (
+              <a class={`carte-lien t-${themes[i % themes.length]}`} href={k.lien}>
+                {k.image && <Visuel class="carte-photo" ref={k.image} alt={k.image_alt ?? ''} graine={g(s, `carte:${i}`)} couleur={themes[i % themes.length]} loading="lazy" />}
+                <h3>{k.titre}</h3>
+                {k.texte && <p>{k.texte}</p>}
+                {k.bouton && <span class="plus">{k.bouton} <Icone nom="fleche" /></span>}
+              </a>
+            ))}
+          </div>
+        </div></section>
+      );
+    }
+
+    case 'carte_aide': return <CarteAide c={c} />;
+
+    case 'liste_articles': {
+      const presentes = [...new Set(articles.map((a) => a.categorie))];
+      const categories = [...(c.categories ?? []), ...presentes.filter((x) => !(c.categories ?? []).includes(x))];
+      return (
+        <section class="bloc serre liste-articles"><div class="wrap">
+          {articles.length > 1 && (
+            <div class="filtres" role="group" aria-label={c.libelle_filtres}>
+              <button type="button" class="filtre actif" data-cat="" aria-pressed="true">{c.bouton_tout}</button>
+              {categories.map((cat: string) => <button type="button" class="filtre" data-cat={cat} aria-pressed="false" disabled={!presentes.includes(cat)}>{cat}</button>)}
+            </div>
+          )}
+          <div class="articles">
+            {articles.map((a, i) => <CarteArticle a={a} lire={r.article_lire_carte} mentionExemple={r.article_mention_exemple} index={i} />)}
+          </div>
+        </div></section>
+      );
+    }
+
+    case 'numeros': {
+      const liste = numeros.filter((n) => n.emplacement === (c.emplacement ?? 'aide'));
+      return liste.length > 0 && (
+        <section class="bloc serre"><div class="wrap"><div class="infos numeros">
+          <div>
+            {c.sur && <span class="sur">{c.sur}</span>}
+            {c.titre && <h2>{c.titre}</h2>}
+          </div>
+          <ul>
+            {liste.map((n) => <li><a href={`tel:${n.tel}`}><span>{n.libelle}</span> <b>{n.numero}</b></a>{n.precision && <small>{n.precision}</small>}</li>)}
+          </ul>
+        </div></div></section>
+      );
+    }
+
+    case 'fiches': return (
+      <section class="bloc serre"><div class="wrap">
+        {c.titre && <h2 class="h2">{c.titre}</h2>}
+        {c.intro && <p class="intro">{c.intro}{(c.telephone || r.telephone) && <>{' '}<a class="tel-fiche" href={`tel:${c.tel || tel(c.telephone || r.telephone)}`}>{c.telephone || r.telephone}</a></>}</p>}
+        <div class="valeurs fiches">
+          {(c.fiches ?? []).map((f0: any, i: number) => { const f = { ...f0, ...(f0.reglage ? { texte: coord(f0).valeur, lien: f0.lien || coord(f0).lien } : {}) }; return (
+            <div class={`valeur t-${themes[i % themes.length]}`}>
+              <h3>{f.titre}</h3>
+              {f.texte && <p>{f.texte}</p>}
+              {f.lien && f.lien_libelle && <a class="plus" href={f.lien}>{f.lien_libelle} <Icone nom="fleche" /></a>}
+            </div>
+          ); })}
+        </div>
+      </div></section>
+    );
+
+    case 'virement': return (ibanCompact || c.communication || r.attestation) && (
+      <section class="bloc" id="virement"><div class="wrap"><div class="virement">
+        <div>
+          {c.sur && <span class="sur">{c.sur}</span>}
+          <h2 class="h2">{c.titre}</h2>
+          {ibanCompact && <dl>
+            <dt>{c.libelle_iban}</dt>
+            <dd class="iban" data-iban={ibanCompact}>{r.iban}</dd>
+            {r.beneficiaire && <><dt class="sr">{c.libelle_beneficiaire}</dt><dd>{c.libelle_beneficiaire} : {r.beneficiaire}</dd></>}
+          </dl>}
+          {ibanCompact && c.bouton_copier && <button type="button" class="btn plein copier-iban" data-ok={c.copie_ok}>{c.bouton_copier}</button>}
+          {c.communication && <p class="note">{c.communication}</p>}
+          {r.attestation && <div class="bon"><h3>{c.bon_a_savoir_titre}</h3><p>{r.attestation}</p></div>}
+        </div>
+        {(r.qr_code || qrVirement) && (
+          <figure class="qr">
+            {r.qr_code ? <Media ref={r.qr_code} alt={c.qr_alt ?? ''} /> : <div role="img" aria-label={c.qr_alt ?? ''} set:html={qrVirement} />}
+            {c.qr_legende && <figcaption>{c.qr_legende}</figcaption>}
+          </figure>
+        )}
+      </div></div></section>
+    );
+
+    case 'budget': {
+      const lignes = projet.filter((p) => p.type === 'budget');
+      return (
+        <section class="bloc serre"><div class="wrap">
+          {c.sur && <span class="sur">{c.sur}</span>}
+          {c.titre && <h2 class="h2">{c.titre}</h2>}
+          {(c.paragraphes ?? []).map((p: string) => <p class="intro">{p}</p>)}
+          {lignes.length > 0 && (
+            <ul class="budget">
+              {lignes.map((l) => <li><b>{l.montant}</b><span>{l.description}</span>{l.lien && c.bouton && <a href={l.lien}>{c.bouton} <Icone nom="fleche" /></a>}</li>)}
+            </ul>
+          )}
+          {c.note && <p class="note">{c.note}</p>}
+          {c.bon_a_savoir && <div class="bon"><h3>{c.bon_a_savoir_titre}</h3><p>{c.bon_a_savoir}</p></div>}
+        </div></section>
+      );
+    }
+
+    case 'projet': {
+      const liste = projet.filter((p) => p.type === c.type);
+      return liste.length > 0 && (
+        <section class="bloc serre"><div class="wrap">
+          {c.sur && <span class="sur">{c.sur}</span>}
+          {c.titre && <h2 class="h2">{c.titre}</h2>}
+          {c.sous_titre && <p class="intro">{c.sous_titre}</p>}
+          <div class={`valeurs${liste.length === 3 ? ' trois' : ''}`}>
+            {liste.map((p, i) => <div class={`valeur t-${themes[i % themes.length]}`}>{p.montant && <i>{p.montant}</i>}<h3>{p.titre}</h3>{p.description && <p>{p.description}</p>}</div>)}
+          </div>
+        </div></section>
+      );
+    }
+
+    case 'formulaire': {
+      const liste = champs.filter((f) => f.formulaire === c.formulaire);
+      const id = (n: string) => `${c.formulaire}-${n}`;
+      return liste.length > 0 && (
+        <section class="bloc"><div class="wrap duo formulaire-bloc">
+          <div>
+            {c.sur && <span class="sur">{c.sur}</span>}
+            {c.encart_titre && <h2 class="h2">{c.encart_titre}</h2>}
+            {c.encart_texte && <p>{c.encart_texte}</p>}
+            {c.encart_lignes?.length > 0 && (
+              <dl class="coordonnees">
+                {c.encart_lignes.map((l: any) => { const v = coord(l); return v.valeur && <><dt>{l.libelle}</dt><dd>{v.lien ? <a href={v.lien}>{v.valeur}</a> : v.valeur}</dd></>; })}
+              </dl>
+            )}
+            {c.encart_boutons?.length > 0 && <div class="cta-bloc">{c.encart_boutons.map((b: any) => <a class={btnClasse(b.style)} href={b.lien}>{b.libelle}</a>)}</div>}
+          </div>
+          <form class="formulaire" data-formulaire={c.formulaire} data-envoye={c.message_envoye} data-erreur={c.message_erreur} data-invalide={c.message_invalide} data-inactif={FORMULAIRES_ACTIFS ? undefined : 'oui'} novalidate>
+            <h2>{c.titre}</h2>
+            {!FORMULAIRES_ACTIFS && (
+              <p class="formulaire-inactif" role="note">Formulaire en cours d’installation, écrivez-nous à <a href={`mailto:${r.email}`}>{r.email}</a></p>
+            )}
+            {c.intro && <p>{c.intro}</p>}
+            <fieldset class="champs" disabled={!FORMULAIRES_ACTIFS}>
+            {liste.map((f) => f.type === 'cases' ? (
+              <fieldset>
+                <legend>{f.libelle}{f.obligatoire && <span aria-hidden="true"> *</span>}</legend>
+                <div class="cases">{(f.choix ?? []).map((ch: string, i: number) => <label><input type="checkbox" name={f.nom} value={ch} /> {ch}</label>)}</div>
+              </fieldset>
+            ) : (
+              <div class="champ">
+                <label for={id(f.nom)}>{f.libelle}{f.obligatoire && <span aria-hidden="true"> *</span>}</label>
+                {f.type === 'texte_long'
+                  ? <textarea id={id(f.nom)} name={f.nom} rows="5" required={f.obligatoire}></textarea>
+                  : <input id={id(f.nom)} name={f.nom} type={f.type === 'email' ? 'email' : f.type === 'telephone' ? 'tel' : 'text'} required={f.obligatoire} autocomplete={f.type === 'email' ? 'email' : f.type === 'telephone' ? 'tel' : f.nom === 'name' ? 'name' : undefined} />}
+                {f.aide && <small>{f.aide}</small>}
+              </div>
+            ))}
+            {/* Champ piège anti-spam (invisible pour les visiteurs) */}
+            <div class="piege" aria-hidden="true"><label>Ne pas remplir<input type="text" name="site_web" tabindex="-1" autocomplete="off" /></label></div>
+            <button type="submit" class="btn plein">{c.bouton}</button>
+            </fieldset>
+            <p class="etat" role="status" aria-live="polite"></p>
+          </form>
+        </div></section>
+      );
+    }
+
+    case 'chiffres': {
+      const liste = chiffres.filter((k) => k.contexte === c.contexte && (!c.service || k.service === c.service));
+      return liste.length > 0 && (
+        <section class="bloc serre"><div class="wrap">
+          {c.sur && <span class="sur">{c.sur}</span>}
+          {c.titre && <h2 class="h2">{c.titre}</h2>}
+          <div class={`chiffres${c.service ? ' axe' : ''}`}>
+            {liste.map((k) => {
+              // L'année n'est pas répétée si le titre ou la légende la donne déjà (ex. « … en chiffres (2023) »)
+              const annees = String(k.annee ?? '').match(/\d{4}/g) ?? [];
+              const deja = annees.length > 0 && annees.every((a: string) => `${c.titre ?? ''} ${k.libelle ?? ''}`.includes(a));
+              const valeur = String(k.valeur ?? '').replace(/ /g, ' ');
+              return (
+                <div class="chiffre">
+                  <b class={valeur.length > 7 ? 'long' : undefined}>{valeur}</b>
+                  <span>{k.libelle}{k.annee && !deja && <> · {k.annee}</>}</span>
+                </div>
+              );
+            })}
+          </div>
+        </div></section>
+      );
+    }
+
+    case 'graphique': {
+      const donnees = graphiques.filter((g) => g.service === c.service && g.graphique === c.graphique);
+      const max = Math.max(...donnees.map((d) => Number(d.valeur) || 0), 1);
+      const fmt = (v: number) => v.toLocaleString('fr-BE');
+      return donnees.length > 0 && (
+        <section class="bloc serre"><div class="wrap">
+          {c.titre && <h2 class="h2">{c.titre}</h2>}
+          {(c.paragraphes ?? []).map((p: string) => <p class="intro">{p}</p>)}
+          <ul class={`barres${c.service ? ' axe' : ''}`}>
+            {donnees.map((d) => (
+              <li><span class="lib">{d.libelle}</span><span class="b" style={`--v:${(Number(d.valeur) / max) * 100}%`}></span><b>{fmt(Number(d.valeur))}</b></li>
+            ))}
+          </ul>
+          {c.note && <p class="note">{c.note}</p>}
+        </div></section>
+      );
+    }
+
+    case 'temoignages': {
+      const liste = temoignages.filter((t) => t.service === c.service);
+      return liste.length > 0 && (
+        <section class="bloc serre"><div class="wrap">
+          {c.titre && <h2 class="h2">{c.titre}</h2>}
+          <div class="temoins">
+            {liste.map((t) => <figure class="temoin"><blockquote><p>{t.texte}</p></blockquote><figcaption>{t.auteur}</figcaption></figure>)}
+          </div>
+        </div></section>
+      );
+    }
+
+    case 'infos': {
+      const v = svc(c.service);
+      if (!v) return null;
+      return (
+        <section class="bloc" id="infos"><div class="wrap"><div class="infos">
+          <div>
+            <h2>{r.infos_titre}</h2>
+            {v.horaires?.length > 0 && (
+              <table class="horaires">
+                {v.horaires.map((h: any) => <tr>{h.jours ? <th>{h.jours}</th> : null}<td colspan={h.jours ? undefined : 2}>{h.heures}</td></tr>)}
+              </table>
+            )}
+            {v.contact && <p style="margin-top:16px">{v.contact}</p>}
+          </div>
+          <div>
+            <h3>{r.infos_titre_adresse}</h3>
+            <p>{r.adresse_ligne1}<br />{r.adresse_ligne2}</p>
+            {(v.telephone || r.telephone) && <>
+              <h3>{r.infos_titre_tel}</h3>
+              <a class="tel" href={`tel:${tel(v.telephone || r.telephone)}`}>{v.telephone || r.telephone}</a>
+            </>}
+            {r.infos_lien_ecrire && <a class="lien" href="/contact">{r.infos_lien_ecrire}</a>}
+          </div>
+        </div></div></section>
+      );
+    }
+
+    case 'autres_services': {
+      const autres = services.filter((x) => x.slug !== c.service);
+      return (
+        <section class="bloc serre"><div class="wrap">
+          <h2 class="h2">{r.autres_services_titre}</h2>
+          <ul class="liste-services">
+            {autres.map((x) => (
+              <li><a class={`t-${x.theme}`} href={`/services/${x.slug}`}>
+                <ServiceLockup service={x.slug} theme={x.theme} picto={x.picto} />
+                <span><b>{x.nom}</b>{x.accroche}</span>
+                <Icone nom="fleche" />
+              </a></li>
+            ))}
+          </ul>
+        </div></section>
+      );
+    }
+
+    case 'transversal': {
+      const t = services.find((x) => x.transversal);
+      return t && (
+        <section class="bloc serre"><div class="wrap"><div class="sante">
+          <div>{t.bloc_transversal_sur && <span class="sur">{t.bloc_transversal_sur}</span>}<h2>{t.nom}</h2><p>{t.bloc_transversal_texte}</p></div>
+          <a class="btn contour" href={`/services/${t.slug}`}>{t.bloc_transversal_bouton} <Icone nom="fleche" /></a>
+        </div></div></section>
+      );
+    }
+
+    case 'don': return (
+      <section class="don"><div class="wrap">
+        <div>
+          <h2><Lignes texte={c.titre ?? r.don_titre} /></h2>
+          <a class="btn plein" href={r.don_lien}>{r.don_bouton} <Icone nom="fleche" /></a>
+        </div>
+        {r.don_image && <Visuel class="don-photo" ref={r.don_image} alt={r.don_image_alt ?? ''} graine={g(s, 'don')} couleur={teinte} loading="lazy" />}
+      </div></section>
+    );
+
+    default: return null;
+  }
+})}

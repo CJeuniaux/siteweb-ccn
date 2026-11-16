@@ -1,0 +1,70 @@
+[
+  {
+    "id": "n-dus",
+    "emplacement": "bandeau",
+    "libelle": "DUS",
+    "numero": "071 20 23 10",
+    "tel": "+3271202310",
+    "ordre": 1,
+    "publie": true
+  },
+  {
+    "id": "n-112",
+    "emplacement": "bandeau",
+    "libelle": "Urgence",
+    "numero": "112",
+    "tel": "112",
+    "ordre": 2,
+    "publie": true
+  },
+  {
+    "id": "n-aide-dus",
+    "emplacement": "aide",
+    "libelle": "Dispositif d’Urgence Sociale (DUS)",
+    "numero": "071 20 23 10",
+    "tel": "071202310",
+    "precision": "",
+    "ordre": 1,
+    "publie": true
+  },
+  {
+    "id": "n-aide-dus2",
+    "emplacement": "aide",
+    "libelle": "DUS — ligne d’urgence",
+    "numero": "071 32 12 12",
+    "tel": "071321212",
+    "precision": "",
+    "ordre": 2,
+    "publie": true
+  },
+  {
+    "id": "n-aide-relais",
+    "emplacement": "aide",
+    "libelle": "Relais Social de Charleroi",
+    "numero": "071 50 67 31",
+    "tel": "071506731",
+    "precision": "",
+    "ordre": 3,
+    "publie": true
+  },
+  {
+    "id": "n-aide-cpas",
+    "emplacement": "aide",
+    "libelle": "CPAS de Charleroi — aides sociales",
+    "numero": "071 20 81 60",
+    "tel": "071208160",
+    "precision": "",
+    "ordre": 4,
+    "publie": true
+  },
+  {
+    "id": "n-aide-112",
+    "emplacement": "aide",
+    "libelle": "Danger immédiat — secours",
+    "numero": "112",
+    "tel": "112",
+    "precision": "",
+    "ordre": 5,
+    "publie": true
+  }
+]

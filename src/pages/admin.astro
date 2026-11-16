@@ -1,0 +1,23 @@
+---
+// Administration du site (application dans le navigateur, reliée à Supabase). Jamais indexée.
+import '@fontsource-variable/fraunces/full.css';
+import '@fontsource/inter/400.css';
+import '@fontsource/inter/500.css';
+import '@fontsource/inter/600.css';
+import '../admin/admin.css';
+import App from '../admin/App';
+---
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta name="robots" content="noindex, nofollow, noarchive" />
+  <title>Administration — Comme Chez Nous</title>
+  <link rel="icon" href="/favicon.svg" type="image/svg+xml" />
+</head>
+<body>
+  <App client:only="preact" />
+  <noscript><p style="padding:24px">L’administration a besoin de JavaScript.</p></noscript>
+</body>
+</html>

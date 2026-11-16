@@ -1,0 +1,47 @@
+---
+import Visuel from '../../components/Visuel.astro';
+// Gabarit d'un article. Les articles « exemple » affichent une mention claire et aucun texte inventé.
+import Base from '../../layouts/Base.astro';
+import Icone from '../../components/Icone.astro';
+import CarteArticle from '../../components/CarteArticle.astro';
+import { lire, reglages } from '../../lib/contenu';
+import { texteSur } from '../../lib/texte';
+
+export async function getStaticPaths() {
+  const articles = await lire('articles', (a) => !a.lien_externe);
+  return articles.map((a) => ({ params: { slug: a.slug }, props: { a } }));
+}
+
+const { a } = Astro.props;
+const r = await reglages();
+const autres = (await lire('articles')).filter((x) => x.id !== a.id).slice(0, 3);
+const corps = texteSur(a.corps);
+---
+<Base titre={a.titre} description={a.resume} theme="bleu">
+  <section class="tete sans-image"><div class="wrap">
+    <div>
+      <p class="ariane"><a href="/actualites">{r.article_retour}</a></p>
+      <span class="sur">{a.categorie}{a.date_affichee && <> · {a.date_affichee}</>}</span>
+      <h1>{a.titre}</h1>
+      {r.article_accroche && <p class="accroche">{r.article_accroche}</p>}
+      {a.resume && <p class="chapo">{a.resume}</p>}
+    </div>
+  </div>
+  </section>
+
+  <section class="bloc serre"><div class="wrap">
+    {a.image && <Visuel class="ph article-image" ref={a.image} alt={a.image_alt ?? ''} graine={`/actualites/${a.slug}:image`} couleur="bleu" loading="eager" />}
+    {a.exemple && <p class="bandeau-exemple"><span>{r.article_mention_exemple}</span> {r.article_texte_exemple}</p>}
+    {corps && <div class="texte corps-article" set:html={corps} />}
+    <p style="margin-top:28px"><a class="btn contour" href="/actualites">{r.article_retour} <Icone nom="fleche" /></a></p>
+  </div></section>
+
+  {autres.length > 0 && (
+    <section class="bloc serre"><div class="wrap">
+      <h2 class="h2">{r.article_lire_aussi}</h2>
+      <div class="articles">
+        {autres.map((x, i) => <CarteArticle a={x} lire={r.article_lire} mentionExemple={r.article_mention_exemple} titreNiveau="h3" index={i} />)}
+      </div>
+    </div></section>
+  )}
+</Base>
