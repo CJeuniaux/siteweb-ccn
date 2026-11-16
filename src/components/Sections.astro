@@ -93,26 +93,31 @@ const coord = (l: any): { valeur: string; lien: string } => {
     );
 
     case 'grille_services': {
-      const tous = services;
+      // Les services autour d'un cercle (titre au centre), reliés par un fil tracé au rythme du défilement.
+      // Position de chaque badge sur le cercle (fractions du rayon, repère CSS --px/--py), le premier en haut.
+      const n = services.length;
+      const place = (i: number) => { const a = -Math.PI / 2 + (i * 2 * Math.PI) / n; return `--px:${Math.cos(a).toFixed(4)};--py:${Math.sin(a).toFixed(4)}`; };
+      // Étiquette du côté extérieur du cercle, pour que le fil ne la traverse jamais
+      const cote = (i: number) => { const a = -Math.PI / 2 + (i * 2 * Math.PI) / n, x = Math.cos(a), y = Math.sin(a); return x > 0.3 ? 'droite' : x < -0.3 ? 'gauche' : y < 0 ? 'haut' : 'bas'; };
       return (
         <section class="services-accueil">
           <div class="wrap">
-            <div class="sec-tete">
-              <h2>{c.titre}</h2>
-              {c.intro && <p>{c.intro}</p>}
-            </div>
-            <div class="bande anime-vue">
-              <FilServices graine={s.id} nombre={tous.length} />
+            <div class="ronde fil-scroll">
+              <div class="ronde-centre">
+                <h2>{c.titre}</h2>
+                {c.intro && <p>{c.intro}</p>}
+              </div>
+              <div class="ronde-corps">
+              <FilServices graine={s.id} />
               <ul class="lockups">
-                {tous.map((x) => (
-                  <li><a class={`service t-${x.theme}`} href={`/services/${x.slug}`}>
+                {services.map((x, i) => (
+                  <li style={place(i)} data-cote={cote(i)}><a class={`service t-${x.theme}`} href={`/services/${x.slug}`}>
                     <ServiceLockup service={x.slug} theme={x.theme} picto={x.picto} />
-                    <h3><span class="nom-souligne">{x.nom}<Trait variante="souligne" graine={`survol:${x.slug}`} couleur={x.theme} class="souligne-survol" /></span></h3>
-                    <p>{x.sous_titre}</p>
-                    <Icone nom="fleche" />
+                    <span class="service-txt"><h3>{x.nom}</h3><p>{x.sous_titre}</p></span>
                   </a></li>
                 ))}
               </ul>
+              </div>
             </div>
           </div>
         </section>

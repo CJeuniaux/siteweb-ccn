@@ -60,12 +60,25 @@ const r = await reglages();
   <script is:inline>
     document.documentElement.classList.add('js');
 
-    // Éléments qui s'animent à leur entrée dans l'écran (le fil des services)
-    const vues = document.querySelectorAll('.anime-vue');
-    if ('IntersectionObserver' in window && vues.length) {
-      const obs = new IntersectionObserver((entrees) => entrees.forEach((e) => { if (e.isIntersecting) { e.target.classList.add('visible'); obs.unobserve(e.target); } }), { threshold: 0.35 });
-      vues.forEach((v) => obs.observe(v));
-    } else vues.forEach((v) => v.classList.add('visible'));
+    // Fils tracés au rythme du défilement : le trait avance quand le bloc traverse l'écran
+    // (0 quand son haut arrive aux 90 % de l'écran ; 1 quand le bloc est entièrement visible,
+    // c'est-à-dire son bas aux 75 % de l'écran, ou son haut aux 12 % s'il est plus haut que l'écran)
+    const fils = document.querySelectorAll('.fil-scroll');
+    if (fils.length && !matchMedia('(prefers-reduced-motion: reduce)').matches) {
+      let prevu = false;
+      const tracer = () => {
+        prevu = false;
+        const vh = innerHeight, debut = vh * 0.9;
+        fils.forEach((bloc) => {
+          const r = bloc.getBoundingClientRect();
+          const cible = Math.max(vh * 0.75 - r.height, vh * 0.12);
+          const p = Math.min(1, Math.max(0, (debut - r.top) / (debut - cible)));
+          bloc.querySelectorAll('.fil-masque path').forEach((c) => { c.style.strokeDashoffset = String(1 - p); });
+        });
+      };
+      const demander = () => { if (!prevu) { prevu = true; requestAnimationFrame(tracer); } };
+      addEventListener('scroll', demander, { passive: true }); addEventListener('resize', demander); tracer();
+    }
 
     // Filtres de la liste des actualités
     document.querySelectorAll('.liste-articles').forEach((bloc) => {

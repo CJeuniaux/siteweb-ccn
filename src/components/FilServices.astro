@@ -1,25 +1,32 @@
 ---
-// Le fil qui relie les services (accueil) : un trait souple, à hauteur des badges, qui ondule doucement
-// d'un picto à l'autre (comme une ficelle tenue entre eux) et finit par une petite bouclette après le
-// dernier. Reste dans la bande des badges : ne descend jamais dans les titres/textes en dessous.
-// Se dessine (comme écrit au stylo) quand la bande entre dans l'écran (voir Fil.astro + commun.css).
+// Le fil qui relie les services (accueil). Deux tracés, le CSS n'en montre qu'un :
+// - .fil-ronde (écran large) : un cercle tracé à la main, qui part de derrière le premier badge, fait le tour
+//   en passant derrière chacun et se referme un peu après son départ, le stylo s'écartant en se levant ;
+// - .fil-colonne (mobile) : un fil presque droit qui descend derrière la colonne des badges.
+// Le trait se dessine au rythme du défilement (voir .fil-scroll dans Base.astro).
 import Fil from './Fil.astro';
 import { hasard } from '../lib/pinceau';
-import { boucle, type P } from '../lib/stylo';
+import type { P } from '../lib/stylo';
 
-interface Props { graine: string; nombre: number; couleur?: string; class?: string }
-const { graine, nombre, couleur = 'encre', class: classe = '' } = Astro.props;
-const L = 1200, H = 150, milieu = 62, amplitude = 24;
+interface Props { graine: string; couleur?: string }
+const { graine, couleur = 'encre' } = Astro.props;
 const h = hasard(`fil-services:${graine}`).n;
+const ph = [h(), h(), h()].map((v) => v * Math.PI * 2);
 
-const ancres: P[] = Array.from({ length: nombre }, (_, i) => {
-  const x = (L / nombre) * (i + 0.5);
-  const sens = i % 2 === 0 ? -1 : 1;
-  return [x, milieu + sens * amplitude * (0.85 + h() * 0.3)] as P;
-});
-const pts: P[] = [[ancres[0][0] - 64, milieu], ...ancres, [ancres[ancres.length - 1][0] + 40, milieu]];
-const [fx, fy] = pts[pts.length - 1];
-pts.push([fx + 14, fy + 8], ...boucle(fx + 32, fy + 16, 13, -1, Math.PI), [fx + 46, fy + 6]);
+// Cercle : rayon 500, départ 8° avant le haut (caché par le badge), 22° de recouvrement à l'arrivée
+const R = 500, debut = -90 - 4, fin = -90 + 360 + 22;
+const cercle: P[] = [];
+for (let a = debut; a <= fin; a += 4) {
+  const r = (a * Math.PI) / 180;
+  const souffle = 1 + 0.011 * Math.sin(3 * r + ph[0]) + 0.006 * Math.sin(7 * r + ph[1]);
+  const levee = a > fin - 22 ? ((a - (fin - 22)) / 22) ** 2 * 20 : 0;
+  cercle.push([Math.cos(r) * (R * souffle + levee), Math.sin(r) * (R * souffle + levee)]);
+}
+
+// Colonne : de haut en bas, légèrement ondulée (repère 100 × 1000, étiré sur la hauteur de la liste)
+const colonne: P[] = [];
+for (let y = 0; y <= 1000; y += 40) colonne.push([50 + 5 * Math.sin((y / 1000) * 5 + ph[2]) + (h() - 0.5) * 2, y]);
 const teinte = /^[a-z]+$/.test(couleur) ? `var(--${couleur})` : couleur;
 ---
-<Fil class={`fil-services ${classe}`.trim()} traits={[pts]} largeur={L} hauteur={H} epaisseur={4} graine={`fil-services:${graine}`} anime marge={60} preserveAspectRatio="none" style={`--t:${teinte}`} />
+<Fil class="fil-ronde" traits={[cercle]} largeur={1080} hauteur={1080} epaisseur={7} graine={`fil-services:${graine}:ronde`} anime marge={60} style={`--t:${teinte}`} viewBox="-540 -540 1080 1080" />
+<Fil class="fil-colonne" traits={[colonne]} largeur={100} hauteur={1000} epaisseur={4} graine={`fil-services:${graine}:colonne`} anime marge={30} preserveAspectRatio="none" style={`--t:${teinte}`} />

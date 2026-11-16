@@ -331,30 +331,41 @@ button{font-family:inherit}
 .hero-portrait{width:100%;max-width:640px;margin-left:auto}
 .hero-visuel .accent-eclat{left:2%;top:4%}
 
-.services-accueil{padding:34px 0 24px;overflow-x:clip}
+.services-accueil{padding:40px 0 30px;overflow-x:clip}
 .sec-tete{display:grid;grid-template-columns:auto 1fr;gap:64px;align-items:end;margin-bottom:26px}
 .sec-tete h2{font-size:clamp(42px,4.8vw,68px)}
 .sec-tete p{margin:0 0 8px;max-width:440px;font-size:16.5px}
-.bande{position:relative;padding:30px 0 10px}
-.lockups{position:relative;z-index:1;list-style:none;margin:0;padding:0;display:grid;grid-template-columns:repeat(5,1fr)}
-.fil-services{position:absolute;left:-14px;right:-14px;top:4px;height:130px;width:auto;overflow:visible;pointer-events:none;fill:var(--t);opacity:.8}
-.lockups li+li{border-left:0}
-/* Badges colorés des pictos (accueil uniquement) : le fil passe derrière, « tenu » par chaque badge */
-.lockups .lockup{position:relative;z-index:1;display:inline-flex;align-items:center;justify-content:center;width:84px;height:84px;border-radius:20px;background:var(--c);color:#fff}
+/* Nos services : les badges autour d'un cercle (rayon --r, centre à --cy), le titre au centre,
+   le fil (cercle au stylo) passe derrière les badges et se trace au rythme du défilement (.fil-scroll) */
+.ronde{position:relative;--r:250px;--badge:84px;--cy:calc(var(--r) + 120px);height:calc(var(--r)*2 + 250px)}
+.ronde-centre{position:absolute;left:50%;top:var(--cy);transform:translate(-50%,-50%);width:calc(var(--r)*1.4);text-align:center;z-index:1}
+.ronde-centre h2{font-size:clamp(34px,3.6vw,50px);line-height:1;margin:0 0 12px}
+.ronde-centre p{font-size:16px;line-height:1.45;margin:0}
+.fil-ronde{position:absolute;left:50%;top:var(--cy);width:calc(var(--r)*2.16);height:calc(var(--r)*2.16);transform:translate(-50%,-50%);overflow:visible;pointer-events:none;fill:var(--t)}
+.fil-colonne{display:none}
+.ronde-corps{position:absolute;inset:0}
+.lockups{position:absolute;inset:0;list-style:none;margin:0;padding:0;z-index:1}
+.lockups li{position:absolute;left:calc(50% + var(--px)*var(--r));top:calc(var(--cy) + var(--py)*var(--r));transform:translate(-50%,-50%);width:var(--badge);height:var(--badge)}
+.lockups a{display:block;position:relative;width:100%;height:100%}
+.lockups .lockup{display:inline-flex;align-items:center;justify-content:center;width:var(--badge);height:var(--badge);border-radius:22%;background:var(--c);color:#fff}
 .lockups .lockup-boucle{display:none}
-.lockups .picto-service{height:38px;width:auto}
-/* Le fil s'écrit : le masque de chaque trait se dessine le long du geste (Fil.astro) */
+.lockups .picto-service{height:calc(var(--badge)*.45);width:auto}
+/* L'étiquette est posée du côté extérieur du cercle (au-dessus, à droite, en dessous, à gauche) */
+.lockups .service-txt{position:absolute;display:block;width:200px;--ecart:14px}
+.lockups [data-cote=haut] .service-txt{left:50%;bottom:calc(100% + 10px);transform:translateX(-50%);text-align:center}
+.lockups [data-cote=bas] .service-txt{left:50%;top:calc(100% + 10px);transform:translateX(-50%);text-align:center}
+.lockups [data-cote=droite] .service-txt{left:calc(100% + var(--ecart));top:50%;transform:translateY(-50%);text-align:left}
+.lockups [data-cote=gauche] .service-txt{right:calc(100% + var(--ecart));top:50%;transform:translateY(-50%);text-align:right}
+.lockups h3{font-size:22px;line-height:1.1;margin:0 0 3px}
+.lockups p{font-size:14px;line-height:1.35;margin:0}
+/* Le fil s'écrit : le masque de chaque trait se dessine le long du geste (Fil.astro).
+   Héros : à l'arrivée sur la page. .fil-scroll : au rythme du défilement (Base.astro). */
 .js .fil-masque path{stroke-dasharray:1;stroke-dashoffset:1}
 .js .hero .fil-masque path{animation:fil-dessin 1.9s cubic-bezier(.45,.05,.2,1) .4s forwards}
-.js .anime-vue.visible .fil-masque path{animation:fil-dessin 2.2s cubic-bezier(.45,.05,.2,1) .15s forwards}
 @keyframes fil-dessin{to{stroke-dashoffset:0}}
 .js .hero .accent-eclat{opacity:0;transform:scale(.4);animation:eclat-pop .5s cubic-bezier(.3,1.4,.5,1) 2.1s forwards}
 @keyframes eclat-pop{to{opacity:1;transform:none}}
-@media (prefers-reduced-motion:reduce){.js .fil-masque path,.js .hero .accent-eclat{animation:none;stroke-dashoffset:0;opacity:1;transform:none}}
-.lockups a{display:flex;flex-direction:column;align-items:center;text-align:center;padding:4px 16px;height:100%}
-.lockups h3{font-size:clamp(24px,2.1vw,30px);margin:14px 0 6px}
-.lockups p{font-size:15px;line-height:1.4;margin:0 0 16px}
-.lockups a>svg:last-child{margin-top:auto}
+@media (prefers-reduced-motion:reduce){.js .fil-masque path,.js .hero .accent-eclat{animation:none;stroke-dashoffset:0!important;opacity:1;transform:none}}
 .nom-souligne{position:relative;display:inline-block}
 .souligne-survol{position:absolute;left:-3%;width:106%;bottom:-.32em;opacity:0}
 
@@ -471,12 +482,9 @@ footer .credit img{width:30px;height:30px}
   .hero-grille{grid-template-columns:1fr;gap:20px}
   .hero-visuel{order:-1;max-width:520px;margin:0 auto;width:100%}
   .sec-tete{grid-template-columns:1fr;gap:12px}
-  .lockups{grid-template-columns:1fr 1fr;row-gap:30px}
-  .lockups{grid-template-columns:repeat(6,1fr)}
-  .lockups li{grid-column:span 2}
-  .lockups li:nth-child(4){grid-column:2 / 4;border-left:0}
-  .fil-services{display:none}
-  .lockups li+li{border-left:1px solid var(--filet)}
+  .ronde{--r:180px;--badge:68px;--cy:calc(var(--r) + 100px);height:calc(var(--r)*2 + 210px)}
+  .ronde-centre{width:calc(var(--r)*1.45)}.ronde-centre h2{font-size:30px}.ronde-centre p{font-size:14px}
+  .lockups .service-txt{width:150px;--ecart:10px}.lockups h3{font-size:17px}.lockups p{font-size:12.5px}
   .actus .wrap{grid-template-columns:1fr;gap:20px}
   .liens{grid-template-columns:1fr 1fr}
   .liens a:nth-child(3){border-left:0}
@@ -498,10 +506,17 @@ footer .credit img{width:30px;height:30px}
   .top .btn{padding:9px 14px;font-size:14px;flex:1;justify-content:center}
   .top .btn.contour{margin-left:0}
   .hero .cta .btn{width:100%;justify-content:center}
-  .lockups{grid-template-columns:1fr}
-  .lockups li{grid-column:auto}
-  .lockups li:nth-child(4){grid-column:auto}
-  .lockups li+li{border-left:0;border-top:1px solid var(--filet);padding-top:26px}
+  /* Nos services en colonne : le fil descend derrière les badges */
+  .ronde{height:auto;--badge:64px}
+  .ronde-centre{position:static;transform:none;width:auto;text-align:left;margin-bottom:26px}
+  .ronde-corps{position:relative;inset:auto}
+  .fil-ronde{display:none}
+  .fil-colonne{display:block;position:absolute;left:0;top:0;width:var(--badge);height:100%;overflow:visible;pointer-events:none;fill:var(--t)}
+  .lockups{position:relative;inset:auto;display:flex;flex-direction:column;gap:22px}
+  .lockups li{position:static;transform:none;width:auto;height:auto}
+  .lockups a{display:flex;flex-direction:row;align-items:center;gap:16px;height:auto}
+  .lockups .lockup{flex:none}
+  .lockups .service-txt,.lockups [data-cote] .service-txt{position:static;width:auto;transform:none;text-align:left}
   .liste-services a{grid-template-columns:84px 1fr auto;gap:16px}
   .liste-services .picto-service{height:36px}.liste-services .lockup-boucle{width:56px}
   .liste-services b{font-size:26px}

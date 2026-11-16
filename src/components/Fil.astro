@@ -10,18 +10,21 @@ interface Props {
   /** Marge (unités du viewBox) autour du dessin que le masque doit couvrir : le trait peut déborder du cadre */
   marge?: number;
   preserveAspectRatio?: string;
+  /** viewBox explicite (par défaut 0 0 largeur hauteur) : pour un tracé centré sur l'origine */
+  viewBox?: string;
 }
-const { traits, largeur, hauteur, graine, epaisseur = 5, anime = false, class: classe = '', style, marge = 240, preserveAspectRatio } = Astro.props;
+const { traits, largeur, hauteur, graine, epaisseur = 5, anime = false, class: classe = '', style, marge = 240, preserveAspectRatio, viewBox } = Astro.props;
+const [vx, vy] = viewBox ? viewBox.split(/\s+/).map(Number) : [0, 0];
 const formes = traits.map((t, i) => traitStylo(t, { epaisseur, graine: `${graine}:contour:${i}` }));
 const idBase = 'fil-' + graine.replace(/[^a-z0-9]+/gi, '-').replace(/^-|-$/g, '').toLowerCase();
 const f = (v: number) => Math.round(v * 10) / 10;
 const centres = anime ? traits.map((t) => echantillonner(t, 8).map(([x, y], k) => `${k ? 'L' : 'M'}${f(x)} ${f(y)}`).join('')) : [];
 ---
-<svg class={`fil ${classe}`.trim()} viewBox={`0 0 ${largeur} ${hauteur}`} style={style} preserveAspectRatio={preserveAspectRatio} aria-hidden="true" focusable="false">
+<svg class={`fil ${classe}`.trim()} viewBox={viewBox ?? `0 0 ${largeur} ${hauteur}`} style={style} preserveAspectRatio={preserveAspectRatio} aria-hidden="true" focusable="false">
   {anime && (
     <defs>
       {centres.map((d, i) => (
-        <mask id={`${idBase}-${i}`} class="fil-masque" maskUnits="userSpaceOnUse" x={-marge} y={-marge} width={largeur + marge * 2} height={hauteur + marge * 2}>
+        <mask id={`${idBase}-${i}`} class="fil-masque" maskUnits="userSpaceOnUse" x={vx - marge} y={vy - marge} width={largeur + marge * 2} height={hauteur + marge * 2}>
           <path d={d} pathLength="1" fill="none" stroke="#fff" stroke-width={epaisseur * 7} stroke-linecap="round" stroke-linejoin="round" style={`--ordre:${i}`} />
         </mask>
       ))}
