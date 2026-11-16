@@ -1,32 +1,36 @@
 ---
-// Le fil qui relie les services (accueil). Deux tracés, le CSS n'en montre qu'un :
-// - .fil-ronde (écran large) : un cercle tracé à la main, qui part de derrière le premier badge, fait le tour
-//   en passant derrière chacun et se referme un peu après son départ, le stylo s'écartant en se levant ;
-// - .fil-colonne (mobile) : un fil presque droit qui descend derrière la colonne des badges.
-// Le trait se dessine au rythme du défilement (voir .fil-scroll dans Base.astro).
+// Le fil qui relie les services (accueil). Charte : « un trait libre et continu qui relie les personnes,
+// les services et les parcours » — fin, mauve, presque régulier, juste assez tremblé pour rester manuscrit.
+// Deux tracés, le CSS n'en montre qu'un :
+// - .fil-ronde (écran large) : le cercle, qui part de derrière le premier picto, passe derrière chacun,
+//   se referme après son départ et s'échappe en une bouclette ;
+// - .fil-colonne (mobile) : le même fil, déroulé, qui descend le long de la colonne.
+// Il s'écrit au rythme du défilement (.fil-scroll, Base.astro).
 import Fil from './Fil.astro';
 import { hasard } from '../lib/pinceau';
-import type { P } from '../lib/stylo';
+import { boucle, type P } from '../lib/stylo';
 
 interface Props { graine: string; couleur?: string }
-const { graine, couleur = 'encre' } = Astro.props;
+const { graine, couleur = 'mauve' } = Astro.props;
 const h = hasard(`fil-services:${graine}`).n;
 const ph = [h(), h(), h()].map((v) => v * Math.PI * 2);
 
-// Cercle : rayon 500, départ 8° avant le haut (caché par le badge), 22° de recouvrement à l'arrivée
-const R = 500, debut = -90 - 4, fin = -90 + 360 + 22;
+// Cercle : la main tremble à peine (charte : le fil est net, pas griffonné)
+const R = 500, debut = -90 - 3, fin = -90 + 360 + 16;
 const cercle: P[] = [];
 for (let a = debut; a <= fin; a += 4) {
   const r = (a * Math.PI) / 180;
-  const souffle = 1 + 0.011 * Math.sin(3 * r + ph[0]) + 0.006 * Math.sin(7 * r + ph[1]);
-  const levee = a > fin - 22 ? ((a - (fin - 22)) / 22) ** 2 * 20 : 0;
-  cercle.push([Math.cos(r) * (R * souffle + levee), Math.sin(r) * (R * souffle + levee)]);
+  const souffle = 1 + 0.005 * Math.sin(2 * r + ph[0]) + 0.003 * Math.sin(5 * r + ph[1]);
+  cercle.push([Math.cos(r) * R * souffle, Math.sin(r) * R * souffle]);
 }
+// Le fil s'échappe du cercle en une longue courbe et se noue en bouclette, comme sur les supports imprimés
+const [sx, sy] = cercle[cercle.length - 1];
+cercle.push([sx + 58, sy - 40], [sx + 132, sy - 62], [sx + 208, sy - 66], ...boucle(sx + 262, sy - 58, 38, 1, Math.PI * 0.75), [sx + 318, sy - 34], [sx + 372, sy - 16]);
 
-// Colonne : de haut en bas, légèrement ondulée (repère 100 × 1000, étiré sur la hauteur de la liste)
+// Colonne : un fil qui descend en ondulant doucement (repère 120 × 1000, étiré sur la hauteur de la liste)
 const colonne: P[] = [];
-for (let y = 0; y <= 1000; y += 40) colonne.push([50 + 5 * Math.sin((y / 1000) * 5 + ph[2]) + (h() - 0.5) * 2, y]);
+for (let y = 0; y <= 1000; y += 25) colonne.push([60 + 26 * Math.sin((y / 1000) * 6.3 + ph[2]), y]);
 const teinte = /^[a-z]+$/.test(couleur) ? `var(--${couleur})` : couleur;
 ---
-<Fil class="fil-ronde" traits={[cercle]} largeur={1080} hauteur={1080} epaisseur={7} graine={`fil-services:${graine}:ronde`} anime marge={60} style={`--t:${teinte}`} viewBox="-540 -540 1080 1080" />
-<Fil class="fil-colonne" traits={[colonne]} largeur={100} hauteur={1000} epaisseur={4} graine={`fil-services:${graine}:colonne`} anime marge={30} preserveAspectRatio="none" style={`--t:${teinte}`} />
+<Fil class="fil-ronde" traits={[cercle]} largeur={1080} hauteur={1080} epaisseur={4} graine={`fil-services:${graine}:ronde`} anime marge={120} style={`--t:${teinte}`} viewBox="-540 -540 1080 1080" />
+<Fil class="fil-colonne" traits={[colonne]} largeur={120} hauteur={1000} epaisseur={3.2} graine={`fil-services:${graine}:colonne`} anime marge={40} preserveAspectRatio="none" style={`--t:${teinte}`} />

@@ -3,6 +3,7 @@ import ServiceLockup from '../../components/ServiceLockup.astro';
 import Trait from '../../components/Trait.astro';
 import { PICTOS, PICTOS_PROVISOIRES } from '../../lib/pictos';
 import Visuel from '../../components/Visuel.astro';
+import FilTraversant from '../../components/FilTraversant.astro';
 // Gabarit des pages de service (modèle : MODELES/SERVICE.html). Tout le contenu vient du CMS.
 import Base from '../../layouts/Base.astro';
 import Icone from '../../components/Icone.astro';
@@ -44,6 +45,7 @@ const aDesInfos = sections.some((x) => x.type === 'infos');
     )}
   </div>
   </section>
+  <div class="fil-bande fil-scroll" aria-hidden="true"><FilTraversant graine={`/services/${s.slug}:fil`} noeud={0.34} pente={-1} /></div>
 
   <Sections sections={sections} axe={s.theme} />
 </Base>

@@ -331,33 +331,37 @@ button{font-family:inherit}
 .hero-portrait{width:100%;max-width:640px;margin-left:auto}
 .hero-visuel .accent-eclat{left:2%;top:4%}
 
+/* « Le fil » qui traverse la page d'un bord à l'autre entre deux moments (charte) */
+.fil-bande{position:relative;overflow:hidden;margin:-18px 0 -10px;pointer-events:none}
+.fil-traversant{display:block;width:118%;margin-left:-9%;height:auto;overflow:visible;fill:var(--t)}
 .services-accueil{padding:40px 0 30px;overflow-x:clip}
 .sec-tete{display:grid;grid-template-columns:auto 1fr;gap:64px;align-items:end;margin-bottom:26px}
 .sec-tete h2{font-size:clamp(42px,4.8vw,68px)}
 .sec-tete p{margin:0 0 8px;max-width:440px;font-size:16.5px}
 /* Nos services : les badges autour d'un cercle (rayon --r, centre à --cy), le titre au centre,
    le fil (cercle au stylo) passe derrière les badges et se trace au rythme du défilement (.fil-scroll) */
-.ronde{position:relative;--r:250px;--badge:84px;--cy:calc(var(--r) + 120px);height:calc(var(--r)*2 + 250px)}
-.ronde-centre{position:absolute;left:50%;top:var(--cy);transform:translate(-50%,-50%);width:calc(var(--r)*1.4);text-align:center;z-index:1}
-.ronde-centre h2{font-size:clamp(34px,3.6vw,50px);line-height:1;margin:0 0 12px}
-.ronde-centre p{font-size:16px;line-height:1.45;margin:0}
+.ronde{position:relative;--r:218px;--badge:78px;--cy:calc(var(--r) + 118px);height:calc(var(--r)*2 + 236px)}
+.ronde-centre{position:absolute;left:50%;top:var(--cy);transform:translate(-50%,-50%);width:calc(var(--r)*1.5);text-align:center;z-index:1}
+.ronde-centre h2{font-size:clamp(34px,3.5vw,46px);line-height:1;margin:0 0 12px}
+.ronde-centre p{font-size:15.5px;line-height:1.5;margin:0;color:rgba(18,27,48,.75)}
 .fil-ronde{position:absolute;left:50%;top:var(--cy);width:calc(var(--r)*2.16);height:calc(var(--r)*2.16);transform:translate(-50%,-50%);overflow:visible;pointer-events:none;fill:var(--t)}
 .fil-colonne{display:none}
 .ronde-corps{position:absolute;inset:0}
 .lockups{position:absolute;inset:0;list-style:none;margin:0;padding:0;z-index:1}
 .lockups li{position:absolute;left:calc(50% + var(--px)*var(--r));top:calc(var(--cy) + var(--py)*var(--r));transform:translate(-50%,-50%);width:var(--badge);height:var(--badge)}
 .lockups a{display:block;position:relative;width:100%;height:100%}
-.lockups .lockup{display:inline-flex;align-items:center;justify-content:center;width:var(--badge);height:var(--badge);border-radius:22%;background:var(--c);color:#fff}
+.lockups .lockup{display:inline-flex;align-items:center;justify-content:center;width:var(--badge);height:var(--badge);border-radius:19px;background:var(--c);color:#fff}
 .lockups .lockup-boucle{display:none}
-.lockups .picto-service{height:calc(var(--badge)*.45);width:auto}
+.lockups .picto-service{height:calc(var(--badge)*.46);width:auto}
 /* L'étiquette est posée du côté extérieur du cercle (au-dessus, à droite, en dessous, à gauche) */
-.lockups .service-txt{position:absolute;display:block;width:200px;--ecart:14px}
-.lockups [data-cote=haut] .service-txt{left:50%;bottom:calc(100% + 10px);transform:translateX(-50%);text-align:center}
-.lockups [data-cote=bas] .service-txt{left:50%;top:calc(100% + 10px);transform:translateX(-50%);text-align:center}
+.lockups .service-txt{position:absolute;display:block;width:215px;--ecart:20px}
+.lockups [data-cote=haut] .service-txt{left:50%;bottom:calc(100% + 16px);transform:translateX(-50%);text-align:center}
+.lockups [data-cote=bas] .service-txt{left:50%;top:calc(100% + 16px);transform:translateX(-50%);text-align:center}
 .lockups [data-cote=droite] .service-txt{left:calc(100% + var(--ecart));top:50%;transform:translateY(-50%);text-align:left}
 .lockups [data-cote=gauche] .service-txt{right:calc(100% + var(--ecart));top:50%;transform:translateY(-50%);text-align:right}
-.lockups h3{font-size:22px;line-height:1.1;margin:0 0 3px}
-.lockups p{font-size:14px;line-height:1.35;margin:0}
+.lockups h3{font-size:21px;line-height:1.1;margin:0 0 5px}
+/* L'accroche : italique sérif, dans la couleur du service (charte) */
+.lockups p{font-family:var(--font-titre);font-style:italic;font-weight:400;font-size:15px;line-height:1.3;margin:0;color:var(--c-texte)}
 /* Le fil s'écrit : le masque de chaque trait se dessine le long du geste (Fil.astro).
    Héros : à l'arrivée sur la page. .fil-scroll : au rythme du défilement (Base.astro). */
 .js .fil-masque path{stroke-dasharray:1;stroke-dashoffset:1}
@@ -446,7 +450,9 @@ button{font-family:inherit}
 .liste-services .picto-service{height:46px}
 .liste-services .lockup-boucle{width:70px}
 .liste-services b{display:block;font:600 32px/1.1 var(--font-titre);margin-bottom:4px;font-variation-settings:var(--reglage-titre)}
-.liste-services span{font-size:16px}
+/* L'accroche du service : italique sérif dans sa couleur (charte) */
+.liste-services span{font-family:var(--font-titre);font-style:italic;font-weight:400;font-size:17px;line-height:1.3;color:var(--c-texte)}
+.liste-services span b{font-style:normal;color:var(--encre)}
 
 .sante{display:grid;grid-template-columns:1.5fr auto;gap:40px;align-items:center;padding:34px 0;border-top:1.5px solid var(--encre);border-bottom:1.5px solid var(--encre)}
 .sante h2{font-size:clamp(34px,3.4vw,48px);margin-bottom:10px}

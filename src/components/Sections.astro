@@ -12,6 +12,7 @@ import Visuel from './Visuel.astro';
 import Trait from './Trait.astro';
 import ServiceLockup from './ServiceLockup.astro';
 import FilServices from './FilServices.astro';
+import FilTraversant from './FilTraversant.astro';
 import { FORMULAIRES_ACTIFS } from '../lib/etat';
 
 interface Props { sections: Record<string, any>[]; /** couleur de l'axe (pages de service) */ axe?: string }
@@ -62,7 +63,7 @@ const coord = (l: any): { valeur: string; lien: string } => {
   const teinte = teinteDe(c, iSection);
   const surStyle = c.theme ? `--c:var(--${c.theme})` : undefined;
   switch (s.type) {
-    case 'accueil_hero': return (
+    case 'accueil_hero': return (<>
       <section class="hero">
         <div class="wrap hero-grille">
           <div class="hero-txt">
@@ -78,7 +79,8 @@ const coord = (l: any): { valeur: string; lien: string } => {
           </div>
         </div>
       </section>
-    );
+      <div class="fil-bande fil-scroll" aria-hidden="true"><FilTraversant graine={g(s, 'fil')} noeud={0.68} /></div>
+    </>);
 
     case 'aide_rapide': return (
       <section class="bloc serre"><div class="wrap"><div class="aide-rapide">
@@ -113,7 +115,7 @@ const coord = (l: any): { valeur: string; lien: string } => {
                 {services.map((x, i) => (
                   <li style={place(i)} data-cote={cote(i)}><a class={`service t-${x.theme}`} href={`/services/${x.slug}`}>
                     <ServiceLockup service={x.slug} theme={x.theme} picto={x.picto} />
-                    <span class="service-txt"><h3>{x.nom}</h3><p>{x.sous_titre}</p></span>
+                    <span class="service-txt"><h3>{x.nom}</h3><p>{x.accroche || x.sous_titre}</p></span>
                   </a></li>
                 ))}
               </ul>
@@ -133,7 +135,7 @@ const coord = (l: any): { valeur: string; lien: string } => {
       </div></section>
     );
 
-    case 'tete': return (
+    case 'tete': return (<>
       <section class={`tete${c.image ? '' : ' sans-image'}`}><div class="wrap">
         <div>
           {c.sur && <span class="sur" style={surStyle}>{c.sur}</span>}
@@ -145,7 +147,8 @@ const coord = (l: any): { valeur: string; lien: string } => {
         {c.image && <div class="visuel"><Visuel class="ph" ref={c.image} alt={c.image_alt ?? ''} graine={g(s, 'image')} couleur={teinte} loading="eager" aplat={c.aplat ?? false} contour={c.trait !== false} /></div>}
       </div>
       </section>
-    );
+      <div class="fil-bande fil-scroll" aria-hidden="true"><FilTraversant graine={g(s, 'fil')} noeud={0.3} pente={-1} /></div>
+    </>);
 
     case 'rangs_services': return (
       <section class="bloc serre"><div class="wrap">
