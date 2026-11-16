@@ -10,7 +10,7 @@
 <script>
   import { echantillonner, type P } from '../lib/stylo';
   import { hasard } from '../lib/pinceau';
-  import { chute } from '../lib/fils';
+  import { chute, entourer, souligner, adoucir } from '../lib/fils';
 
   type Pt = { x: number; y: number; c?: string };
 
@@ -60,6 +60,10 @@
   };
 
   let ligne: P[] = [], masque: SVGPathElement | null = null, zone: HTMLElement | null = null;
+  // Pour chaque point : la profondeur atteinte jusque-là, et la part du trait déjà parcourue.
+  // La révélation suit cette profondeur, pas la longueur : un cercle, qui prend beaucoup de trait
+  // sur peu de hauteur, se dessine quand on arrive à sa hauteur — jamais trois écrans plus bas.
+  let profondeur: Array<[number, number]> = [];
 
   function construire() {
     zone = document.querySelector('.fil-page');
@@ -95,10 +99,16 @@
         continue;
       }
       if (type === 'debut') {
-        // Geste « Chute » : le fil tombe depuis le haut, se retourne une fois, et poursuit sa descente.
-        // Il reste dans la marge, à droite du portrait : il passe derrière la photo, jamais sur le visage.
-        const g = chute(W - marge, b.y - 10, b.y + b.h + 60, 26, -1);
-        g.forEach(([x, y], i) => pts.push({ x, y, c: i === 0 ? COUL.rouge : undefined }));
+        // On annote : le trait descend du haut, puis entoure la silhouette comme on cerne
+        // quelqu'un sur une photo — il passe autour, jamais sur le visage.
+        const al = hasard(`entoure:${b.y}`).n, gr = [al(), al(), al()];
+        pts.push({ x: b.cx + b.w * 0.46, y: b.y - 70, c: COUL.rouge });
+        entourer(b.cx, b.cy + b.h * 0.03, b.w * 0.70, b.h * 0.66, gr, -2.0, 1.1).forEach(([x, y]) => pts.push({ x, y }));
+        pts.push({ x: b.x - 30, y: b.y + b.h + 30 });
+      } else if (type === 'souligner') {
+        // On souligne un terme : le trait passe dessous, déborde, et se relève
+        const al = hasard(`souligne:${b.y}`).n, gr = [al(), al(), al()];
+        souligner(b.x, b.x + Math.min(b.w, 420), b.y + b.h + 12, gr).forEach(([x, y]) => pts.push({ x, y }));
       } else if (type === 'cercle') {
         const lis = Array.from(el.querySelectorAll('.lockups li'));
         if (!lis.length) continue;
@@ -136,16 +146,26 @@
     if (pts.length < 3) { svg.innerHTML = ''; return; }
 
     // ——— Tracé continu : courbe souple passant par ces points ———
-    const controle = pts.map((p) => [p.x, p.y] as P);
+    // On rogne les angles avant de tracer : une main qui annote n'a pas de coins
+    const controle = adoucir(pts.map((p) => [p.x, p.y] as P), 2);
     // La courbe peut dépasser ses points de passage : on la garde dans la page, jamais hors cadre
     const bord = etroit ? 10 : 24;
     ligne = echantillonner(controle, etroit ? 14 : 10).map(([x, y]) => [Math.min(W - bord, Math.max(bord, x)), y] as P);
     const { g, d, L, tot } = bords(ligne, etroit ? 3.2 : 4.4, 'accueil');
+    let plusBas = -Infinity;
+    profondeur = ligne.map((p, i) => { plusBas = Math.max(plusBas, p[1]); return [plusBas, L[i] / tot]; });
 
     // Couleur de chaque point du fil : interpolée le long de la longueur entre les points qui en portent une
-    const posControle = controle.map((cp) => {
-      let best = 0, dist = Infinity;
-      for (let i = 0; i < ligne.length; i++) { const dd = Math.hypot(ligne[i][0] - cp[0], ligne[i][1] - cp[1]); if (dd < dist) { dist = dd; best = i; } }
+    // Où chaque point de passage retombe sur le tracé final (le lissage a multiplié les points).
+    // On avance toujours : une boucle revient sur ses pas dans l'espace, jamais dans le temps.
+    let curseur = 0;
+    const posControle = pts.map((p) => {
+      let best = curseur, dist = Infinity;
+      for (let i = curseur; i < Math.min(ligne.length, curseur + 500); i++) {
+        const dd = Math.hypot(ligne[i][0] - p.x, ligne[i][1] - p.y);
+        if (dd < dist) { dist = dd; best = i; }
+      }
+      curseur = best;
       return best;
     });
     const arrets = pts.map((p, i) => ({ i: posControle[i], c: p.c })).filter((a) => a.c) as { i: number; c: string }[];
@@ -186,11 +206,14 @@
   let prevu = false;
   function tracer() {
     prevu = false;
-    if (!masque || !zone || reduit) return;
-    const r = zone.getBoundingClientRect(), vh = innerHeight;
-    // 0 quand le haut du fil arrive aux 80 % de l'écran, 1 quand son bas les atteint
-    const p = Math.min(1, Math.max(0, (vh * 0.8 - r.top) / Math.max(1, r.height - vh * 0.2)));
-    masque.setAttribute('stroke-dashoffset', String(1 - p));
+    if (!masque || !zone || reduit || !profondeur.length) return;
+    const r = zone.getBoundingClientRect();
+    // La main écrit jusqu'aux trois quarts de l'écran : ce qui est à cette hauteur est déjà tracé
+    const cible = innerHeight * 0.76 - r.top;
+    let lo = 0, hi = profondeur.length - 1;
+    if (profondeur[0][0] > cible) { masque.setAttribute('stroke-dashoffset', '1'); return; }
+    while (lo < hi) { const m = (lo + hi + 1) >> 1; if (profondeur[m][0] <= cible) lo = m; else hi = m - 1; }
+    masque.setAttribute('stroke-dashoffset', String(1 - profondeur[lo][1]));
   }
   const demander = () => { if (!prevu) { prevu = true; requestAnimationFrame(tracer); } };
 

@@ -16,6 +16,60 @@ function onduler(ax: number, ay: number, bx: number, by: number, amplitude: numb
   return out;
 }
 
+/**
+ * Adoucit un tracé en rognant ses angles (Chaikin) : une main ne fait pas de coin,
+ * elle arrondit. Les deux extrémités ne bougent pas.
+ */
+export function adoucir(pts: P[], tours = 2): P[] {
+  let p = pts;
+  for (let t = 0; t < tours; t++) {
+    const out: P[] = [p[0]];
+    for (let i = 0; i < p.length - 1; i++) {
+      const [ax, ay] = p[i], [bx, by] = p[i + 1];
+      out.push([ax + (bx - ax) * 0.25, ay + (by - ay) * 0.25], [ax + (bx - ax) * 0.75, ay + (by - ay) * 0.75]);
+    }
+    out.push(p[p.length - 1]);
+    p = out;
+  }
+  return p;
+}
+
+/**
+ * Entourer — on cerne quelque chose d'un trait, comme on entoure une silhouette sur une photo.
+ * Le tour est ovale, un peu penché, jamais refermé exactement : il dépasse son point de départ.
+ * depart / fin en radians : par où la main entre et ressort.
+ */
+export function entourer(cx: number, cy: number, rx: number, ry: number, graine: number[], depart = -2.2, tours = 1.12): P[] {
+  const out: P[] = [];
+  const pente = (graine[0] - 0.5) * 0.22;
+  for (let t = 0; t <= tours; t += 0.022) {
+    const a = depart + t * Math.PI * 2;
+    const souffle = 1 + 0.045 * Math.sin(a * 2 + graine[1] * 6) + 0.025 * Math.sin(a * 3.3 + graine[2] * 6);
+    // la main serre un peu en fin de tour, et s'écarte en sortant
+    const sortie = t > tours - 0.18 ? (t - (tours - 0.18)) / 0.18 : 0;
+    const x = Math.cos(a) * rx * souffle * (1 + sortie * 0.1);
+    const y = Math.sin(a) * ry * souffle * (1 + sortie * 0.12);
+    out.push([cx + x - y * pente, cy + y + x * pente]);
+  }
+  return out;
+}
+
+/**
+ * Souligner — on passe un trait sous un mot. Il déborde des deux côtés, ondule légèrement,
+ * et s'achève par un petit relevé, comme quand on lève le stylo.
+ */
+export function souligner(x0: number, x1: number, y: number, graine: number[], epaisseurTrait = 7): P[] {
+  const a = x0 - 14 - graine[0] * 10, b = x1 + 16 + graine[1] * 14, l = b - a;
+  const out: P[] = [];
+  for (let t = 0; t <= 1.001; t += 0.05) {
+    const x = a + l * t;
+    const creux = Math.sin(t * Math.PI) * epaisseurTrait * 0.5;
+    out.push([x, y + creux + Math.sin(t * 7 + graine[2] * 6) * 1.6]);
+  }
+  out.push([b + 14, y - epaisseurTrait * 0.9]);
+  return out;
+}
+
 /** 1 · Chute — le fil tombe et se retourne. Pour une descente depuis le haut. */
 export function chute(x: number, y0: number, y1: number, r = 26, sens: 1 | -1 = 1): P[] {
   const yb = y0 + (y1 - y0) * 0.42;
