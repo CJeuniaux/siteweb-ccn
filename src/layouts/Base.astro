@@ -60,6 +60,13 @@ const r = await reglages();
   <script is:inline>
     document.documentElement.classList.add('js');
 
+    // Éléments qui s'animent à leur entrée dans l'écran (le fil des services)
+    const vues = document.querySelectorAll('.anime-vue');
+    if ('IntersectionObserver' in window && vues.length) {
+      const obs = new IntersectionObserver((entrees) => entrees.forEach((e) => { if (e.isIntersecting) { e.target.classList.add('visible'); obs.unobserve(e.target); } }), { threshold: 0.35 });
+      vues.forEach((v) => obs.observe(v));
+    } else vues.forEach((v) => v.classList.add('visible'));
+
     // Filtres de la liste des actualités
     document.querySelectorAll('.liste-articles').forEach((bloc) => {
       const boutons = bloc.querySelectorAll('.filtre');

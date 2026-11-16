@@ -12,7 +12,7 @@ import Aplat from './Aplat.astro';
 import { image } from '../lib/contenu';
 import { pose } from '../lib/pinceau';
 import { contourGriffonne, cadreGriffonne, bordsCoupes, type Griffon } from '../lib/trait';
-import { traitStylo } from '../lib/stylo';
+import Fil from './Fil.astro';
 
 interface Props {
   ref?: string | null; alt?: string; graine: string;
@@ -20,10 +20,12 @@ interface Props {
   couleur?: string; class?: string; loading?: 'lazy' | 'eager';
   /** Trait de stylo autour de la photo : true (par défaut) ou false */
   contour?: boolean;
+  /** Le trait se dessine à l'arrivée sur la page (héros de l'accueil) */
+  anime?: boolean;
   /** Aplat de pinceau derrière la photo : numéro de forme (0-6) ou false (par défaut : aucun, choix de Charlotte du 15/11) */
   aplat?: number | false;
 }
-const { ref, alt, graine, couleur = 'rouge', class: classe = '', loading, contour = true, aplat = false } = Astro.props;
+const { ref, alt, graine, couleur = 'rouge', class: classe = '', loading, contour = true, anime = false, aplat = false } = Astro.props;
 const img = await image(ref);
 const type = img?.type ?? 'composite';
 const cote = pose(graine).cote;
@@ -42,7 +44,6 @@ if (img && contour && type !== 'dessin') {
   if (type === 'detoure') griffon = await contourGriffonne(img.srcOriginal ?? img.src, graine);
   if (!griffon && img.largeur && img.hauteur) griffon = cadreGriffonne(+img.largeur, +img.hauteur, graine);
 }
-const formes = griffon ? griffon.traits.map((t, i) => traitStylo(t, { epaisseur: 5, graine: `${graine}:contour:${i}` })) : [];
 const teinte = /^[a-z]+$/.test(couleur) ? `var(--${couleur})` : couleur;
 ---
 {img && (
@@ -52,11 +53,7 @@ const teinte = /^[a-z]+$/.test(couleur) ? `var(--${couleur})` : couleur;
     <figure class={`photo-detouree cote-${cote} ${classe}`.trim()} data-type={type} style={`--t:${teinte}`}>
       {aplat !== false && <Aplat class="aplat-fond" couleur={couleur} graine={graine} variante={aplat} opacite={0.9} />}
       <Media class={`photo-image${type === 'composite' ? ' img-provisoire' : ''}`} ref={ref} alt={alt} loading={loading} style={masque} />
-      {griffon && (
-        <svg class="photo-trait" viewBox={`0 0 ${griffon.largeur} ${griffon.hauteur}`} aria-hidden="true" focusable="false">
-          {formes.map((d) => <path d={d} />)}
-        </svg>
-      )}
+      {griffon && <Fil class="photo-trait" traits={griffon.traits} largeur={griffon.largeur} hauteur={griffon.hauteur} epaisseur={5} graine={graine} anime={anime} />}
     </figure>
   )
 )}

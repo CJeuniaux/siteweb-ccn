@@ -1,0 +1,25 @@
+---
+// Le fil qui relie les services (accueil) : une grande boucle tracée à la main autour des cinq lockups,
+// comme on entoure un groupe au stylo. Forme aux coins arrondis (superellipse) pour longer le contenu sans
+// le couper. Elle part de la gauche, passe au-dessus, revient par-dessous, recoupe son départ et finit
+// par une bouclette. Elle se dessine quand la bande entre dans l'écran.
+import Fil from './Fil.astro';
+import { hasard } from '../lib/pinceau';
+import { boucle, type P } from '../lib/stylo';
+
+interface Props { graine: string; couleur?: string; class?: string }
+const { graine, couleur = 'encre', class: classe = '' } = Astro.props;
+const L = 1200, H = 420, cx = 600, cy = 210, rx = 586, ry = 196, n = 3.2;
+const h = hasard(`fil-services:${graine}`).n;
+const se = (v: number) => Math.sign(v) * Math.pow(Math.abs(v), 2 / n);
+const pts: P[] = [];
+// Départ et arrivée en haut à gauche, entre les deux premiers pictogrammes : la bouclette finale y a de la place
+for (let a = 228; a <= 228 + 376; a += 6) {
+  const r = (a * Math.PI) / 180, k = 1 + (h() - 0.5) * 0.02;
+  pts.push([cx + se(Math.cos(r)) * rx * k, cy + se(Math.sin(r)) * ry * k]);
+}
+const [fx, fy] = pts[pts.length - 1];
+pts.push([fx + 22, fy + 12], ...boucle(fx + 44, fy + 22, 16, -1, Math.PI), [fx + 62, fy + 6]);
+const teinte = /^[a-z]+$/.test(couleur) ? `var(--${couleur})` : couleur;
+---
+<Fil class={`fil-services ${classe}`.trim()} traits={[pts]} largeur={L} hauteur={H} epaisseur={4.5} graine={`fil-services:${graine}`} anime marge={80} preserveAspectRatio="none" style={`--t:${teinte}`} />

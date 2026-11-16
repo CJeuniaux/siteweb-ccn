@@ -276,7 +276,9 @@ button{font-family:inherit}
 /* Photo non détourée (en attendant son détourage) : même traitement sans liseré, cadre griffonné autour */
 .photo-detouree:not([data-type="detoure"]) .photo-image{filter:url(#grain) grayscale(1) contrast(1.12)}
 .photo-trait{position:absolute;inset:0;overflow:visible;z-index:2;pointer-events:none;fill:var(--t)}
-.carte-article .photo-trait,.corps-article .photo-trait{inset:-8px;width:calc(100% + 16px);height:calc(100% + 16px);overflow:hidden}
+.carte-article .photo-trait{inset:-8px;width:calc(100% + 16px);height:calc(100% + 16px);overflow:hidden}
+/* Image d'un article : le cadre griffonné déborde de la photo, le texte commence en dessous */
+.article-image{margin:14px 0 46px}
 .photo-detouree .aplat-fond{position:absolute;z-index:-1;width:118%;height:112%;left:-9%;top:-6%;overflow:visible}
 .accent-eclat{position:absolute;width:62px;z-index:3}
 
@@ -335,7 +337,16 @@ button{font-family:inherit}
 .sec-tete p{margin:0 0 8px;max-width:440px;font-size:16.5px}
 .bande{position:relative;padding:30px 0 10px}
 .lockups{position:relative;z-index:1;list-style:none;margin:0;padding:0;display:grid;grid-template-columns:repeat(5,1fr)}
-.lockups li+li{border-left:1px solid var(--filet)}
+.fil-services{position:absolute;left:-44px;right:-44px;top:-26px;bottom:-14px;width:auto;height:auto;overflow:visible;pointer-events:none;fill:var(--t);opacity:.85}
+.lockups li+li{border-left:0}
+/* Le fil s'écrit : le masque de chaque trait se dessine le long du geste (Fil.astro) */
+.js .fil-masque path{stroke-dasharray:1;stroke-dashoffset:1}
+.js .hero .fil-masque path{animation:fil-dessin 1.9s cubic-bezier(.45,.05,.2,1) .4s forwards}
+.js .anime-vue.visible .fil-masque path{animation:fil-dessin 2.2s cubic-bezier(.45,.05,.2,1) .15s forwards}
+@keyframes fil-dessin{to{stroke-dashoffset:0}}
+.js .hero .accent-eclat{opacity:0;transform:scale(.4);animation:eclat-pop .5s cubic-bezier(.3,1.4,.5,1) 2.1s forwards}
+@keyframes eclat-pop{to{opacity:1;transform:none}}
+@media (prefers-reduced-motion:reduce){.js .fil-masque path,.js .hero .accent-eclat{animation:none;stroke-dashoffset:0;opacity:1;transform:none}}
 .lockups a{display:flex;flex-direction:column;align-items:center;text-align:center;padding:4px 16px;height:100%}
 .lockups .lockup{align-items:center}
 .lockups .lockup-boucle{margin-left:34px}
@@ -462,6 +473,8 @@ footer .credit img{width:30px;height:30px}
   .lockups{grid-template-columns:repeat(6,1fr)}
   .lockups li{grid-column:span 2}
   .lockups li:nth-child(4){grid-column:2 / 4;border-left:0}
+  .fil-services{display:none}
+  .lockups li+li{border-left:1px solid var(--filet)}
   .actus .wrap{grid-template-columns:1fr;gap:20px}
   .liens{grid-template-columns:1fr 1fr}
   .liens a:nth-child(3){border-left:0}

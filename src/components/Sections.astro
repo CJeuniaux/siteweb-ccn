@@ -11,6 +11,7 @@ import CarteArticle from './CarteArticle.astro';
 import Visuel from './Visuel.astro';
 import Trait from './Trait.astro';
 import ServiceLockup from './ServiceLockup.astro';
+import FilServices from './FilServices.astro';
 import { FORMULAIRES_ACTIFS } from '../lib/etat';
 
 interface Props { sections: Record<string, any>[]; /** couleur de l'axe (pages de service) */ axe?: string }
@@ -73,7 +74,7 @@ const coord = (l: any): { valeur: string; lien: string } => {
           </div>
           <div class="hero-visuel">
             <Trait variante="eclat" graine={g(s, 'eclat')} couleur={teinte} class="accent-eclat" />
-            {c.portrait && <Visuel class="hero-portrait" ref={c.portrait} alt={c.portrait_alt ?? ''} graine={g(s, 'portrait')} couleur={teinte} loading="eager" aplat={c.aplat ?? false} contour={c.trait !== false} />}
+            {c.portrait && <Visuel class="hero-portrait" ref={c.portrait} alt={c.portrait_alt ?? ''} graine={g(s, 'portrait')} couleur={teinte} loading="eager" aplat={c.aplat ?? false} contour={c.trait !== false} anime />}
           </div>
         </div>
       </section>
@@ -100,7 +101,8 @@ const coord = (l: any): { valeur: string; lien: string } => {
               <h2>{c.titre}</h2>
               {c.intro && <p>{c.intro}</p>}
             </div>
-            <div class="bande">
+            <div class="bande anime-vue">
+              <FilServices graine={s.id} />
               <ul class="lockups">
                 {tous.map((x) => (
                   <li><a class={`service t-${x.theme}`} href={`/services/${x.slug}`}>

@@ -1,6 +1,6 @@
 ---
-// Affiche un texte du CMS en respectant ses retours à la ligne.
+// Affiche un texte du CMS en respectant ses retours à la ligne (vrais sauts de ligne, ou « \n » saisi tel quel).
 interface Props { texte?: string }
-const lignes = (Astro.props.texte ?? '').split('\n');
+const lignes = (Astro.props.texte ?? '').split(/\r?\n|\\n/);
 ---
 {lignes.map((l, i) => <>{i > 0 && <br />}{l}</>)}
