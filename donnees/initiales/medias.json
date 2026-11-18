@@ -374,5 +374,38 @@
     "hauteur": 53,
     "ordre": 35,
     "publie": true
+  },
+  {
+    "id": "m-logo-ville-charleroi",
+    "fichier": "logo-ville-charleroi.png",
+    "alt": "Ville de Charleroi",
+    "credit": "",
+    "largeur": 237,
+    "hauteur": 303,
+    "ordre": 36,
+    "publie": true,
+    "type_visuel": "photo"
+  },
+  {
+    "id": "m-logo-cpas",
+    "fichier": "logo-cpas-charleroi.png",
+    "alt": "CPAS de Charleroi",
+    "credit": "",
+    "largeur": 240,
+    "hauteur": 240,
+    "ordre": 37,
+    "publie": true,
+    "type_visuel": "photo"
+  },
+  {
+    "id": "m-logo-entre2",
+    "fichier": "logo-entre2-wallonie.png",
+    "alt": "Entre 2 Wallonie",
+    "credit": "",
+    "largeur": 408,
+    "hauteur": 300,
+    "ordre": 38,
+    "publie": true,
+    "type_visuel": "photo"
   }
 ]
