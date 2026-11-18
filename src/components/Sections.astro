@@ -72,9 +72,9 @@ const coord = (l: any): { valeur: string; lien: string } => {
               {(c.boutons ?? []).map((b: any) => <a class={btnClasse(b.style)} href={b.lien}>{b.libelle} {b.icone === 'fleche' && <Icone nom="fleche" />}</a>)}
             </div>
           </div>
-          <div class="hero-visuel" data-fil="entourer">
+          <div class="hero-visuel" data-fil="debut">
             <Trait variante="eclat" graine={g(s, 'eclat')} couleur={teinte} class="accent-eclat" />
-            {c.portrait && <Visuel class="hero-portrait" ref={c.portrait} alt={c.portrait_alt ?? ''} graine={g(s, 'portrait')} couleur={teinte} loading="eager" aplat={c.aplat ?? false} contour={false} />}
+            {c.portrait && <Visuel class="hero-portrait" ref={c.portrait} alt={c.portrait_alt ?? ''} graine={g(s, 'portrait')} couleur={teinte} loading="eager" aplat={c.aplat ?? false} contour={c.trait !== false} />}
           </div>
         </div>
       </section>

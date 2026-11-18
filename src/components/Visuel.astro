@@ -11,7 +11,7 @@ import Media from './Media.astro';
 import Aplat from './Aplat.astro';
 import { image } from '../lib/contenu';
 import { pose } from '../lib/pinceau';
-import { bordsCoupes, type Griffon } from '../lib/trait';
+import { contourGriffonne, bordsCoupes, type Griffon } from '../lib/trait';
 import { contourSouple, cheminLisse } from '../lib/fils';
 
 interface Props {
@@ -41,9 +41,10 @@ if (img && type === 'detoure') {
 
 // Charte : la photo est cernée d'une forme souple et organique, qui respire autour d'elle.
 // Elle ne suit pas la silhouette et n'encadre pas non plus : c'est un geste, large et continu.
-let griffon: Griffon | null = null;
-if (img && contour && type !== 'dessin' && img.largeur && img.hauteur) {
-  griffon = contourSouple(+img.largeur, +img.hauteur, graine);
+let griffon: Griffon | null = null, silhouette = false;
+if (img && contour && type !== 'dessin') {
+  if (type === 'detoure') { griffon = await contourGriffonne(img.srcOriginal ?? img.src, graine); silhouette = !!griffon; }
+  if (!griffon && img.largeur && img.hauteur) griffon = contourSouple(+img.largeur, +img.hauteur, graine);
 }
 const teinte = /^[a-z]+$/.test(couleur) ? `var(--${couleur})` : couleur;
 ---
@@ -58,7 +59,7 @@ const teinte = /^[a-z]+$/.test(couleur) ? `var(--${couleur})` : couleur;
         : <Aplat class="aplat-fond" couleur={couleur} graine={graine} variante={aplat} opacite={0.9} />}
       <Media class={`photo-image${type === 'composite' ? ' img-provisoire' : ''}`} ref={ref} alt={alt} loading={loading} style={masque} />
       {griffon && (
-        <svg class="photo-trait" viewBox={`0 0 ${griffon.largeur} ${griffon.hauteur}`} preserveAspectRatio="none" aria-hidden="true" focusable="false">
+        <svg class={silhouette ? "photo-trait silhouette" : "photo-trait"} viewBox={`0 0 ${griffon.largeur} ${griffon.hauteur}`} preserveAspectRatio="none" aria-hidden="true" focusable="false">
           <path d={cheminLisse(griffon.traits[0])} />
         </svg>
       )}
