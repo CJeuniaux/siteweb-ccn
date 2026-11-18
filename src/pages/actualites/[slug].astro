@@ -1,5 +1,6 @@
 ---
 import Visuel from '../../components/Visuel.astro';
+import Trait from '../../components/Trait.astro';
 // Gabarit d'un article. Les articles « exemple » affichent une mention claire et aucun texte inventé.
 import Base from '../../layouts/Base.astro';
 import Icone from '../../components/Icone.astro';
@@ -30,7 +31,7 @@ const corps = texteSur(a.corps);
   </section>
 
   <section class="bloc serre"><div class="wrap">
-    {a.image && <Visuel class="ph article-image" ref={a.image} alt={a.image_alt ?? ''} graine={`/actualites/${a.slug}:image`} couleur="bleu" loading="eager" />}
+    {a.image && <div class="article-visuel"><Visuel class="ph article-image" ref={a.image} alt={a.image_alt ?? ''} graine={`/actualites/${a.slug}:image`} couleur="bleu" loading="eager" contour={false} /><Trait variante="relier" graine={`/actualites/${a.slug}:boucle`} couleur="encre" class="article-boucle" /></div>}
     {a.exemple && <p class="bandeau-exemple"><span>{r.article_mention_exemple}</span> {r.article_texte_exemple}</p>}
     {corps && <div class="texte corps-article" set:html={corps} />}
     <p style="margin-top:28px"><a class="btn contour" href="/actualites">{r.article_retour} <Icone nom="fleche" /></a></p>

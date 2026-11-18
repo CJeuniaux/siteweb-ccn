@@ -283,6 +283,9 @@ button{font-family:inherit}
 .carte-article .photo-trait{inset:-8px;width:calc(100% + 16px);height:calc(100% + 16px);overflow:hidden}
 /* Image d'un article : le cadre griffonné déborde de la photo, le texte commence en dessous */
 .article-image{margin:14px 0 46px}
+.article-visuel{position:relative}
+.article-boucle{position:absolute;right:-18px;bottom:-40px;width:230px;height:auto;pointer-events:none}
+@media (max-width:560px){.article-boucle{width:120px;right:0;bottom:-26px}}
 .photo-detouree .aplat-fond{position:absolute;z-index:-1;width:118%;height:112%;left:-9%;top:-6%;overflow:visible}
 .accent-eclat{position:absolute;width:92px;z-index:3}
 
@@ -360,7 +363,8 @@ main{position:relative;overflow-x:clip}
 .fil-ronde{position:absolute;left:50%;top:var(--cy);width:calc(var(--r)*2.16);height:calc(var(--r)*2.16);transform:translate(-50%,-50%);overflow:visible;pointer-events:none;fill:var(--t)}
 .fil-colonne{display:none}
 /* Les gestes se dessinent : le trait part de zéro et avance avec le défilement (Base.astro) */
-.js [data-trace] path{stroke-dasharray:1;stroke-dashoffset:1;transition:stroke-dashoffset .7s cubic-bezier(.25,.1,.25,1)}
+.js [data-trace] path{stroke-dasharray:1;stroke-dashoffset:1;transition:stroke-dashoffset 1.2s cubic-bezier(.25,.1,.25,1)}
+.js.arrivee [data-trace] path{transition-duration:2.8s;transition-delay:.35s;transition-timing-function:cubic-bezier(.4,.05,.2,1)}
 @media (prefers-reduced-motion:reduce){.js [data-trace] path{stroke-dashoffset:0;transition:none}}
 /* La descente du portrait vers le cercle des services : courte, à droite de l'étiquette du premier service */
 .ronde-lien{position:absolute;left:calc(50% + var(--r)*.62);top:-110px;width:calc(var(--r)*.78);height:calc(var(--cy) - var(--r)*.74 + 110px);pointer-events:none}
@@ -514,8 +518,11 @@ footer .slogan{font:600 26px/1.1 var(--font-titre);margin:20px 0 24px;max-width:
 footer .btn.plein{background:#fff;color:var(--encre);border-color:#fff}
 footer .bas{border-top:1px solid rgba(255,255,255,.2);margin-top:40px;padding-top:18px;font-size:13.5px;display:flex;align-items:center;justify-content:space-between;gap:20px}
 footer .bas p{margin:0;opacity:.75}
-footer .credit{flex:none;margin-left:auto;opacity:.7}
-footer .credit img{width:30px;height:30px}
+/* Signature Nomad Impact : bande noire tout en bas de chaque page */
+.realise-par{display:flex;align-items:center;justify-content:center;gap:12px;background:#000;color:#fff;padding:16px 24px;font-size:13.5px;line-height:1.4;text-align:center;text-decoration:none}
+.realise-par img{width:28px;height:28px;flex:none}
+.realise-par span{opacity:.85}
+.realise-par:hover span,.realise-par:focus-visible span{opacity:1;text-decoration:underline;text-underline-offset:3px}
 
 /* ——— Écrans moyens et téléphone ——— */
 @media (min-width:981px) and (max-width:1200px){

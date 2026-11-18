@@ -9,7 +9,7 @@ const Titre = titreNiveau;
 const lien = a.lien_externe || `/actualites/${a.slug}`;
 ---
 <a class={`carte-article t-${themes[index % themes.length]}`} href={lien} data-categorie={a.categorie}>
-  {a.image ? <Visuel ref={a.image} alt={a.image_alt ?? ''} graine={`carte:${a.slug}`} couleur={themes[index % themes.length]} loading="lazy" /> : <div class="carte-placeholder" aria-hidden="true" />}
+  {a.image ? <Visuel ref={a.image} alt={a.image_alt ?? ''} graine={`carte:${a.slug}`} couleur={themes[index % themes.length]} loading="lazy" contour={false} /> : <div class="carte-placeholder" aria-hidden="true" />}
   <p class="meta">{a.categorie}{a.date_affichee && <> · {a.date_affichee}</>}{a.exemple && mentionExemple && <span class="exemple">{mentionExemple}</span>}</p>
   <Titre>{a.titre}</Titre>
   {a.resume && <p>{a.resume}</p>}

@@ -29,10 +29,9 @@ const tel = (r.telephone ?? '').replace(/\D/g, '');
       {pratique.map((m) => <li><a href={m.lien}>{m.libelle}</a></li>)}
     </ul></div>
   </div>
-  {(r.phrase_fin || r.credit_lien) && <div class="bas">
-    {r.phrase_fin && <p>{r.phrase_fin}</p>}
-    {r.credit_lien && <a class="credit" href={r.credit_lien} target="_blank" rel="noopener" title={r.credit_libelle} aria-label={r.credit_libelle}>
-      {r.credit_logo && <Media ref={r.credit_logo} alt="" width="32" height="32" />}
-    </a>}
-  </div>}
+  {r.phrase_fin && <div class="bas"><p>{r.phrase_fin}</p></div>}
 </div></footer>
+{r.credit_lien && <a class="realise-par" href={r.credit_lien} target="_blank" rel="noopener">
+  {r.credit_logo && <Media ref={r.credit_logo} alt="" width="32" height="32" />}
+  <span>{r.credit_libelle}</span>
+</a>}

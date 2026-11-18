@@ -781,8 +781,8 @@
         {
           "service": "promotion-sante",
           "texte": "La santé fait partie du chemin. Nous créons des occasions simples de parler, de prévenir, de recevoir des soins et de retrouver confiance, sans jugement et au rythme de chacun.",
-          "image": "m-promotion-sante-entretien",
-          "image_alt": "Conversation chaleureuse entre une intervenante et un homme autour d’une tasse"
+          "image": "m-promotion-sante",
+          "image_alt": "Une soignante en blouse blanche, stéthoscope autour du cou, écoute un homme assis face à elle"
         }
       ]
     }
@@ -1211,8 +1211,8 @@
       "titre": "Donner en nature",
       "accroche": "Ce qui dort chez vous peut servir ici",
       "chapo": "Certains objets du quotidien font une vraie différence. Avant de venir, appelez-nous : nos besoins changent selon les saisons.",
-      "image": "m-don-mains",
-      "image_alt": "Une poignée de main",
+      "image": "m-don-nature",
+      "image_alt": "Une femme remet un manteau plié à un homme en bonnet et veste d’hiver",
       "rotation": -1.5,
       "fil": [
         "rouge"

@@ -321,5 +321,58 @@
     "ordre": 30,
     "publie": true,
     "type_visuel": "photo"
+  },
+  {
+    "id": "m-promotion-sante",
+    "fichier": "promotion-sante.png",
+    "alt": "Une soignante en blouse blanche, stéthoscope autour du cou, écoute un homme assis face à elle",
+    "credit": "",
+    "largeur": 1400,
+    "hauteur": 921,
+    "ordre": 31,
+    "publie": true,
+    "type_visuel": "detoure"
+  },
+  {
+    "id": "m-don-nature",
+    "fichier": "soutenir-don-nature.png",
+    "alt": "Une femme remet un manteau plié à un homme en bonnet et veste d’hiver",
+    "credit": "",
+    "largeur": 1400,
+    "hauteur": 950,
+    "ordre": 32,
+    "publie": true,
+    "type_visuel": "detoure"
+  },
+  {
+    "id": "m-logo-relais-social",
+    "fichier": "logo-relais-social.png",
+    "alt": "Relais Social de Charleroi",
+    "credit": "",
+    "largeur": 186,
+    "hauteur": 189,
+    "ordre": 33,
+    "publie": true,
+    "type_visuel": "photo"
+  },
+  {
+    "id": "m-logo-espace-p",
+    "fichier": "logo-espace-p.svg",
+    "alt": "Espace P",
+    "credit": "",
+    "largeur": 41,
+    "hauteur": 51,
+    "ordre": 34,
+    "publie": true
+  },
+  {
+    "id": "m-logo-frb",
+    "fichier": "logo-fondation-roi-baudouin.svg",
+    "alt": "Fondation Roi Baudouin",
+    "credit": "",
+    "largeur": 227,
+    "hauteur": 53,
+    "ordre": 35,
+    "publie": true
   }
 ]
