@@ -21,7 +21,7 @@ export function ListePages({ derniere }: { derniere: string | null }) {
         <ul class="liste-fiches">
           {[...pages].sort((a, b) => a.adresse.localeCompare(b.adresse)).map((p) => (
             <li><a href={`#/pages/${encodeURIComponent(p.adresse)}`}>
-              <span class="fiche-titre">{p.titre || (p.adresse === '/' ? 'Accueil' : p.adresse)}</span><span class="fiche-sous">{p.adresse} · {nb(p.adresse)} blocs</span>
+              <span class="fiche-titre">{p.titre || (p.adresse === '/accueil' ? 'Accueil' : p.adresse)}</span><span class="fiche-sous">{p.adresse} · {nb(p.adresse)} blocs</span>
               {modifiees(p.adresse) && <span class="pastille">À publier</span>}<Etat publie={p.publie} />
             </a></li>
           ))}
@@ -72,7 +72,7 @@ export function FichePage({ adresse, derniere }: { adresse: string; derniere: st
       setBlocs([...(blocs ?? []), n]); dire('ok', `Bloc « ${TYPES_BLOCS[type] ?? type} » ajouté en brouillon, en bas de la page.`);
     } catch (e: any) { dire('erreur', e.message); }
   };
-  const nomPage = service?.nom || page?.titre || (adresse === '/' ? 'Accueil' : adresse);
+  const nomPage = service?.nom || page?.titre || (adresse === '/accueil' ? 'Accueil' : adresse);
   const types = [...new Set(modeles.map((m) => m.type))].sort((a, b) => (TYPES_BLOCS[a] ?? a).localeCompare(TYPES_BLOCS[b] ?? b));
   return (
     <section>

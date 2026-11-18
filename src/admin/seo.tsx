@@ -24,7 +24,7 @@ export function Seo() {
     (async () => {
       const [pages, services, articles] = await Promise.all([source.lister('pages'), source.lister('services'), source.lister('articles', { ordre: 'date_publication', desc: true })]);
       setElements([
-        ...pages.sort((a, b) => a.adresse.localeCompare(b.adresse)).map((p) => ({ table: 'pages', id: p.id, adresse: p.adresse, titre: p.titre || (p.adresse === '/' ? 'Accueil' : p.adresse), champTitre: 'titre', description: p.description ?? '', champDescription: 'description', type: 'Page', ligne: p })),
+        ...pages.sort((a, b) => a.adresse.localeCompare(b.adresse)).map((p) => ({ table: 'pages', id: p.id, adresse: p.adresse, titre: p.titre || (p.adresse === '/accueil' ? 'Accueil' : p.adresse), champTitre: 'titre', description: p.description ?? '', champDescription: 'description', type: 'Page', ligne: p })),
         ...services.map((s) => ({ table: 'services', id: s.id, adresse: `/services/${s.slug}`, titre: s.nom, champTitre: null, description: s.description_seo || '', champDescription: 'description_seo', type: 'Service', ligne: s })),
         ...articles.filter((a) => !a.lien_externe).map((a) => ({ table: 'articles', id: a.id, adresse: `/actualites/${a.slug}`, titre: a.titre, champTitre: null, description: a.resume ?? '', champDescription: 'resume', type: 'Article', ligne: a })),
       ]);
@@ -69,7 +69,7 @@ function LigneSeo({ e }: { e: Element }) {
     <li class="ligne-seo">
       <div class="seo-entete"><span class="etat brouillon">{e.type}</span> <b>{titre}</b> <span class="fiche-sous">{e.adresse}</span></div>
       <div class="apercu-google" aria-label="Aperçu dans Google">
-        <span class="g-adresse">asblcommecheznous.be{e.adresse === '/' ? '' : e.adresse.replace(/\//g, ' › ').replace(/^ › /, ' › ')}</span>
+        <span class="g-adresse">asblcommecheznous.be{e.adresse.replace(/\//g, ' › ').replace(/^ › /, ' › ')}</span>
         <span class="g-titre">{titre ? `${titre} — ${NOM_SITE}` : NOM_SITE}</span>
         <span class="g-desc">{description.trim() ? (description.length > 160 ? description.slice(0, 157) + '…' : description) : 'Google choisira lui-même un extrait de la page.'}</span>
       </div>

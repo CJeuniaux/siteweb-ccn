@@ -1,7 +1,7 @@
 [
   {
     "id": "p-accueil",
-    "adresse": "/",
+    "adresse": "/accueil",
     "titre": "",
     "description": "Les services de Comme Chez Nous et les contacts d’urgence à Charleroi.",
     "theme": "rouge",

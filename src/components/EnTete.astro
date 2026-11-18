@@ -15,7 +15,7 @@ const actif = (lien: string) => lien !== '/' && (chemin === lien || chemin.start
   {urgences.map((n) => <a href={`tel:${n.tel}`}>{n.libelle} <b>{n.numero}</b></a>)}
 </div></div>
 <header class="wrap top">
-  <a class="brand" href="/" aria-label={`${r.nom}, accueil`}>
+  <a class="brand" href="/accueil" aria-label={`${r.nom}, accueil`}>
     <Logo nom={r.nom} />
   </a>
   <nav aria-label="Navigation principale">

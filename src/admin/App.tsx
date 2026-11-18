@@ -94,7 +94,7 @@ export default function App() {
           </ul>
           <div class="compte">
             <span>{profil.email}<small>{estAdmin(profil) ? 'Administration' : 'Rédaction'}</small></span>
-            <a class="lien-discret" href="/" target="_blank" rel="noopener">Voir le site</a>
+            <a class="lien-discret" href="/accueil" target="_blank" rel="noopener">Voir le site</a>
             <button type="button" class="lien-discret" onClick={() => source.deconnexion()}>Se déconnecter</button>
           </div>
         </nav>

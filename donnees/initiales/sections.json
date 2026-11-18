@@ -631,7 +631,7 @@
   },
   {
     "id": "ac-1",
-    "page": "/",
+    "page": "/accueil",
     "type": "accueil_hero",
     "ordre": 1,
     "publie": true,
@@ -659,7 +659,7 @@
   },
   {
     "id": "ac-2",
-    "page": "/",
+    "page": "/accueil",
     "type": "aide_rapide",
     "ordre": 3,
     "publie": true,
@@ -669,7 +669,7 @@
   },
   {
     "id": "ac-3",
-    "page": "/",
+    "page": "/accueil",
     "type": "grille_services",
     "ordre": 2,
     "publie": true,
@@ -680,7 +680,7 @@
   },
   {
     "id": "ac-4",
-    "page": "/",
+    "page": "/accueil",
     "type": "liens_actus",
     "ordre": 4,
     "publie": true,
@@ -712,7 +712,7 @@
   },
   {
     "id": "ac-5",
-    "page": "/",
+    "page": "/accueil",
     "type": "don",
     "ordre": 5,
     "publie": true,

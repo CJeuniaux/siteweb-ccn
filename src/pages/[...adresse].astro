@@ -18,6 +18,6 @@ const { p } = Astro.props;
 const sections = await sectionsDe(p.adresse);
 ---
 <Base titre={p.titre} description={p.description} theme={p.theme}>
-  {p.adresse === '/' && <ScrollThread />}
+  {p.adresse === '/accueil' && <ScrollThread />}
   <Sections sections={sections} />
 </Base>
