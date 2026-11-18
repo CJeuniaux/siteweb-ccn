@@ -36,6 +36,26 @@ export function cheminLisse(pts: P[], tension = 1): string {
 }
 
 /**
+ * Contour souple — la forme fermée qui cerne une photo dans la charte : un geste large et
+ * organique autour de l'image, qui respire sans épouser la silhouette, et qui se referme en
+ * dépassant un peu son point de départ. Repère 1000 × (1000·h/l).
+ */
+export function contourSouple(largeur: number, hauteur: number, graine: string): { largeur: number; hauteur: number; traits: P[][] } {
+  const H = Math.round((1000 * hauteur) / largeur);
+  const h = hasard(`souple:${graine}`).n;
+  const ph = [h(), h(), h(), h()].map((v) => v * Math.PI * 2);
+  const cx = 500, cy = H / 2, rx = 520, ry = H * 0.54;
+  const pts: P[] = [];
+  // Un peu plus d'un tour : la main repasse sur son départ, elle ne referme pas au compas
+  for (let i = 0; i <= 40; i++) {
+    const a = -Math.PI * 0.62 + (i / 36) * Math.PI * 2;
+    const souffle = 1 + 0.085 * Math.sin(2 * a + ph[0]) + 0.055 * Math.sin(3 * a + ph[1]) + 0.03 * Math.sin(5 * a + ph[2]);
+    pts.push([cx + Math.cos(a) * rx * souffle, cy + Math.sin(a) * ry * souffle]);
+  }
+  return { largeur: 1000, hauteur: H, traits: [pts] };
+}
+
+/**
  * Une bouclette : le fil revient sur lui-même en un petit tour, puis repart.
  * `sens` 1 = la boucle passe au-dessus du trait, -1 = en dessous.
  */

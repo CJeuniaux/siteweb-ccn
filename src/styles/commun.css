@@ -275,7 +275,8 @@ button{font-family:inherit}
 .photo-image{display:block;width:100%;height:auto;filter:url(#lisere) grayscale(1) contrast(1.08)}
 /* Photo non détourée (en attendant son détourage) : même traitement sans liseré, cadre griffonné autour */
 .photo-detouree:not([data-type="detoure"]) .photo-image{filter:url(#grain) grayscale(1) contrast(1.12)}
-.photo-trait{position:absolute;inset:0;overflow:visible;z-index:2;pointer-events:none;fill:var(--t)}
+.photo-trait{position:absolute;inset:-5%;width:110%;height:110%;overflow:visible;z-index:2;pointer-events:none}
+.photo-trait path{fill:none;stroke:var(--t);stroke-width:2.1;stroke-linecap:round;vector-effect:non-scaling-stroke}
 .carte-article .photo-trait{inset:-8px;width:calc(100% + 16px);height:calc(100% + 16px);overflow:hidden}
 /* Image d'un article : le cadre griffonné déborde de la photo, le texte commence en dessous */
 .article-image{margin:14px 0 46px}

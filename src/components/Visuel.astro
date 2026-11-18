@@ -11,8 +11,8 @@ import Media from './Media.astro';
 import Aplat from './Aplat.astro';
 import { image } from '../lib/contenu';
 import { pose } from '../lib/pinceau';
-import { contourGriffonne, cadreGriffonne, bordsCoupes, type Griffon } from '../lib/trait';
-import Fil from './Fil.astro';
+import { bordsCoupes, type Griffon } from '../lib/trait';
+import { contourSouple, cheminLisse } from '../lib/fils';
 
 interface Props {
   ref?: string | null; alt?: string; graine: string;
@@ -39,10 +39,11 @@ if (img && type === 'detoure') {
   if (g.length) masque = `-webkit-mask-image:${g.join(',')};mask-image:${g.join(',')};-webkit-mask-composite:source-in;mask-composite:intersect;-webkit-mask-size:100% 100%;mask-size:100% 100%;-webkit-mask-repeat:no-repeat;mask-repeat:no-repeat`;
 }
 
+// Charte : la photo est cernée d'une forme souple et organique, qui respire autour d'elle.
+// Elle ne suit pas la silhouette et n'encadre pas non plus : c'est un geste, large et continu.
 let griffon: Griffon | null = null;
-if (img && contour && type !== 'dessin') {
-  if (type === 'detoure') griffon = await contourGriffonne(img.srcOriginal ?? img.src, graine);
-  if (!griffon && img.largeur && img.hauteur) griffon = cadreGriffonne(+img.largeur, +img.hauteur, graine);
+if (img && contour && type !== 'dessin' && img.largeur && img.hauteur) {
+  griffon = contourSouple(+img.largeur, +img.hauteur, graine);
 }
 const teinte = /^[a-z]+$/.test(couleur) ? `var(--${couleur})` : couleur;
 ---
@@ -53,7 +54,11 @@ const teinte = /^[a-z]+$/.test(couleur) ? `var(--${couleur})` : couleur;
     <figure class={`photo-detouree cote-${cote} ${classe}`.trim()} data-type={type} style={`--t:${teinte}`}>
       {aplat !== false && <Aplat class="aplat-fond" couleur={couleur} graine={graine} variante={aplat} opacite={0.9} />}
       <Media class={`photo-image${type === 'composite' ? ' img-provisoire' : ''}`} ref={ref} alt={alt} loading={loading} style={masque} />
-      {griffon && <Fil class="photo-trait" traits={griffon.traits} largeur={griffon.largeur} hauteur={griffon.hauteur} epaisseur={5} graine={graine} anime={anime} />}
+      {griffon && (
+        <svg class="photo-trait" viewBox={`0 0 ${griffon.largeur} ${griffon.hauteur}`} preserveAspectRatio="none" aria-hidden="true" focusable="false">
+          <path d={cheminLisse(griffon.traits[0])} />
+        </svg>
+      )}
     </figure>
   )
 )}
