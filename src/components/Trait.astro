@@ -16,7 +16,7 @@ const formes = t.traits.map((pts, i) =>
   cheminLisse(varier(pts, `${graine}:${i}`, Math.min(t.largeur, t.hauteur) * 0.03 * tremble)));
 const teinte = /^[a-z]+$/.test(couleur) ? `var(--${couleur})` : couleur;
 // L'épaisseur demandée reste indicative : la charte veut un trait fin et régulier partout
-const trait = epaisseur ? Math.max(1.8, Math.min(3, epaisseur * 0.42)) : 2.1;
+const trait = epaisseur ? Math.max(2.4, Math.min(3.6, epaisseur * 0.5)) : 2.8;
 ---
 <svg class={`trait trait-${variante} ${classe}`.trim()} viewBox={`0 0 ${t.largeur} ${t.hauteur}`} style={`--t:${teinte};--e:${trait};${style ?? ''}`} aria-hidden="true" focusable="false">
   {formes.map((d) => <path d={d} />)}

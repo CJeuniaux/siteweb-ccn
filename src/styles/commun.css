@@ -263,7 +263,7 @@ button{font-family:inherit}
 
 /* Tracés manuscrits : forme pleine (épaisseur variable dans le dessin), proportions toujours conservées */
 .trait{display:block;overflow:visible;pointer-events:none;height:auto}
-.trait path{fill:none;stroke:var(--t);stroke-width:var(--e,2.1);stroke-linecap:round;stroke-linejoin:round;vector-effect:non-scaling-stroke}
+.trait path{fill:none;stroke:var(--t);stroke-width:var(--e,2.8);stroke-linecap:round;stroke-linejoin:round;vector-effect:non-scaling-stroke}
 /* Pictogramme de service : même chemin que le logo, en couleur */
 .picto-service{display:block;height:64px;width:auto;fill:currentColor}
 .lockup{display:inline-flex;flex-direction:column;align-items:flex-start;color:var(--pc,var(--c))}
@@ -279,7 +279,7 @@ button{font-family:inherit}
 .photo-detouree:not([data-type="detoure"]) .photo-image{filter:url(#grain) grayscale(1) contrast(1.12)}
 .photo-trait{position:absolute;inset:-5%;width:110%;height:110%;overflow:visible;z-index:2;pointer-events:none}
 .photo-trait.silhouette{inset:0;width:100%;height:100%}
-.photo-trait path{fill:none;stroke:var(--t);stroke-width:2.1;stroke-linecap:round;vector-effect:non-scaling-stroke}
+.photo-trait path{fill:none;stroke:var(--t);stroke-width:2.8;stroke-linecap:round;vector-effect:non-scaling-stroke}
 .carte-article .photo-trait{inset:-8px;width:calc(100% + 16px);height:calc(100% + 16px);overflow:hidden}
 /* Image d'un article : le cadre griffonné déborde de la photo, le texte commence en dessous */
 .article-image{margin:14px 0 46px}
@@ -342,9 +342,9 @@ main{position:relative}
 /* Le fil passe au-dessus de tout le contenu : aucun bloc à fond ne peut le masquer. Il ne capte aucun clic. */
 .fil-page{position:absolute;inset:0;z-index:0;pointer-events:none;overflow:hidden}
 .fil-trace{display:block;width:100%;height:100%;overflow:visible}
-.fil-trace path{fill:none;stroke:var(--t,var(--encre));stroke-width:2.1;stroke-linecap:round;stroke-linejoin:round}
+.fil-trace path{fill:none;stroke:var(--t,var(--encre));stroke-width:2.8;stroke-linecap:round;stroke-linejoin:round}
 .fil-vague{display:block;width:100%;height:132px;margin:-26px 0 -6px;overflow:visible;pointer-events:none}
-.fil-vague path{fill:none;stroke:var(--t);stroke-width:2.1;stroke-linecap:round;vector-effect:non-scaling-stroke}
+.fil-vague path{fill:none;stroke:var(--t);stroke-width:2.8;stroke-linecap:round;vector-effect:non-scaling-stroke}
 @media (max-width:980px){.fil-vague{height:96px;margin:-18px 0 -4px}}
 .services-accueil{padding:40px 0 30px;overflow-x:clip}
 .sec-tete{display:grid;grid-template-columns:auto 1fr;gap:64px;align-items:end;margin-bottom:26px}
@@ -358,6 +358,9 @@ main{position:relative}
 .ronde-centre p{font-size:15.5px;line-height:1.5;margin:0;color:rgba(11,30,59,.75)}
 .fil-ronde{position:absolute;left:50%;top:var(--cy);width:calc(var(--r)*2.16);height:calc(var(--r)*2.16);transform:translate(-50%,-50%);overflow:visible;pointer-events:none;fill:var(--t)}
 .fil-colonne{display:none}
+/* Le cercle qui relie les services : le geste « entourer » de Charlotte, passé par les cinq pictos */
+.ronde-cercle{position:absolute;left:50%;top:var(--cy);width:calc(var(--r)*2);height:calc(var(--r)*2);transform:translate(-50%,-50%);overflow:visible;pointer-events:none}
+.ronde-cercle path{fill:none;stroke:var(--encre);stroke-width:2.8;stroke-linecap:round;vector-effect:non-scaling-stroke}
 .ronde-corps{position:absolute;inset:0}
 .lockups{position:absolute;inset:0;list-style:none;margin:0;padding:0;z-index:21}
 .lockups li{position:absolute;left:calc(50% + var(--px)*var(--r));top:calc(var(--cy) + var(--py)*var(--r));transform:translate(-50%,-50%);width:var(--badge);height:var(--badge)}
@@ -528,7 +531,7 @@ footer .credit img{width:30px;height:30px}
   .ronde{height:auto;--badge:64px}
   .ronde-centre{position:static;transform:none;width:auto;text-align:left;margin-bottom:26px}
   .ronde-corps{position:relative;inset:auto}
-  .fil-ronde{display:none}
+  .fil-ronde,.ronde-cercle{display:none}
   .fil-colonne{display:block;position:absolute;left:0;top:0;width:var(--badge);height:100%;overflow:visible;pointer-events:none;fill:var(--t)}
   .lockups{position:relative;inset:auto;display:flex;flex-direction:column;gap:22px}
   .lockups li{position:static;transform:none;width:auto;height:auto}

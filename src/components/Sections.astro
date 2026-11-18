@@ -12,6 +12,8 @@ import Visuel from './Visuel.astro';
 import Trait from './Trait.astro';
 import ServiceLockup from './ServiceLockup.astro';
 import FilVague from './FilVague.astro';
+import dessins from '../lib/dessins.json';
+import { cheminLisse } from '../lib/fils';
 import { FORMULAIRES_ACTIFS } from '../lib/etat';
 
 interface Props { sections: Record<string, any>[]; /** couleur de l'axe (pages de service) */ axe?: string }
@@ -72,7 +74,7 @@ const coord = (l: any): { valeur: string; lien: string } => {
               {(c.boutons ?? []).map((b: any) => <a class={btnClasse(b.style)} href={b.lien}>{b.libelle} {b.icone === 'fleche' && <Icone nom="fleche" />}</a>)}
             </div>
           </div>
-          <div class="hero-visuel" data-fil="debut">
+          <div class="hero-visuel">
             <Trait variante="eclat" graine={g(s, 'eclat')} couleur={teinte} class="accent-eclat" />
             {c.portrait && <Visuel class="hero-portrait" ref={c.portrait} alt={c.portrait_alt ?? ''} graine={g(s, 'portrait')} couleur={teinte} loading="eager" aplat={c.aplat ?? false} contour={c.trait !== false} />}
           </div>
@@ -81,7 +83,7 @@ const coord = (l: any): { valeur: string; lien: string } => {
     </>);
 
     case 'aide_rapide': return (
-      <section class="bloc serre"><div class="wrap"><div class="aide-rapide" data-fil="gauche">
+      <section class="bloc serre"><div class="wrap"><div class="aide-rapide">
         <h2>{c.titre}</h2>
         <ul>
           {urgences.map((n) => <li><a class="num" href={`tel:${n.tel}`}>{n.libelle}{' '}<b>{n.numero}</b></a></li>)}
@@ -102,12 +104,13 @@ const coord = (l: any): { valeur: string; lien: string } => {
       return (
         <section class="services-accueil">
           <div class="wrap">
-            <div class="ronde" data-fil="cercle">
+            <div class="ronde">
               <div class="ronde-centre">
                 <h2>{c.titre}</h2>
                 {c.intro && <p>{c.intro}</p>}
               </div>
               <div class="ronde-corps">
+              <svg class="ronde-cercle" viewBox={`0 0 ${dessins.entourer.largeur} ${dessins.entourer.hauteur}`} preserveAspectRatio="none" aria-hidden="true" focusable="false"><path d={cheminLisse(dessins.entourer.traits[0] as [number, number][])} /></svg>
               <ul class="lockups">
                 {services.map((x, i) => (
                   <li style={place(i)} data-cote={cote(i)}><a class={`service t-${x.theme}`} href={`/services/${x.slug}`}>
@@ -124,7 +127,7 @@ const coord = (l: any): { valeur: string; lien: string } => {
     }
 
     case 'liens_actus': return (
-      <section class="actus"><div class="wrap" data-fil="gauche">
+      <section class="actus"><div class="wrap">
         <h2 class="actus-titre"><Lignes texte={c.etiquette} /></h2>
         <div class="liens">
           {(c.liens ?? []).map((l: any) => <a href={l.lien}><span>{l.icone && <Icone nom={l.icone} />}</span><span><Lignes texte={l.libelle} /></span></a>)}
