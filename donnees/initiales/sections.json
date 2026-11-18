@@ -781,8 +781,8 @@
         {
           "service": "promotion-sante",
           "texte": "La santé fait partie du chemin. Nous créons des occasions simples de parler, de prévenir, de recevoir des soins et de retrouver confiance, sans jugement et au rythme de chacun.",
-          "image": "",
-          "image_alt": ""
+          "image": "m-promotion-sante-entretien",
+          "image_alt": "Conversation chaleureuse entre une intervenante et un homme autour d’une tasse"
         }
       ]
     }
