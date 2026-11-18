@@ -28,7 +28,7 @@
     const W = zone.offsetWidth, H = zone.offsetHeight;
     if (!W || !H) return;
     const etroit = W < 768;
-    const marge = Math.max(18, (W - 1240) / 4 + 20);
+    const marge = etroit ? 9 : Math.max(18, (W - 1240) / 4 + 20);
     const boite = (el: Element) => {
       const r = el.getBoundingClientRect();
       return { x: r.left - base.left, y: r.top - base.top, w: r.width, h: r.height, cx: r.left - base.left + r.width / 2, cy: r.top - base.top + r.height / 2 };
@@ -42,9 +42,9 @@
       if (etroit) {
         // Petits écrans : le fil descend discrètement au bord gauche, sans traverser le contenu
         if (type === 'cercle') {
-          for (const li of Array.from(el.querySelectorAll('.lockups li'))) pts.push([marge + (pts.length % 2 ? 8 : -4), boite(li).cy]);
+          for (const li of Array.from(el.querySelectorAll('.lockups li'))) pts.push([marge + (pts.length % 2 ? 3 : -2), boite(li).cy]);
         } else {
-          pts.push([marge + (pts.length % 2 ? 8 : -4), b.cy]);
+          pts.push([marge + (pts.length % 2 ? 3 : -2), b.cy]);
         }
         continue;
       }
@@ -111,13 +111,13 @@
       const n = Math.min(3, Math.round(d / 230));
       for (let k = 1; k <= n; k++) {
         const t = k / (n + 1), sens = (i + k) % 2 ? 1 : -1;
-        const ecart = Math.sin(t * Math.PI) * Math.min(72, d * 0.17) * sens;
+        const ecart = Math.sin(t * Math.PI) * Math.min(etroit ? 4 : 72, d * 0.17) * sens;
         ample.push([a[0] + dx * t + (-dy / d) * ecart, a[1] + dy * t + (dx / d) * ecart]);
       }
     }
 
     // Une main qui annote n'a pas de coins : on rogne les angles, puis on garde le tracé dans la page
-    const bord = etroit ? 12 : 26;
+    const bord = etroit ? 4 : 26;
     const ligne = adoucir(ample, 2).map(([x, y]) => [Math.min(W - bord, Math.max(bord, x)), y] as P);
     const dense = echantillonner(ligne, 12);
 

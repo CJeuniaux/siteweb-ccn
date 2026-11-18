@@ -339,7 +339,8 @@ button{font-family:inherit}
    Sur l'accueil il descend toute la page et s'écrit au défilement ; ailleurs il est
    une vague ample sous l'en-tête, immobile. */
 main{position:relative}
-.fil-page{position:absolute;inset:0;z-index:0;pointer-events:none;overflow:hidden}
+/* Le fil passe au-dessus de tout le contenu : aucun bloc à fond ne peut le masquer. Il ne capte aucun clic. */
+.fil-page{position:absolute;inset:0;z-index:20;pointer-events:none;overflow:hidden}
 .fil-trace{display:block;width:100%;height:100%;overflow:visible}
 .fil-trace path{fill:none;stroke:var(--t,var(--encre));stroke-width:2.1;stroke-linecap:round;stroke-linejoin:round}
 .fil-vague{display:block;width:100%;height:132px;margin:-26px 0 -6px;overflow:visible;pointer-events:none}
@@ -358,7 +359,7 @@ main{position:relative}
 .fil-ronde{position:absolute;left:50%;top:var(--cy);width:calc(var(--r)*2.16);height:calc(var(--r)*2.16);transform:translate(-50%,-50%);overflow:visible;pointer-events:none;fill:var(--t)}
 .fil-colonne{display:none}
 .ronde-corps{position:absolute;inset:0}
-.lockups{position:absolute;inset:0;list-style:none;margin:0;padding:0;z-index:1}
+.lockups{position:absolute;inset:0;list-style:none;margin:0;padding:0;z-index:21}
 .lockups li{position:absolute;left:calc(50% + var(--px)*var(--r));top:calc(var(--cy) + var(--py)*var(--r));transform:translate(-50%,-50%);width:var(--badge);height:var(--badge)}
 .lockups a{display:block;position:relative;width:100%;height:100%}
 .lockups .lockup{display:inline-flex;align-items:center;justify-content:center;width:var(--badge);height:var(--badge);border-radius:19px;background:var(--c);color:#fff}
