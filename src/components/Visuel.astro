@@ -59,8 +59,8 @@ const teinte = /^[a-z]+$/.test(couleur) ? `var(--${couleur})` : couleur;
         : <Aplat class="aplat-fond" couleur={couleur} graine={graine} variante={aplat} opacite={0.9} />}
       <Media class={`photo-image${type === 'composite' ? ' img-provisoire' : ''}`} ref={ref} alt={alt} loading={loading} style={masque} />
       {griffon && (
-        <svg class={silhouette ? "photo-trait silhouette" : "photo-trait"} viewBox={`0 0 ${griffon.largeur} ${griffon.hauteur}`} preserveAspectRatio="none" aria-hidden="true" focusable="false">
-          <path d={cheminLisse(griffon.traits[0])} />
+        <svg data-trace class={silhouette ? "photo-trait silhouette" : "photo-trait"} viewBox={`0 0 ${griffon.largeur} ${griffon.hauteur}`} preserveAspectRatio="none" aria-hidden="true" focusable="false">
+          <path d={cheminLisse(griffon.traits[0])} pathLength="1" />
         </svg>
       )}
     </figure>

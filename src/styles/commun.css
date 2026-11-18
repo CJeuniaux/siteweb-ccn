@@ -338,14 +338,15 @@ button{font-family:inherit}
 /* « Le fil » : trait fin, d'épaisseur constante, dans la couleur de la page.
    Sur l'accueil il descend toute la page et s'écrit au défilement ; ailleurs il est
    une vague ample sous l'en-tête, immobile. */
-main{position:relative}
+/* Le coup de pinceau et les traits débordent volontairement de leur photo : rien ne doit élargir la page */
+main{position:relative;overflow-x:clip}
 /* Le fil passe au-dessus de tout le contenu : aucun bloc à fond ne peut le masquer. Il ne capte aucun clic. */
 .fil-page{position:absolute;inset:0;z-index:0;pointer-events:none;overflow:hidden}
 .fil-trace{display:block;width:100%;height:100%;overflow:visible}
 .fil-trace path{fill:none;stroke:var(--t,var(--encre));stroke-width:2.8;stroke-linecap:round;stroke-linejoin:round}
-.fil-vague{display:block;width:100%;height:132px;margin:-26px 0 -6px;overflow:visible;pointer-events:none}
+.fil-vague{padding-top:6px;padding-bottom:10px;pointer-events:none}
+.fil-vague svg{display:block;height:auto;overflow:visible}
 .fil-vague path{fill:none;stroke:var(--t);stroke-width:2.8;stroke-linecap:round;vector-effect:non-scaling-stroke}
-@media (max-width:980px){.fil-vague{height:96px;margin:-18px 0 -4px}}
 .services-accueil{padding:40px 0 30px;overflow-x:clip}
 .sec-tete{display:grid;grid-template-columns:auto 1fr;gap:64px;align-items:end;margin-bottom:26px}
 .sec-tete h2{font-size:clamp(42px,4.8vw,68px)}
@@ -358,6 +359,16 @@ main{position:relative}
 .ronde-centre p{font-size:15.5px;line-height:1.5;margin:0;color:rgba(11,30,59,.75)}
 .fil-ronde{position:absolute;left:50%;top:var(--cy);width:calc(var(--r)*2.16);height:calc(var(--r)*2.16);transform:translate(-50%,-50%);overflow:visible;pointer-events:none;fill:var(--t)}
 .fil-colonne{display:none}
+/* Les gestes se dessinent : le trait part de zéro et avance avec le défilement (Base.astro) */
+.js [data-trace] path{stroke-dasharray:1;stroke-dashoffset:1;transition:stroke-dashoffset .7s cubic-bezier(.25,.1,.25,1)}
+@media (prefers-reduced-motion:reduce){.js [data-trace] path{stroke-dashoffset:0;transition:none}}
+/* La descente du portrait vers le cercle des services : courte, à droite de l'étiquette du premier service */
+.ronde-lien{position:absolute;left:calc(50% + var(--r)*.62);top:-52px;width:calc(var(--r)*.78);height:calc(var(--cy) - var(--r)*.74 + 52px);overflow:visible;pointer-events:none}
+.ronde-lien path{fill:none;stroke:var(--encre);stroke-width:2.8;stroke-linecap:round;vector-effect:non-scaling-stroke}
+/* Un mot souligné d'un trait de Charlotte */
+.mot-souligne{position:relative;display:inline-block}
+.mot-souligne svg{position:absolute;left:-3%;bottom:-.34em;width:106%;height:.42em;overflow:visible;pointer-events:none}
+.mot-souligne path{fill:none;stroke:var(--encre);stroke-width:2.8;stroke-linecap:round;vector-effect:non-scaling-stroke}
 /* Le cercle qui relie les services : le geste « entourer » de Charlotte, passé par les cinq pictos */
 .ronde-cercle{position:absolute;left:50%;top:var(--cy);width:calc(var(--r)*2);height:calc(var(--r)*2);transform:translate(-50%,-50%);overflow:visible;pointer-events:none}
 .ronde-cercle path{fill:none;stroke:var(--encre);stroke-width:2.8;stroke-linecap:round;vector-effect:non-scaling-stroke}
@@ -531,7 +542,7 @@ footer .credit img{width:30px;height:30px}
   .ronde{height:auto;--badge:64px}
   .ronde-centre{position:static;transform:none;width:auto;text-align:left;margin-bottom:26px}
   .ronde-corps{position:relative;inset:auto}
-  .fil-ronde,.ronde-cercle{display:none}
+  .fil-ronde,.ronde-cercle,.ronde-lien{display:none}
   .fil-colonne{display:block;position:absolute;left:0;top:0;width:var(--badge);height:100%;overflow:visible;pointer-events:none;fill:var(--t)}
   .lockups{position:relative;inset:auto;display:flex;flex-direction:column;gap:22px}
   .lockups li{position:static;transform:none;width:auto;height:auto}

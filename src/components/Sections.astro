@@ -75,8 +75,8 @@ const coord = (l: any): { valeur: string; lien: string } => {
             </div>
           </div>
           <div class="hero-visuel">
-            <Trait variante="eclat" graine={g(s, 'eclat')} couleur={teinte} class="accent-eclat" />
-            {c.portrait && <Visuel class="hero-portrait" ref={c.portrait} alt={c.portrait_alt ?? ''} graine={g(s, 'portrait')} couleur={teinte} loading="eager" aplat={c.aplat ?? false} contour={c.trait !== false} />}
+            <Trait variante="eclat" graine={g(s, 'eclat')} couleur="encre" class="accent-eclat" />
+            {c.portrait && <Visuel class="hero-portrait" ref={c.portrait} alt={c.portrait_alt ?? ''} graine={g(s, 'portrait')} couleur="encre" loading="eager" aplat={c.aplat ?? false} contour={c.trait !== false} />}
           </div>
         </div>
       </section>
@@ -84,7 +84,7 @@ const coord = (l: any): { valeur: string; lien: string } => {
 
     case 'aide_rapide': return (
       <section class="bloc serre"><div class="wrap"><div class="aide-rapide">
-        <h2>{c.titre}</h2>
+        <h2><span class="mot-souligne">{c.titre}<svg data-trace viewBox={`0 0 ${dessins.souligner.largeur} ${dessins.souligner.hauteur}`} preserveAspectRatio="none" aria-hidden="true" focusable="false"><path d={cheminLisse(dessins.souligner.traits[0] as [number, number][])} pathLength="1" /></svg></span></h2>
         <ul>
           {urgences.map((n) => <li><a class="num" href={`tel:${n.tel}`}>{n.libelle}{' '}<b>{n.numero}</b></a></li>)}
           {r.telephone && <li><a href={`tel:${tel(r.telephone)}`}>{r.telephone}</a></li>}
@@ -110,7 +110,8 @@ const coord = (l: any): { valeur: string; lien: string } => {
                 {c.intro && <p>{c.intro}</p>}
               </div>
               <div class="ronde-corps">
-              <svg class="ronde-cercle" viewBox={`0 0 ${dessins.entourer.largeur} ${dessins.entourer.hauteur}`} preserveAspectRatio="none" aria-hidden="true" focusable="false"><path d={cheminLisse(dessins.entourer.traits[0] as [number, number][])} /></svg>
+              <svg class="ronde-lien" data-trace viewBox="0 0 300 200" preserveAspectRatio="none" aria-hidden="true" focusable="false"><path d="M286 2 C300 66, 232 104, 156 118 S24 146, 8 198" pathLength="1" /></svg>
+              <svg class="ronde-cercle" data-trace viewBox={`0 0 ${dessins.entourer.largeur} ${dessins.entourer.hauteur}`} preserveAspectRatio="none" aria-hidden="true" focusable="false"><path d={cheminLisse(dessins.entourer.traits[0] as [number, number][])} pathLength="1" /></svg>
               <ul class="lockups">
                 {services.map((x, i) => (
                   <li style={place(i)} data-cote={cote(i)}><a class={`service t-${x.theme}`} href={`/services/${x.slug}`}>
@@ -625,7 +626,7 @@ const coord = (l: any): { valeur: string; lien: string } => {
           <h2><Lignes texte={c.titre ?? r.don_titre} /></h2>
           <a class="btn plein" href={r.don_lien}>{r.don_bouton} <Icone nom="fleche" /></a>
         </div>
-        {r.don_image && <Visuel class="don-photo" ref={r.don_image} alt={r.don_image_alt ?? ''} graine={g(s, 'don')} couleur={teinte} loading="lazy" />}
+        {r.don_image && <Visuel class="don-photo" ref={r.don_image} alt={r.don_image_alt ?? ''} graine={g(s, 'don')} couleur={axe ?? 'encre'} loading="lazy" />}
       </div></section>
     );
 
