@@ -40,8 +40,21 @@ export const TRACES = {
   },
   /** trois petits traits droits d'accent, façon annotation (une seule fois par page au plus) */
   eclat: { largeur: 90, hauteur: 80, epaisseur: 5, tremble: 0, pression: 0.08, traits: [[[18, 56], [12, 26]], [[36, 48], [48, 16]], [[54, 64], [82, 54]]] },
-  /** court trait sous un mot choisi (jamais automatique) */
+  /** court trait sous un mot choisi (jamais automatique) — geste « Souligner » */
   souligne: { largeur: 320, hauteur: 30, epaisseur: 5, traits: [[[4, 20], [100, 13], [210, 17], [316, 10]]] },
+  /** geste « Relier » : une ligne qui va d'une idée à l'autre en se nouant au passage */
+  relier: {
+    largeur: 360, hauteur: 120, epaisseur: 5, tremble: 0.4,
+    traits: [[[6, 92], [66, 84], [128, 72], ...boucle(176, 48, 26, 1, Math.PI * 0.75), [232, 70], [292, 82], [354, 74]]],
+  },
+  /** geste « Orienter » : une flèche tracée à la main, qui montre la suite */
+  fleche: {
+    largeur: 240, hauteur: 110, epaisseur: 5, tremble: 0.5,
+    traits: [
+      [[8, 86], [62, 62], [128, 44], [196, 34], [228, 32]],
+      [[188, 10], [230, 32], [190, 58]],
+    ],
+  },
 } satisfies Record<string, Trace>;
 
 export type VarianteTrace = keyof typeof TRACES;

@@ -262,7 +262,8 @@ button{font-family:inherit}
 .logo-nom{font-family:var(--font-titre);font-size:27px;line-height:.92;letter-spacing:-.005em;font-variation-settings:var(--reglage-titre)}
 
 /* Tracés manuscrits : forme pleine (épaisseur variable dans le dessin), proportions toujours conservées */
-.trait{display:block;overflow:visible;pointer-events:none;fill:var(--t);height:auto}
+.trait{display:block;overflow:visible;pointer-events:none;height:auto}
+.trait path{fill:none;stroke:var(--t);stroke-width:var(--e,2.1);stroke-linecap:round;stroke-linejoin:round;vector-effect:non-scaling-stroke}
 /* Pictogramme de service : même chemin que le logo, en couleur */
 .picto-service{display:block;height:64px;width:auto;fill:currentColor}
 .lockup{display:inline-flex;flex-direction:column;align-items:flex-start;color:var(--pc,var(--c))}

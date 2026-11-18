@@ -1,16 +1,23 @@
 ---
-// Tracé manuscrit de la charte (HanddrawnLine). Variantes dans lib/traces.ts ; rendu « stylo » dans lib/stylo.ts.
-// couleur : nom d'un thème (rouge, bleu, jaune, vert, encre) ou toute couleur CSS. Décoratif : masqué aux lecteurs d'écran.
+// Les gestes du trait (charte, planche 02) : Entourer, Souligner, Accentuer, Relier, Orienter.
+// Tous sont tracés de la même main : un trait fin, d'épaisseur constante, aux courbes amples.
+// Les tracés eux-mêmes sont dans lib/traces.ts ; une graine stable fait varier légèrement chaque
+// occurrence, pour que deux traits voisins ne soient jamais identiques.
+// couleur : nom d'un thème (rouge, bleu, jaune, vert, mauve, encre) ou toute couleur CSS.
 import { TRACES, type VarianteTrace } from '../lib/traces';
-import { traitStylo, varier } from '../lib/stylo';
+import { varier } from '../lib/stylo';
+import { cheminLisse } from '../lib/fils';
 
 interface Props { variante: VarianteTrace; graine: string; couleur?: string; class?: string; epaisseur?: number; style?: string }
 const { variante, graine, couleur = 'encre', class: classe = '', epaisseur, style } = Astro.props;
 const t = TRACES[variante] ?? TRACES.libre;
-const e = epaisseur ?? t.epaisseur;
-const formes = t.traits.map((pts, i) => traitStylo(varier(pts, `${graine}:${i}`, Math.min(t.largeur, t.hauteur) * 0.04 * ((t as { tremble?: number }).tremble ?? 1)), { epaisseur: e, graine: `${graine}:${i}`, tremble: (t as { tremble?: number }).tremble ?? 1, pression: (t as { pression?: number }).pression ?? 0.3 }));
+const tremble = (t as { tremble?: number }).tremble ?? 1;
+const formes = t.traits.map((pts, i) =>
+  cheminLisse(varier(pts, `${graine}:${i}`, Math.min(t.largeur, t.hauteur) * 0.03 * tremble)));
 const teinte = /^[a-z]+$/.test(couleur) ? `var(--${couleur})` : couleur;
+// L'épaisseur demandée reste indicative : la charte veut un trait fin et régulier partout
+const trait = epaisseur ? Math.max(1.8, Math.min(3, epaisseur * 0.42)) : 2.1;
 ---
-<svg class={`trait trait-${variante} ${classe}`.trim()} viewBox={`0 0 ${t.largeur} ${t.hauteur}`} style={`--t:${teinte};${style ?? ''}`} aria-hidden="true" focusable="false">
+<svg class={`trait trait-${variante} ${classe}`.trim()} viewBox={`0 0 ${t.largeur} ${t.hauteur}`} style={`--t:${teinte};--e:${trait};${style ?? ''}`} aria-hidden="true" focusable="false">
   {formes.map((d) => <path d={d} />)}
 </svg>
