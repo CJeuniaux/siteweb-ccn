@@ -52,7 +52,10 @@ const teinte = /^[a-z]+$/.test(couleur) ? `var(--${couleur})` : couleur;
     <Media class={classe} ref={ref} alt={alt} loading={loading} />
   ) : (
     <figure class={`photo-detouree cote-${cote} ${classe}`.trim()} data-type={type} style={`--t:${teinte}`}>
-      {aplat !== false && <Aplat class="aplat-fond" couleur={couleur} graine={graine} variante={aplat} opacite={0.9} />}
+      {/* Charte : la photo repose sur un coup de pinceau gris, jamais incrusté dans le fichier */}
+      {aplat === false
+        ? type === 'detoure' && <Aplat class="aplat-fond" couleur="var(--pinceau)" graine={`pinceau:${graine}`} opacite={0.75} />
+        : <Aplat class="aplat-fond" couleur={couleur} graine={graine} variante={aplat} opacite={0.9} />}
       <Media class={`photo-image${type === 'composite' ? ' img-provisoire' : ''}`} ref={ref} alt={alt} loading={loading} style={masque} />
       {griffon && (
         <svg class="photo-trait" viewBox={`0 0 ${griffon.largeur} ${griffon.hauteur}`} preserveAspectRatio="none" aria-hidden="true" focusable="false">

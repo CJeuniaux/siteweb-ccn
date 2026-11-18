@@ -7,6 +7,7 @@
   --encre:#0B1E3B;   /* textes, boutons, structure */
   --fond:#F9F7F3;    /* fond blanc cassé */
   --blanc:#fff;
+  --pinceau:#D5D0C9;  /* coup de pinceau gris derrière les photos (charte) */
   --filet:rgba(11,30,59,.2); /* filets fins de séparation (encre transparente) */
   /* Typographies : titres éditoriaux (sérif), textes, menus et données (sans-serif) */
   --font-titre:'Fraunces Variable',Georgia,serif;
