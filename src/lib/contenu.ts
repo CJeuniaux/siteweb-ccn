@@ -96,5 +96,5 @@ export const services = () => lire('services');
 
 /** Couleurs de la DA, par thème (le CMS stocke le nom du thème, pas la couleur). */
 export const COULEURS: Record<string, string> = {
-  rouge: '#D4705C', bleu: '#5B8DB1', jaune: '#EFC25E', vert: '#86A873', encre: '#121B30', nuit: '#121B30', mauve: '#121B30',
+  rouge: '#D4705C', bleu: '#5B8DB1', jaune: '#EFC25E', vert: '#86A873', encre: '#0B1E3B', nuit: '#0B1E3B', mauve: '#0B1E3B',
 };

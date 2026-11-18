@@ -44,7 +44,7 @@ const themes = ['rouge', 'bleu', 'jaune', 'vert'];
 const ibanCompact = (r.iban ?? '').replace(/\s/g, '');
 const qrVirement = ibanCompact
   ? await QRCode.toString(['BCD', '002', '1', 'SCT', '', r.beneficiaire ?? '', ibanCompact, '', '', '', ''].join('\n'),
-      { type: 'svg', errorCorrectionLevel: 'M', margin: 1, color: { dark: '#121B30', light: '#FFFFFF' } })
+      { type: 'svg', errorCorrectionLevel: 'M', margin: 1, color: { dark: '#0B1E3B', light: '#FFFFFF' } })
   : '';
 const serviceDe = (slug?: string) => services.find((x) => x.slug === slug);
 const btnClasse = (style?: string) => `btn ${style ?? 'plein'}`;
