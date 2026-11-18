@@ -74,7 +74,7 @@ const coord = (l: any): { valeur: string; lien: string } => {
           </div>
           <div class="hero-visuel" data-fil="entourer">
             <Trait variante="eclat" graine={g(s, 'eclat')} couleur={teinte} class="accent-eclat" />
-            {c.portrait && <Visuel class="hero-portrait" ref={c.portrait} alt={c.portrait_alt ?? ''} graine={g(s, 'portrait')} couleur={teinte} loading="eager" aplat={c.aplat ?? false} contour={c.trait !== false} anime />}
+            {c.portrait && <Visuel class="hero-portrait" ref={c.portrait} alt={c.portrait_alt ?? ''} graine={g(s, 'portrait')} couleur={teinte} loading="eager" aplat={c.aplat ?? false} contour={false} />}
           </div>
         </div>
       </section>
@@ -98,7 +98,7 @@ const coord = (l: any): { valeur: string; lien: string } => {
       const n = services.length;
       const place = (i: number) => { const a = -Math.PI / 2 + (i * 2 * Math.PI) / n; return `--px:${Math.cos(a).toFixed(4)};--py:${Math.sin(a).toFixed(4)}`; };
       // Étiquette du côté extérieur du cercle, pour que le fil ne la traverse jamais
-      const cote = (i: number) => { const a = -Math.PI / 2 + (i * 2 * Math.PI) / n, x = Math.cos(a), y = Math.sin(a); return x > 0.3 ? 'droite' : x < -0.3 ? 'gauche' : y < 0 ? 'haut' : 'bas'; };
+      const cote = (i: number) => { const a = -Math.PI / 2 + (i * 2 * Math.PI) / n, x = Math.cos(a), y = Math.sin(a); return y > 0.45 ? 'bas' : x > 0.3 ? 'droite' : x < -0.3 ? 'gauche' : 'haut'; };
       return (
         <section class="services-accueil">
           <div class="wrap">
@@ -619,7 +619,7 @@ const coord = (l: any): { valeur: string; lien: string } => {
     case 'don': return (
       <section class="don"><div class="wrap">
         <div>
-          <h2 data-fil="souligner"><Lignes texte={c.titre ?? r.don_titre} /></h2>
+          <h2 data-fil="entourer"><Lignes texte={c.titre ?? r.don_titre} /></h2>
           <a class="btn plein" href={r.don_lien}>{r.don_bouton} <Icone nom="fleche" /></a>
         </div>
         {r.don_image && <Visuel class="don-photo" ref={r.don_image} alt={r.don_image_alt ?? ''} graine={g(s, 'don')} couleur={teinte} loading="lazy" />}

@@ -52,8 +52,9 @@
       if (type === 'entourer') {
         // Le fil cerne le portrait d'un grand tour ample, en restant dans la page
         const al = hasard(`tour:${b.y}`).n, gr = [al(), al(), al()];
-        const place = Math.max(70, Math.min(W - 34 - b.cx, b.cx - 34)) / 1.2;
-        const rx = Math.min(b.w * 0.66, place), ry = Math.min(b.h * 0.62, rx);
+        // L'ovale doit contenir le bloc, pas le couper : il circonscrit sa boîte, et reste dans la page
+        const place = Math.max(70, Math.min(W - 34 - b.cx, b.cx - 34)) / 1.1;
+        const rx = Math.min(b.w * 0.74, place), ry = Math.min(b.h * 0.86, rx);
         pts.push([b.cx - rx * 0.1, b.cy - ry * 1.42]);
         entourer(b.cx, b.cy, rx, ry, gr, -1.75, 1.06).forEach((p) => pts.push(p));
         // Il ressort par la droite : de là il rejoint le cercle sans couper l'étiquette du premier service
