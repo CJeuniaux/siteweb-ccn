@@ -393,7 +393,15 @@ main{position:relative;overflow-x:clip}
 .js .fil-masque path{stroke-dasharray:1;stroke-dashoffset:1}
 .js .hero .fil-masque path{animation:fil-dessin 1.9s cubic-bezier(.45,.05,.2,1) .4s forwards}
 @keyframes fil-dessin{to{stroke-dashoffset:0}}
-.js .hero .accent-eclat{opacity:0;transform:scale(.4);animation:eclat-pop .5s cubic-bezier(.3,1.4,.5,1) 2.1s forwards}
+/* Héros de l'accueil : le trait se dessine d'abord, lentement ; le coup de pinceau s'installe ;
+   puis l'homme apparaît en fondu ; les éclats viennent en dernier. Une seule fois, à l'arrivée. */
+.js .hero [data-trace] path{transition-duration:2.4s;transition-timing-function:cubic-bezier(.4,.05,.2,1)}
+.js .hero .aplat-fond{opacity:0;animation:hero-fondu 1.6s ease .7s forwards}
+.js .hero .photo-image{opacity:0;animation:hero-homme 1.9s cubic-bezier(.2,.6,.2,1) 1.3s forwards}
+@keyframes hero-fondu{to{opacity:1}}
+@keyframes hero-homme{from{opacity:0;transform:translateY(10px)}to{opacity:1;transform:none}}
+.js .hero .accent-eclat{opacity:0;transform:scale(.4);animation:eclat-pop .5s cubic-bezier(.3,1.4,.5,1) 3s forwards}
+@media (prefers-reduced-motion:reduce){.js .hero .aplat-fond,.js .hero .photo-image{animation:none;opacity:1;transform:none}}
 @keyframes eclat-pop{to{opacity:1;transform:none}}
 @media (prefers-reduced-motion:reduce){.js .fil-masque path,.js .hero .accent-eclat{animation:none;stroke-dashoffset:0!important;opacity:1;transform:none}}
 .nom-souligne{position:relative;display:inline-block}
