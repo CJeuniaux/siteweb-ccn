@@ -10,7 +10,7 @@
 <script>
   import { echantillonner, type P } from '../lib/stylo';
   import { hasard } from '../lib/pinceau';
-  import { chute, entourer, souligner, adoucir } from '../lib/fils';
+  import { chute, entourer, souligner, adoucir, plume, derive } from '../lib/fils';
 
   type Pt = { x: number; y: number; c?: string };
 
@@ -27,26 +27,33 @@
 
   /** Bords gauche et droit du trait de stylo, calculés en une fois sur tout le fil :
    *  le tremblé et la pression suivent la longueur réelle, donc aucune rupture entre deux morceaux. */
-  function bords(s: P[], epaisseur: number, graine: string) {
-    const h = hasard(`fil:${graine}`).n, n = s.length;
-    const L = [0];
+  /**
+   * Les deux bords du trait, à partir du passage réel de la plume.
+   * L'épaisseur suit la vitesse : la main appuie quand elle ralentit (virages, départs),
+   * et le trait s'affine quand elle file. Plus aucune sinusoïde : rien ne se répète.
+   */
+  function bords(s: P[], vitesse: number[], epaisseur: number, graine: string) {
+    const n = s.length, L = [0];
     for (let i = 1; i < n; i++) L.push(L[i - 1] + Math.hypot(s[i][0] - s[i - 1][0], s[i][1] - s[i - 1][1]));
     const tot = L[n - 1] || 1;
-    const ph = [h(), h(), h(), h()].map((v) => v * Math.PI * 2);
+    const grain = derive(`grain:${graine}`);
+    const vMoy = vitesse.reduce((a, b) => a + b, 0) / Math.max(1, n);
+    // la pression ne suit pas la vitesse instantanée mais la vitesse ressentie, qui met du temps à varier
+    const ressentie: number[] = []; let acc = vMoy;
+    for (let i = 0; i < n; i++) { acc += (vitesse[i] - acc) * 0.06; ressentie.push(acc); }
     const g: P[] = [], d: P[] = [];
     for (let i = 0; i < n; i++) {
       const a = s[Math.max(0, i - 1)], b = s[Math.min(n - 1, i + 1)];
       let tx = b[0] - a[0], ty = b[1] - a[1];
       const l = Math.hypot(tx, ty) || 1; tx /= l; ty /= l;
       const nx = -ty, ny = tx, u = L[i];
-      // irrégularités de la main : deux ondulations lentes, d'échelle fixe (indépendantes de la longueur)
-      const dec = epaisseur * 0.75 * (Math.sin(0.0115 * u + ph[0]) * 0.62 + Math.sin(0.0271 * u + ph[1]) * 0.38);
-      let w = epaisseur * (1 + 0.26 * (Math.sin(0.0043 * u + ph[2]) * 0.7 + Math.sin(0.0127 * u + ph[3]) * 0.3));
-      const bout = Math.min(u, tot - u) / (epaisseur * 5);
-      if (bout < 1) w *= 0.35 + 0.65 * bout; // le stylo s'affine à l'attaque et à la levée
-      const cx = s[i][0] + nx * dec, cy = s[i][1] + ny * dec;
-      g.push([cx + nx * w / 2, cy + ny * w / 2]);
-      d.push([cx - nx * w / 2, cy - ny * w / 2]);
+      const lenteur = Math.max(-1, Math.min(1, (vMoy - ressentie[i]) / Math.max(0.001, vMoy)));
+      let w = epaisseur * (1 + lenteur * 0.34 + grain(u / 110) * 0.12);
+      const bout = Math.min(u, tot - u) / (epaisseur * 6);
+      if (bout < 1) w *= 0.3 + 0.7 * bout; // la plume se pose et se lève
+      w = Math.max(epaisseur * 0.4, w);
+      g.push([s[i][0] + nx * w / 2, s[i][1] + ny * w / 2]);
+      d.push([s[i][0] - nx * w / 2, s[i][1] - ny * w / 2]);
     }
     return { g, d, L, tot };
   }
@@ -98,17 +105,22 @@
         }
         continue;
       }
-      if (type === 'debut') {
-        // On annote : le trait descend du haut, puis entoure la silhouette comme on cerne
-        // quelqu'un sur une photo — il passe autour, jamais sur le visage.
-        const al = hasard(`entoure:${b.y}`).n, gr = [al(), al(), al()];
-        pts.push({ x: b.cx + b.w * 0.46, y: b.y - 70, c: COUL.rouge });
-        entourer(b.cx, b.cy + b.h * 0.03, b.w * 0.70, b.h * 0.66, gr, -2.0, 1.1).forEach(([x, y]) => pts.push({ x, y }));
-        pts.push({ x: b.x - 30, y: b.y + b.h + 30 });
-      } else if (type === 'souligner') {
-        // On souligne un terme : le trait passe dessous, déborde, et se relève
+      if (type === 'souligner') {
+        // On souligne un terme : le trait passe dessous, déborde des deux côtés, et se relève.
+        // La silhouette, elle, est déjà cernée par son propre détourage : on ne la double pas.
         const al = hasard(`souligne:${b.y}`).n, gr = [al(), al(), al()];
-        souligner(b.x, b.x + Math.min(b.w, 420), b.y + b.h + 12, gr).forEach(([x, y]) => pts.push({ x, y }));
+        // On souligne la dernière ligne, pas tout le bloc : c'est un terme qu'on marque, pas un cadre
+        const r = document.createRange(); r.selectNodeContents(el);
+        const lignes = Array.from(r.getClientRects()).filter((q) => q.width > 24);
+        const der = lignes[lignes.length - 1];
+        const x0 = der ? der.left - base.left : b.x;
+        const x1 = der ? der.right - base.left : b.x + Math.min(b.w, 400);
+        const yb = der ? der.bottom - base.top : b.y + b.h;
+        // La main aborde le mot par la gauche, en remontant un peu : sans ça, une descente
+        // qui tournerait net sous le texte dessinerait un crochet, pas un soulignement.
+        pts.push({ x: x0 - 150, y: yb + 46, c: pts.length ? undefined : COUL.rouge });
+        pts.push({ x: x0 - 62, y: yb - 4 });
+        souligner(x0, x1, yb + 10, gr).forEach(([x, y]) => pts.push({ x, y }));
       } else if (type === 'cercle') {
         const lis = Array.from(el.querySelectorAll('.lockups li'));
         if (!lis.length) continue;
@@ -150,8 +162,12 @@
     const controle = adoucir(pts.map((p) => [p.x, p.y] as P), 2);
     // La courbe peut dépasser ses points de passage : on la garde dans la page, jamais hors cadre
     const bord = etroit ? 10 : 24;
-    ligne = echantillonner(controle, etroit ? 14 : 10).map(([x, y]) => [Math.min(W - bord, Math.max(bord, x)), y] as P);
-    const { g, d, L, tot } = bords(ligne, etroit ? 3.2 : 4.4, 'accueil');
+    // Le tracé idéal n'est qu'une intention : ce qu'on dessine, c'est la main qui le suit
+    const intention = echantillonner(controle, etroit ? 5 : 3.5);
+    const main = plume(intention, `accueil:${W}`, 0.34, 0.62);
+    ligne = main.pts.map(([x, y]) => [Math.min(W - bord, Math.max(bord, x)), y] as P);
+    const vitesse = main.vitesse;
+    const { g, d, L, tot } = bords(ligne, vitesse, etroit ? 3.2 : 4.4, 'accueil');
     let plusBas = -Infinity;
     profondeur = ligne.map((p, i) => { plusBas = Math.max(plusBas, p[1]); return [plusBas, L[i] / tot]; });
 

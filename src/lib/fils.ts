@@ -3,6 +3,7 @@
 // de la page, en pixels. Les règles comptent autant que les formes : un support ne porte jamais
 // deux fois le même geste, et le Nœud reste exceptionnel.
 import { boucle, type P } from './stylo';
+import { hasard } from './pinceau';
 
 /** Petite ondulation régulière entre deux points, pour que rien ne soit jamais une droite parfaite. */
 function onduler(ax: number, ay: number, bx: number, by: number, amplitude: number, pas = 7): P[] {
@@ -14,6 +15,46 @@ function onduler(ax: number, ay: number, bx: number, by: number, amplitude: numb
     out.push([x + (-dy / l) * k, y + (dx / l) * k]);
   }
   return out;
+}
+
+/**
+ * Un bruit doux, sans période audible : la main dérive, elle n'oscille pas.
+ * Rend une fonction du « temps » (ici la distance parcourue) à valeurs dans [-1, 1].
+ */
+export function derive(graine: string, taille = 96) {
+  const h = hasard(`derive:${graine}`).n;
+  const v = Array.from({ length: taille }, () => h() * 2 - 1);
+  const lisse = (t: number) => {
+    const i = Math.floor(t), f = t - i;
+    const a = v[((i % taille) + taille) % taille], b = v[(((i + 1) % taille) + taille) % taille];
+    return a + (b - a) * f * f * (3 - 2 * f);
+  };
+  // trois échelles superposées : le geste large, l'hésitation, le grain de la main
+  return (t: number) => lisse(t) * 0.6 + lisse(t * 2.37 + 11) * 0.3 + lisse(t * 5.11 + 23) * 0.1;
+}
+
+/**
+ * La plume — on ne dessine pas le tracé idéal, on dessine une main qui essaie de le suivre.
+ * Elle est en retard, elle a de l'élan, donc elle dépasse dans les virages et coupe les angles
+ * d'elle-même. C'est ce décalage qui fait qu'un trait paraît tracé plutôt que calculé.
+ * Rend, pour chaque point : la position atteinte et la vitesse (qui donnera l'épaisseur).
+ */
+export function plume(ideal: P[], graine: string, raideur = 0.22, amorti = 0.76): { pts: P[]; vitesse: number[] } {
+  if (ideal.length < 2) return { pts: ideal, vitesse: ideal.map(() => 0) };
+  const d = derive(graine), pts: P[] = [], vitesse: number[] = [];
+  let px = ideal[0][0], py = ideal[0][1], vx = 0, vy = 0, parcouru = 0;
+  for (let i = 0; i < ideal.length; i++) {
+    const [cx, cy] = ideal[i];
+    vx = (vx + (cx - px) * raideur) * amorti;
+    vy = (vy + (cy - py) * raideur) * amorti;
+    px += vx; py += vy;
+    parcouru += Math.hypot(vx, vy);
+    // la main dérive lentement autour de son intention
+    const n = parcouru / 150;
+    pts.push([px + d(n) * 2.6, py + d(n + 37) * 2.6]);
+    vitesse.push(Math.hypot(vx, vy));
+  }
+  return { pts, vitesse };
 }
 
 /**
