@@ -1,33 +1,33 @@
 ---
-// Le fil sous l'en-tête d'une page : une grande vague ample qui traverse toute la largeur et se
-// noue une fois en bouclette. Trait fin, d'épaisseur constante, dans la couleur de la page
-// (bleu nuit partout, couleur du service sur sa propre page). Statique : il ne s'anime pas.
-import { cheminLisse, bouclette } from '../lib/fils';
+// Le fil sous l'en-tête d'une page. C'est le geste « relier » dessiné par Charlotte, posé à sa propre
+// échelle (sa boucle n'est jamais étirée), puis prolongé jusqu'aux deux bords dans son élan.
+// Trait fin, couleur de la page, immobile. La graine décide de la place du geste et de son sens
+// (boucle à gauche ou à droite, au-dessus ou en dessous) : deux pages n'ont pas le même trait.
+import { cheminLisse } from '../lib/fils';
 import { hasard } from '../lib/pinceau';
+import dessins from '../lib/dessins.json';
 import type { P } from '../lib/stylo';
 
-interface Props {
-  graine: string;
-  /** nom d'un thème (rouge, bleu, jaune, vert, mauve, encre) */
-  couleur?: string;
-  /** position de la bouclette le long de la vague, de 0 (gauche) à 1 (droite) */
-  noeud?: number;
-  class?: string;
-}
-const { graine, couleur = 'encre', noeud = 0.42, class: classe = '' } = Astro.props;
-const L = 1600, H = 150, milieu = 92;
+interface Props { graine: string; couleur?: string; noeud?: number; class?: string }
+const { graine, couleur = 'encre', class: classe = '' } = Astro.props;
+const L = 1600, H = 150;
 const h = hasard(`vague:${graine}`).n;
-const ph = h() * Math.PI * 2, amp = 20 + h() * 10;
-const onde = (x: number) => milieu + Math.sin((x / L) * 3.4 + ph) * amp + Math.sin((x / L) * 7.1 + ph * 1.7) * amp * 0.3;
-
-const xn = L * noeud;
+const g = dessins.relier, base = g.traits[0] as P[];
+const ech = (520 + h() * 160) / g.largeur;                // largeur du geste : 520 à 680 unités
+const miroirX = h() < 0.5, miroirY = h() < 0.4;
+const lg = g.largeur * ech, ht = g.hauteur * ech;
+const x0 = 420 + h() * (L - 840 - lg > 0 ? L - 840 - lg : 0), y0 = (H - ht) / 2;
+let geste = base.map(([x, y]) => [x0 + (miroirX ? g.largeur - x : x) * ech, y0 + (miroirY ? g.hauteur - y : y) * ech] as P);
+if (miroirX) geste = geste.reverse();
+// Prolongements : la ligne arrive et repart en ondulant à peine, dans la direction de ses extrémités
+const [ax, ay] = geste[0], [bx, by] = geste[geste.length - 1];
+const ph = h() * 6.28;
 const avant: P[] = [], apres: P[] = [];
-for (let x = -30; x <= L + 30; x += 70) (x < xn ? avant : apres).push([x, onde(x)]);
-const [nx, ny] = avant[avant.length - 1];
-const trait: P[] = [...avant, ...bouclette(nx + 34, ny - 26, 26, 1), ...apres.map(([x, y]) => [x + 22, y] as P)];
-const d = cheminLisse(trait);
+for (let x = -300; x < ax - 60; x += 110) avant.push([x, ay + Math.sin(x / 260 + ph) * 9 * Math.min(1, (ax - x) / 300)]);
+for (let x = bx + 110; x <= L + 300; x += 110) apres.push([x, by + Math.sin(x / 240 + ph) * 9 * Math.min(1, (x - bx) / 300)]);
+const d = cheminLisse([...avant, ...geste, ...apres]);
 const teinte = /^[a-z]+$/.test(couleur) ? `var(--${couleur})` : couleur;
 ---
-<svg class={`fil-vague ${classe}`.trim()} viewBox={`0 0 ${L} ${H}`} preserveAspectRatio="none" aria-hidden="true" focusable="false" style={`--t:${teinte}`}>
+<svg class={`fil-vague ${classe}`.trim()} viewBox={`0 0 ${L} ${H}`} preserveAspectRatio="xMidYMid slice" aria-hidden="true" focusable="false" style={`--t:${teinte}`}>
   <path d={d} />
 </svg>

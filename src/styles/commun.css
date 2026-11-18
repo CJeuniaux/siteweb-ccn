@@ -284,7 +284,7 @@ button{font-family:inherit}
 /* Image d'un article : le cadre griffonné déborde de la photo, le texte commence en dessous */
 .article-image{margin:14px 0 46px}
 .photo-detouree .aplat-fond{position:absolute;z-index:-1;width:118%;height:112%;left:-9%;top:-6%;overflow:visible}
-.accent-eclat{position:absolute;width:62px;z-index:3}
+.accent-eclat{position:absolute;width:92px;z-index:3}
 
 /* En-tête */
 .urgence{background:var(--encre);color:#fff;font-size:14px}
@@ -340,7 +340,7 @@ button{font-family:inherit}
    une vague ample sous l'en-tête, immobile. */
 main{position:relative}
 /* Le fil passe au-dessus de tout le contenu : aucun bloc à fond ne peut le masquer. Il ne capte aucun clic. */
-.fil-page{position:absolute;inset:0;z-index:20;pointer-events:none;overflow:hidden}
+.fil-page{position:absolute;inset:0;z-index:0;pointer-events:none;overflow:hidden}
 .fil-trace{display:block;width:100%;height:100%;overflow:visible}
 .fil-trace path{fill:none;stroke:var(--t,var(--encre));stroke-width:2.1;stroke-linecap:round;stroke-linejoin:round}
 .fil-vague{display:block;width:100%;height:132px;margin:-26px 0 -6px;overflow:visible;pointer-events:none}

@@ -1,21 +1,19 @@
 ---
-// « Le fil » de l'accueil — un seul trait fin et continu qui descend toute la page : il entoure le
-// portrait, fait le tour des services, longe les blocs, et se noue sous l'appel au don.
-// Le tracé est calculé dans le navigateur d'après la position réelle des blocs marqués data-fil,
-// et refait à chaque changement de largeur. Il s'écrit au rythme du défilement.
-// Épaisseur constante, couleur de la page : c'est un trait de stylo, pas un coup de pinceau.
+// « Le fil » de l'accueil : le tracé dessiné par Charlotte (A-INTEGRER/fil-accueil.png), extrait en
+// ligne par scripts/vectoriser.mjs. Il est posé sur toute la hauteur de la page, derrière le contenu,
+// en trait fin, et s'écrit au rythme du défilement. Rien n'est calculé ici : la forme est la sienne.
 ---
 <div class="fil-page" aria-hidden="true"><svg class="fil-trace"><path /></svg></div>
 
 <script>
-  import { echantillonner, type P } from '../lib/stylo';
-  import { hasard } from '../lib/pinceau';
-  import { entourer, souligner, adoucir, cheminLisse, bouclette } from '../lib/fils';
+  import dessins from '../lib/dessins.json';
+  import { cheminLisse } from '../lib/fils';
+  import type { P } from '../lib/stylo';
 
+  const dessin = dessins['fil-accueil'];
   let trace: SVGPathElement | null = null, zone: HTMLElement | null = null;
-  // Pour chaque point : la profondeur atteinte jusque-là et la part du trait déjà parcourue.
-  // La révélation suit cette profondeur : un tour, qui prend beaucoup de trait sur peu de hauteur,
-  // se dessine quand on arrive à sa hauteur — jamais trois écrans plus bas.
+  // Pour chaque point : la profondeur atteinte et la part du trait parcourue. La révélation suit la
+  // profondeur : une boucle se dessine quand on arrive à sa hauteur.
   let profondeur: Array<[number, number]> = [];
   const reduit = matchMedia('(prefers-reduced-motion: reduce)').matches;
 
@@ -24,113 +22,24 @@
     const svg = zone?.querySelector('.fil-trace') as SVGSVGElement | null;
     trace = svg?.querySelector('path') ?? null;
     if (!zone || !svg || !trace) return;
-    const base = zone.getBoundingClientRect();
     const W = zone.offsetWidth, H = zone.offsetHeight;
     if (!W || !H) return;
-    const etroit = W < 768;
-    const marge = etroit ? 9 : Math.max(18, (W - 1240) / 4 + 20);
-    const boite = (el: Element) => {
-      const r = el.getBoundingClientRect();
-      return { x: r.left - base.left, y: r.top - base.top, w: r.width, h: r.height, cx: r.left - base.left + r.width / 2, cy: r.top - base.top + r.height / 2 };
-    };
-
-    const pts: P[] = [];
-    for (const el of Array.from(document.querySelectorAll('[data-fil]'))) {
-      const type = el.getAttribute('data-fil')!;
-      const b = boite(el);
-
-      if (etroit) {
-        // Petits écrans : le fil descend discrètement au bord gauche, sans traverser le contenu
-        if (type === 'cercle') {
-          for (const li of Array.from(el.querySelectorAll('.lockups li'))) pts.push([marge + (pts.length % 2 ? 3 : -2), boite(li).cy]);
-        } else {
-          pts.push([marge + (pts.length % 2 ? 3 : -2), b.cy]);
-        }
-        continue;
-      }
-
-      if (type === 'debut') {
-        // Le fil naît sous le portrait, sans le toucher, et descend vers les services
-        pts.push([b.x + b.w * 0.82, b.y + b.h + 6], [b.x + b.w * 0.66, b.y + b.h + 64]);
-      } else if (type === 'entourer') {
-        // Le fil cerne le portrait d'un grand tour ample, en restant dans la page
-        const al = hasard(`tour:${b.y}`).n, gr = [al(), al(), al()];
-        // L'ovale doit contenir le bloc, pas le couper : il circonscrit sa boîte, et reste dans la page
-        const place = Math.max(70, Math.min(W - 34 - b.cx, b.cx - 34)) / 1.1;
-        const rx = Math.min(b.w * 0.74, place), ry = Math.min(b.h * 0.86, rx);
-        pts.push([b.cx - rx * 0.1, b.cy - ry * 1.42]);
-        entourer(b.cx, b.cy, rx, ry, gr, -1.75, 1.06).forEach((p) => pts.push(p));
-        // Il ressort par la droite : de là il rejoint le cercle sans couper l'étiquette du premier service
-        pts.push([b.cx + rx * 0.72, b.cy + ry * 1.24]);
-      } else if (type === 'souligner') {
-        // Le fil passe sous un terme, déborde des deux côtés, et se relève
-        const al = hasard(`souligne:${b.y}`).n, gr = [al(), al(), al()];
-        const r = document.createRange(); r.selectNodeContents(el);
-        const lignes = Array.from(r.getClientRects()).filter((q) => q.width > 24);
-        const der = lignes[lignes.length - 1];
-        const x0 = der ? der.left - base.left : b.x;
-        const x1 = der ? der.right - base.left : b.x + Math.min(b.w, 400);
-        const yb = der ? der.bottom - base.top : b.y + b.h;
-        pts.push([x0 - 170, yb + 54], [x0 - 66, yb - 2]);
-        souligner(x0, x1, yb + 12, gr).forEach((p) => pts.push(p));
-      } else if (type === 'cercle') {
-        // Le tour des services : le fil arrive par le haut, fait le tour complet, et repart par la gauche
-        const lis = Array.from(el.querySelectorAll('.lockups li'));
-        if (!lis.length) continue;
-        const c = lis.map(boite);
-        const cx = c.reduce((s, p) => s + p.cx, 0) / c.length, cy = c.reduce((s, p) => s + p.cy, 0) / c.length;
-        const R = c.reduce((s, p) => s + Math.hypot(p.cx - cx, p.cy - cy), 0) / c.length;
-        const a0 = Math.atan2(c[0].cy - cy, c[0].cx - cx);
-        // Le fil arrive par la droite, à hauteur du premier picto (à côté de son étiquette, pas dessus),
-        // et tourne dans le sens de son arrivée : aucun demi-tour, donc aucune pointe. Il fait un tour
-        // et quart en s'élargissant un peu, comme on entoure deux fois à la main, puis quitte le cercle
-        // par la gauche, là où son élan le porte déjà vers le bas.
-        pts.push([cx + R * 0.78, cy - R * 1.14]);
-        const finTour = -(Math.PI * 2 + Math.PI / 2 + 0.1);
-        for (let a = 0.32; a >= finTour; a -= 0.14) {
-          const rr = R * (1 + 0.012 * (0.32 - a));
-          pts.push([cx + Math.cos(a0 + a) * rr, cy + Math.sin(a0 + a) * rr]);
-        }
-        pts.push([cx - R * 1.2, cy + R * 0.55], [cx - R * 1.5, cy + R * 1.1], [marge + 26, cy + R * 1.55]);
-      } else {
-        const jeu = (pts.length % 2 ? 1 : -1) * 26;
-        pts.push([type === 'gauche' ? marge + 16 + jeu : W - marge - 16 - jeu, b.cy]);
-      }
-    }
-    if (pts.length < 3) { trace.setAttribute('d', ''); return; }
-
-    // Entre deux points éloignés, le fil filait tout droit : on lui rend sa respiration latérale,
-    // sinon la descente devient un segment raide avec un coude à chaque point de passage.
-    const ample: P[] = [];
-    for (let i = 0; i < pts.length; i++) {
-      ample.push(pts[i]);
-      const a = pts[i], b = pts[i + 1];
-      if (!b) continue;
-      const dx = b[0] - a[0], dy = b[1] - a[1], d = Math.hypot(dx, dy);
-      if (d < 260) continue;
-      const n = Math.min(3, Math.round(d / 230));
-      for (let k = 1; k <= n; k++) {
-        const t = k / (n + 1), sens = (i + k) % 2 ? 1 : -1;
-        const ecart = Math.sin(t * Math.PI) * Math.min(etroit ? 4 : 72, d * 0.17) * sens;
-        ample.push([a[0] + dx * t + (-dy / d) * ecart, a[1] + dy * t + (dx / d) * ecart]);
-      }
-    }
-
-    // Une main qui annote n'a pas de coins : on rogne les angles, puis on garde le tracé dans la page
-    const bord = etroit ? 4 : 26;
-    const ligne = adoucir(ample, 2).map(([x, y]) => [Math.min(W - bord, Math.max(bord, x)), y] as P);
-    const dense = echantillonner(ligne, 12);
+    // Le dessin occupe la largeur de la page (avec une marge) et toute sa hauteur
+    const marge = W < 768 ? 14 : Math.max(40, (W - 1240) / 2 - 10);
+    const haut = 90, bas = 40;
+    const ex = (W - marge * 2) / dessin.largeur, ey = (H - haut - bas) / dessin.hauteur;
+    const pts = (dessin.traits[0] as P[]).map(([x, y]) => [marge + x * ex, haut + y * ey] as P);
 
     const L = [0];
-    for (let i = 1; i < dense.length; i++) L.push(L[i - 1] + Math.hypot(dense[i][0] - dense[i - 1][0], dense[i][1] - dense[i - 1][1]));
+    for (let i = 1; i < pts.length; i++) L.push(L[i - 1] + Math.hypot(pts[i][0] - pts[i - 1][0], pts[i][1] - pts[i - 1][1]));
     const tot = L[L.length - 1] || 1;
     let plusBas = -Infinity;
-    profondeur = dense.map((p, i) => { plusBas = Math.max(plusBas, p[1]); return [plusBas, L[i] / tot]; });
+    profondeur = pts.map((p, i) => { plusBas = Math.max(plusBas, p[1]); return [plusBas, L[i] / tot]; });
 
     svg.setAttribute('viewBox', `0 0 ${W} ${H}`);
     svg.setAttribute('width', String(W));
     svg.setAttribute('height', String(H));
-    trace.setAttribute('d', cheminLisse(dense));
+    trace.setAttribute('d', cheminLisse(pts));
     trace.setAttribute('pathLength', '1');
     trace.style.strokeDasharray = '1';
     trace.style.strokeDashoffset = reduit ? '0' : '1';
@@ -142,8 +51,7 @@
     prevu = false;
     if (!trace || !zone || reduit || !profondeur.length) return;
     const r = zone.getBoundingClientRect();
-    // La main écrit jusqu'aux trois quarts de l'écran : ce qui est à cette hauteur est déjà tracé
-    const cible = innerHeight * 0.76 - r.top;
+    const cible = innerHeight * 0.78 - r.top; // la main écrit jusqu'aux trois quarts de l'écran
     if (profondeur[0][0] > cible) { trace.style.strokeDashoffset = '1'; return; }
     let lo = 0, hi = profondeur.length - 1;
     while (lo < hi) { const m = (lo + hi + 1) >> 1; if (profondeur[m][0] <= cible) lo = m; else hi = m - 1; }

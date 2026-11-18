@@ -619,7 +619,7 @@ const coord = (l: any): { valeur: string; lien: string } => {
     case 'don': return (
       <section class="don"><div class="wrap">
         <div>
-          <h2 data-fil="entourer"><Lignes texte={c.titre ?? r.don_titre} /></h2>
+          <h2><Lignes texte={c.titre ?? r.don_titre} /></h2>
           <a class="btn plein" href={r.don_lien}>{r.don_bouton} <Icone nom="fleche" /></a>
         </div>
         {r.don_image && <Visuel class="don-photo" ref={r.don_image} alt={r.don_image_alt ?? ''} graine={g(s, 'don')} couleur={teinte} loading="lazy" />}

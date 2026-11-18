@@ -3,6 +3,9 @@
 // toutes les largeurs) ; le rendu « stylo » (épaisseur variable, tremblé) est fait par traitStylo().
 // Une graine stable fait varier légèrement chaque occurrence : deux tracés voisins ne sont jamais identiques.
 import { boucle, type P } from './stylo';
+// Les gestes dessinés par Charlotte (A-INTEGRER), extraits en lignes par scripts/vectoriser.mjs
+import dessins from './dessins.json';
+const dessin = (nom: keyof typeof dessins): Trace => ({ largeur: dessins[nom].largeur, hauteur: dessins[nom].hauteur, epaisseur: 5, tremble: 0, traits: dessins[nom].traits as P[][] });
 
 export interface Trace { largeur: number; hauteur: number; epaisseur: number; traits: P[][]; tremble?: number; pression?: number }
 
@@ -56,5 +59,11 @@ export const TRACES = {
     ],
   },
 } satisfies Record<string, Trace>;
+
+// Les gestes de la charte remplacent les tracés calculés : ce sont les dessins de Charlotte, tels quels.
+Object.assign(TRACES, {
+  bouclette: dessin('relier'), relier: dessin('relier'), eclat: dessin('accentuer'),
+  souligne: dessin('souligner'), fleche: dessin('orienter'), entourer: dessin('entourer'),
+});
 
 export type VarianteTrace = keyof typeof TRACES;
