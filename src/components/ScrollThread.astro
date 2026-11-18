@@ -87,9 +87,26 @@
     }
     if (pts.length < 3) { trace.setAttribute('d', ''); return; }
 
+    // Entre deux points éloignés, le fil filait tout droit : on lui rend sa respiration latérale,
+    // sinon la descente devient un segment raide avec un coude à chaque point de passage.
+    const ample: P[] = [];
+    for (let i = 0; i < pts.length; i++) {
+      ample.push(pts[i]);
+      const a = pts[i], b = pts[i + 1];
+      if (!b) continue;
+      const dx = b[0] - a[0], dy = b[1] - a[1], d = Math.hypot(dx, dy);
+      if (d < 260) continue;
+      const n = Math.min(3, Math.round(d / 230));
+      for (let k = 1; k <= n; k++) {
+        const t = k / (n + 1), sens = (i + k) % 2 ? 1 : -1;
+        const ecart = Math.sin(t * Math.PI) * Math.min(72, d * 0.17) * sens;
+        ample.push([a[0] + dx * t + (-dy / d) * ecart, a[1] + dy * t + (dx / d) * ecart]);
+      }
+    }
+
     // Une main qui annote n'a pas de coins : on rogne les angles, puis on garde le tracé dans la page
     const bord = etroit ? 12 : 26;
-    const ligne = adoucir(pts, 2).map(([x, y]) => [Math.min(W - bord, Math.max(bord, x)), y] as P);
+    const ligne = adoucir(ample, 2).map(([x, y]) => [Math.min(W - bord, Math.max(bord, x)), y] as P);
     const dense = echantillonner(ligne, 12);
 
     const L = [0];
