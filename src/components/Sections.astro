@@ -110,7 +110,7 @@ const coord = (l: any): { valeur: string; lien: string } => {
                 {c.intro && <p>{c.intro}</p>}
               </div>
               <div class="ronde-corps">
-              <svg class="ronde-lien" data-trace viewBox="0 0 300 200" preserveAspectRatio="none" aria-hidden="true" focusable="false"><path d="M286 2 C300 66, 232 104, 156 118 S24 146, 8 198" pathLength="1" /></svg>
+              <div class="ronde-lien" aria-hidden="true"><svg data-trace="defile" viewBox="0 0 300 200" preserveAspectRatio="none" focusable="false"><path class="amorce" d="M286 2 C288 18, 285 36, 286 52" pathLength="1" /><path d="M286 52 C287 92, 232 106, 156 120 S24 148, 8 198" pathLength="1" /></svg><svg class="lien-pointe" viewBox="0 0 24 16" focusable="false"><path d="M2 2 C6 6, 9 10, 12 13 C15 10, 18 6, 22 2" /></svg></div>
               <svg class="ronde-cercle" data-trace viewBox={`0 0 ${dessins.entourer.largeur} ${dessins.entourer.hauteur}`} preserveAspectRatio="none" aria-hidden="true" focusable="false"><path d={cheminLisse(dessins.entourer.traits[0] as [number, number][])} pathLength="1" /></svg>
               <ul class="lockups">
                 {services.map((x, i) => (
