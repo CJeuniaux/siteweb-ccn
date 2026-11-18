@@ -1,235 +1,124 @@
 ---
-// « Le fil » — UN SEUL trait continu, tracé à la main, qui descend toute la page et se dévoile au rythme
-// du défilement. Il suit la composition réelle : son tracé est calculé dans le navigateur à partir de la
-// position des blocs marqués data-fil, et recalculé à chaque changement de largeur. Il passe dans les
-// marges, reste derrière les contenus, et change de couleur en accompagnant chaque service.
-// Aucun autre tracé décoratif n'est ajouté : c'est ce fil-là, et lui seul, qui relie la page.
+// « Le fil » de l'accueil — un seul trait fin et continu qui descend toute la page : il entoure le
+// portrait, fait le tour des services, longe les blocs, et se noue sous l'appel au don.
+// Le tracé est calculé dans le navigateur d'après la position réelle des blocs marqués data-fil,
+// et refait à chaque changement de largeur. Il s'écrit au rythme du défilement.
+// Épaisseur constante, couleur de la page : c'est un trait de stylo, pas un coup de pinceau.
 ---
-<div class="fil-page" aria-hidden="true"><svg class="fil-trace"></svg></div>
+<div class="fil-page" aria-hidden="true"><svg class="fil-trace"><path /></svg></div>
 
 <script>
   import { echantillonner, type P } from '../lib/stylo';
   import { hasard } from '../lib/pinceau';
-  import { chute, entourer, souligner, adoucir, plume, derive } from '../lib/fils';
+  import { entourer, souligner, adoucir, cheminLisse, bouclette } from '../lib/fils';
 
-  type Pt = { x: number; y: number; c?: string };
-
-  const lire = (nom: string) => getComputedStyle(document.documentElement).getPropertyValue(nom).trim();
-  // Accepte « #D4705C » comme « rgb(212,112,92) » : les couleurs déjà mélangées repassent par ici
-  const rgb = (c: string) => {
-    const m = c.match(/^rgba?\(([^)]+)\)/);
-    if (m) return m[1].split(',').slice(0, 3).map((v) => parseFloat(v));
-    const v = c.replace('#', '').trim();
-    const n = parseInt(v.length === 3 ? v.split('').map((x) => x + x).join('') : v, 16);
-    return [n >> 16 & 255, n >> 8 & 255, n & 255];
-  };
-  const melange = (a: string, b: string, t: number) => { const x = rgb(a), y = rgb(b); return `rgb(${x.map((v, i) => Math.round(v + (y[i] - v) * t)).join(',')})`; };
-
-  /** Bords gauche et droit du trait de stylo, calculés en une fois sur tout le fil :
-   *  le tremblé et la pression suivent la longueur réelle, donc aucune rupture entre deux morceaux. */
-  /**
-   * Les deux bords du trait, à partir du passage réel de la plume.
-   * L'épaisseur suit la vitesse : la main appuie quand elle ralentit (virages, départs),
-   * et le trait s'affine quand elle file. Plus aucune sinusoïde : rien ne se répète.
-   */
-  function bords(s: P[], vitesse: number[], epaisseur: number, graine: string) {
-    const n = s.length, L = [0];
-    for (let i = 1; i < n; i++) L.push(L[i - 1] + Math.hypot(s[i][0] - s[i - 1][0], s[i][1] - s[i - 1][1]));
-    const tot = L[n - 1] || 1;
-    const grain = derive(`grain:${graine}`);
-    const vMoy = vitesse.reduce((a, b) => a + b, 0) / Math.max(1, n);
-    // la pression ne suit pas la vitesse instantanée mais la vitesse ressentie, qui met du temps à varier
-    const ressentie: number[] = []; let acc = vMoy;
-    for (let i = 0; i < n; i++) { acc += (vitesse[i] - acc) * 0.06; ressentie.push(acc); }
-    const g: P[] = [], d: P[] = [];
-    for (let i = 0; i < n; i++) {
-      const a = s[Math.max(0, i - 1)], b = s[Math.min(n - 1, i + 1)];
-      let tx = b[0] - a[0], ty = b[1] - a[1];
-      const l = Math.hypot(tx, ty) || 1; tx /= l; ty /= l;
-      const nx = -ty, ny = tx, u = L[i];
-      const lenteur = Math.max(-1, Math.min(1, (vMoy - ressentie[i]) / Math.max(0.001, vMoy)));
-      let w = epaisseur * (1 + lenteur * 0.34 + grain(u / 110) * 0.12);
-      const bout = Math.min(u, tot - u) / (epaisseur * 6);
-      if (bout < 1) w *= 0.3 + 0.7 * bout; // la plume se pose et se lève
-      w = Math.max(epaisseur * 0.4, w);
-      g.push([s[i][0] + nx * w / 2, s[i][1] + ny * w / 2]);
-      d.push([s[i][0] - nx * w / 2, s[i][1] - ny * w / 2]);
-    }
-    return { g, d, L, tot };
-  }
-
-  const f = (v: number) => Math.round(v * 10) / 10;
-  const forme = (g: P[], d: P[], i0: number, i1: number) => {
-    let p = `M${f(g[i0][0])} ${f(g[i0][1])}`;
-    for (let i = i0 + 1; i <= i1; i++) p += `L${f(g[i][0])} ${f(g[i][1])}`;
-    for (let i = i1; i >= i0; i--) p += `L${f(d[i][0])} ${f(d[i][1])}`;
-    return p + 'Z';
-  };
-
-  let ligne: P[] = [], masque: SVGPathElement | null = null, zone: HTMLElement | null = null;
-  // Pour chaque point : la profondeur atteinte jusque-là, et la part du trait déjà parcourue.
-  // La révélation suit cette profondeur, pas la longueur : un cercle, qui prend beaucoup de trait
-  // sur peu de hauteur, se dessine quand on arrive à sa hauteur — jamais trois écrans plus bas.
+  let trace: SVGPathElement | null = null, zone: HTMLElement | null = null;
+  // Pour chaque point : la profondeur atteinte jusque-là et la part du trait déjà parcourue.
+  // La révélation suit cette profondeur : un tour, qui prend beaucoup de trait sur peu de hauteur,
+  // se dessine quand on arrive à sa hauteur — jamais trois écrans plus bas.
   let profondeur: Array<[number, number]> = [];
+  const reduit = matchMedia('(prefers-reduced-motion: reduce)').matches;
 
   function construire() {
     zone = document.querySelector('.fil-page');
     const svg = zone?.querySelector('.fil-trace') as SVGSVGElement | null;
-    if (!zone || !svg) return;
+    trace = svg?.querySelector('path') ?? null;
+    if (!zone || !svg || !trace) return;
     const base = zone.getBoundingClientRect();
     const W = zone.offsetWidth, H = zone.offsetHeight;
     if (!W || !H) return;
     const etroit = W < 768;
-    const marge = Math.max(16, (W - 1240) / 4 + 18);
-    const COUL = { rouge: lire('--rouge'), bleu: lire('--bleu'), jaune: lire('--jaune'), vert: lire('--vert'), mauve: lire('--mauve') };
-    const boite = (el: Element) => { const r = el.getBoundingClientRect(); return { x: r.left - base.left, y: r.top - base.top, w: r.width, h: r.height, cx: r.left - base.left + r.width / 2, cy: r.top - base.top + r.height / 2 }; };
+    const marge = Math.max(18, (W - 1240) / 4 + 20);
+    const boite = (el: Element) => {
+      const r = el.getBoundingClientRect();
+      return { x: r.left - base.left, y: r.top - base.top, w: r.width, h: r.height, cx: r.left - base.left + r.width / 2, cy: r.top - base.top + r.height / 2 };
+    };
 
-    // ——— Points de passage, dans l'ordre de la page ———
-    const pts: Pt[] = [];
+    const pts: P[] = [];
     for (const el of Array.from(document.querySelectorAll('[data-fil]'))) {
       const type = el.getAttribute('data-fil')!;
       const b = boite(el);
+
       if (etroit) {
-        // Petits écrans : un fil discret au bord gauche, qui descend sans jamais traverser le contenu.
-        // Il longe la colonne des services et prend leur couleur au passage.
-        const x = marge + (pts.length % 2 ? 7 : -3);
-        if (type === 'debut') {
-          chute(marge + 4, b.y - 10, b.y + b.h + 40, 14, 1).forEach(([px, py], i) => pts.push({ x: px, y: py, c: i === 0 ? COUL.rouge : undefined }));
-        } else if (type === 'cercle') {
-          for (const li of Array.from(el.querySelectorAll('.lockups li'))) {
-            const nom = ((li.querySelector('a') ?? li).className.match(/t-(rouge|bleu|jaune|vert|mauve)/) ?? [])[1];
-            pts.push({ x: marge + (pts.length % 2 ? 6 : -2), y: boite(li).cy, c: nom ? COUL[nom as keyof typeof COUL] : undefined });
-          }
+        // Petits écrans : le fil descend discrètement au bord gauche, sans traverser le contenu
+        if (type === 'cercle') {
+          for (const li of Array.from(el.querySelectorAll('.lockups li'))) pts.push([marge + (pts.length % 2 ? 8 : -4), boite(li).cy]);
         } else {
-          pts.push({ x, y: b.cy });
+          pts.push([marge + (pts.length % 2 ? 8 : -4), b.cy]);
         }
         continue;
       }
-      if (type === 'souligner') {
-        // On souligne un terme : le trait passe dessous, déborde des deux côtés, et se relève.
-        // La silhouette, elle, est déjà cernée par son propre détourage : on ne la double pas.
+
+      if (type === 'entourer') {
+        // Le fil cerne le portrait d'un grand tour ample, en restant dans la page
+        const al = hasard(`tour:${b.y}`).n, gr = [al(), al(), al()];
+        const place = Math.max(70, Math.min(W - 34 - b.cx, b.cx - 34)) / 1.2;
+        const rx = Math.min(b.w * 0.66, place), ry = Math.min(b.h * 0.62, rx);
+        pts.push([b.cx - rx * 0.1, b.cy - ry * 1.42]);
+        entourer(b.cx, b.cy, rx, ry, gr, -1.75, 1.06).forEach((p) => pts.push(p));
+        // Il ressort par la droite : de là il rejoint le cercle sans couper l'étiquette du premier service
+        pts.push([b.cx + rx * 0.72, b.cy + ry * 1.24]);
+      } else if (type === 'souligner') {
+        // Le fil passe sous un terme, déborde des deux côtés, et se relève
         const al = hasard(`souligne:${b.y}`).n, gr = [al(), al(), al()];
-        // On souligne la dernière ligne, pas tout le bloc : c'est un terme qu'on marque, pas un cadre
         const r = document.createRange(); r.selectNodeContents(el);
         const lignes = Array.from(r.getClientRects()).filter((q) => q.width > 24);
         const der = lignes[lignes.length - 1];
         const x0 = der ? der.left - base.left : b.x;
         const x1 = der ? der.right - base.left : b.x + Math.min(b.w, 400);
         const yb = der ? der.bottom - base.top : b.y + b.h;
-        // La main aborde le mot par la gauche, en remontant un peu : sans ça, une descente
-        // qui tournerait net sous le texte dessinerait un crochet, pas un soulignement.
-        pts.push({ x: x0 - 150, y: yb + 46, c: pts.length ? undefined : COUL.rouge });
-        pts.push({ x: x0 - 62, y: yb - 4 });
-        souligner(x0, x1, yb + 10, gr).forEach(([x, y]) => pts.push({ x, y }));
+        pts.push([x0 - 170, yb + 54], [x0 - 66, yb - 2]);
+        souligner(x0, x1, yb + 12, gr).forEach((p) => pts.push(p));
       } else if (type === 'cercle') {
+        // Le tour des services : le fil arrive par le haut, fait le tour complet, et repart par la gauche
         const lis = Array.from(el.querySelectorAll('.lockups li'));
         if (!lis.length) continue;
         const c = lis.map(boite);
         const cx = c.reduce((s, p) => s + p.cx, 0) / c.length, cy = c.reduce((s, p) => s + p.cy, 0) / c.length;
         const R = c.reduce((s, p) => s + Math.hypot(p.cx - cx, p.cy - cy), 0) / c.length;
         const a0 = Math.atan2(c[0].cy - cy, c[0].cx - cx);
-        const ang = c.map((p) => { let a = Math.atan2(p.cy - cy, p.cx - cx) - a0; while (a < -0.01) a += Math.PI * 2; return a; });
-        const cols = lis.map((li) => {
-          const nom = ((li.querySelector('a') ?? li).className.match(/t-(rouge|bleu|jaune|vert|mauve)/) ?? [])[1];
-          return nom ? COUL[nom as keyof typeof COUL] : COUL.mauve;
-        });
-        // Une grande boucle faite à la main : le fil arrive par le haut, fait le tour complet en
-        // accompagnant chaque service — Le Rebond, Chez Toît, Parent'Elle, Toudi Boudji, la santé —
-        // repasse par son point d'entrée, puis file vers le bas en longeant le cercle par l'extérieur.
-        // L'approche reste au-dessus et à gauche de l'étiquette du premier service : le fil ne la touche pas
-        pts.push({ x: cx + R * 1.28, y: cy - R * 1.82, c: cols[0] });
-        pts.push({ x: cx - R * 0.98, y: cy - R * 1.34 });
-        const tour = Math.PI * 2;
-        for (let a = -0.08; a <= tour + 0.02; a += 0.06) {
-          let k = 0; while (k < ang.length - 1 && ang[k + 1] < a) k++;
-          const t = k < ang.length - 1 ? Math.min(1, Math.max(0, (a - ang[k]) / (ang[k + 1] - ang[k]))) : 1;
-          const col = k < ang.length - 1 ? melange(cols[k], cols[k + 1], t) : cols[k];
-          pts.push({ x: cx + Math.cos(a0 + a) * R, y: cy + Math.sin(a0 + a) * R, c: col });
-        }
-        pts.push({ x: cx - R * 0.62, y: cy - R * 1.12, c: cols[cols.length - 1] });
-        pts.push({ x: cx - R * 1.24, y: cy - R * 0.28 });
-        pts.push({ x: cx - R * 1.3, y: cy + R * 0.9 });
+        pts.push([cx + R * 1.5, cy - R * 1.55], [cx - R * 0.95, cy - R * 1.28]);
+        for (let a = -0.12; a <= Math.PI * 2 + 0.02; a += 0.14) pts.push([cx + Math.cos(a0 + a) * R, cy + Math.sin(a0 + a) * R]);
+        pts.push([cx - R * 0.72, cy - R * 1.1], [cx - R * 1.3, cy - R * 0.1], [cx - R * 1.32, cy + R * 1.05]);
       } else {
-        // Dans la marge, avec une légère respiration pour que la descente ne soit jamais une droite
-        const jeu = (pts.length % 2 ? 1 : -1) * 22;
-        pts.push({ x: type === 'gauche' ? marge + 14 + jeu : W - marge - 14 - jeu, y: b.cy });
+        const jeu = (pts.length % 2 ? 1 : -1) * 26;
+        pts.push([type === 'gauche' ? marge + 16 + jeu : W - marge - 16 - jeu, b.cy]);
       }
     }
-    if (pts.length < 3) { svg.innerHTML = ''; return; }
+    if (pts.length < 3) { trace.setAttribute('d', ''); return; }
 
-    // ——— Tracé continu : courbe souple passant par ces points ———
-    // On rogne les angles avant de tracer : une main qui annote n'a pas de coins
-    const controle = adoucir(pts.map((p) => [p.x, p.y] as P), 2);
-    // La courbe peut dépasser ses points de passage : on la garde dans la page, jamais hors cadre
-    const bord = etroit ? 10 : 24;
-    // Le tracé idéal n'est qu'une intention : ce qu'on dessine, c'est la main qui le suit
-    const intention = echantillonner(controle, etroit ? 5 : 3.5);
-    const main = plume(intention, `accueil:${W}`, 0.34, 0.62);
-    ligne = main.pts.map(([x, y]) => [Math.min(W - bord, Math.max(bord, x)), y] as P);
-    const vitesse = main.vitesse;
-    const { g, d, L, tot } = bords(ligne, vitesse, etroit ? 3.2 : 4.4, 'accueil');
+    // Une main qui annote n'a pas de coins : on rogne les angles, puis on garde le tracé dans la page
+    const bord = etroit ? 12 : 26;
+    const ligne = adoucir(pts, 2).map(([x, y]) => [Math.min(W - bord, Math.max(bord, x)), y] as P);
+    const dense = echantillonner(ligne, 12);
+
+    const L = [0];
+    for (let i = 1; i < dense.length; i++) L.push(L[i - 1] + Math.hypot(dense[i][0] - dense[i - 1][0], dense[i][1] - dense[i - 1][1]));
+    const tot = L[L.length - 1] || 1;
     let plusBas = -Infinity;
-    profondeur = ligne.map((p, i) => { plusBas = Math.max(plusBas, p[1]); return [plusBas, L[i] / tot]; });
+    profondeur = dense.map((p, i) => { plusBas = Math.max(plusBas, p[1]); return [plusBas, L[i] / tot]; });
 
-    // Couleur de chaque point du fil : interpolée le long de la longueur entre les points qui en portent une
-    // Où chaque point de passage retombe sur le tracé final (le lissage a multiplié les points).
-    // On avance toujours : une boucle revient sur ses pas dans l'espace, jamais dans le temps.
-    let curseur = 0;
-    const posControle = pts.map((p) => {
-      let best = curseur, dist = Infinity;
-      for (let i = curseur; i < Math.min(ligne.length, curseur + 500); i++) {
-        const dd = Math.hypot(ligne[i][0] - p.x, ligne[i][1] - p.y);
-        if (dd < dist) { dist = dd; best = i; }
-      }
-      curseur = best;
-      return best;
-    });
-    const arrets = pts.map((p, i) => ({ i: posControle[i], c: p.c })).filter((a) => a.c) as { i: number; c: string }[];
-    if (!arrets.length) arrets.push({ i: 0, c: COUL.mauve });
-    const couleurAt = (i: number) => {
-      if (i <= arrets[0].i) return arrets[0].c;
-      for (let k = 0; k < arrets.length - 1; k++) {
-        if (i <= arrets[k + 1].i) {
-          const t = (L[i] - L[arrets[k].i]) / Math.max(1, L[arrets[k + 1].i] - L[arrets[k].i]);
-          return melange(arrets[k].c, arrets[k + 1].c, Math.min(1, Math.max(0, t)));
-        }
-      }
-      return arrets[arrets.length - 1].c;
-    };
-
-    // ——— Morceaux colorés sous un masque unique : la couleur glisse, le trait reste d'un seul tenant ———
-    const n = ligne.length, pas = Math.max(12, Math.round(n / 48));
-    let defs = '', corps = '';
-    for (let i0 = 0; i0 < n - 1; i0 += pas) {
-      const i1 = Math.min(n - 1, i0 + pas);
-      const id = `fil-g${i0}`;
-      defs += `<linearGradient id="${id}" gradientUnits="userSpaceOnUse" x1="${f(ligne[i0][0])}" y1="${f(ligne[i0][1])}" x2="${f(ligne[i1][0])}" y2="${f(ligne[i1][1])}"><stop offset="0" stop-color="${couleurAt(i0)}"/><stop offset="1" stop-color="${couleurAt(i1)}"/></linearGradient>`;
-      corps += `<path d="${forme(g, d, i0, i1)}" fill="url(#${id})"/>`;
-    }
-    const centre = ligne.map(([x, y], i) => `${i ? 'L' : 'M'}${f(x)} ${f(y)}`).join('');
     svg.setAttribute('viewBox', `0 0 ${W} ${H}`);
     svg.setAttribute('width', String(W));
     svg.setAttribute('height', String(H));
-    svg.innerHTML = `<defs>${defs}<mask id="fil-masque" maskUnits="userSpaceOnUse" x="-60" y="-60" width="${W + 120}" height="${H + 120}">`
-      + `<path d="${centre}" pathLength="1" fill="none" stroke="#fff" stroke-width="${(etroit ? 3.2 : 4.4) * 7}" stroke-linecap="round" stroke-linejoin="round" stroke-dasharray="1" stroke-dashoffset="1"/></mask></defs>`
-      + `<g mask="url(#fil-masque)">${corps}</g>`;
-    masque = svg.querySelector('#fil-masque path');
-    if (reduit) masque?.setAttribute('stroke-dashoffset', '0'); else tracer();
+    trace.setAttribute('d', cheminLisse(dense));
+    trace.setAttribute('pathLength', '1');
+    trace.style.strokeDasharray = '1';
+    trace.style.strokeDashoffset = reduit ? '0' : '1';
+    if (!reduit) tracer();
   }
 
-  // ——— Révélation au rythme du défilement ———
-  const reduit = matchMedia('(prefers-reduced-motion: reduce)').matches;
   let prevu = false;
   function tracer() {
     prevu = false;
-    if (!masque || !zone || reduit || !profondeur.length) return;
+    if (!trace || !zone || reduit || !profondeur.length) return;
     const r = zone.getBoundingClientRect();
     // La main écrit jusqu'aux trois quarts de l'écran : ce qui est à cette hauteur est déjà tracé
     const cible = innerHeight * 0.76 - r.top;
+    if (profondeur[0][0] > cible) { trace.style.strokeDashoffset = '1'; return; }
     let lo = 0, hi = profondeur.length - 1;
-    if (profondeur[0][0] > cible) { masque.setAttribute('stroke-dashoffset', '1'); return; }
     while (lo < hi) { const m = (lo + hi + 1) >> 1; if (profondeur[m][0] <= cible) lo = m; else hi = m - 1; }
-    masque.setAttribute('stroke-dashoffset', String(1 - profondeur[lo][1]));
+    trace.style.strokeDashoffset = String(1 - profondeur[lo][1]);
   }
   const demander = () => { if (!prevu) { prevu = true; requestAnimationFrame(tracer); } };
 

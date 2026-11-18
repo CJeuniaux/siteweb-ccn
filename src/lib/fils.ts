@@ -18,6 +18,37 @@ function onduler(ax: number, ay: number, bx: number, by: number, amplitude: numb
 }
 
 /**
+ * Chemin SVG lisse passant par tous les points (Catmull-Rom converti en courbes de Bézier).
+ * Le fil de la charte est un trait net et continu, aux grandes courbes amples : ce sont des
+ * courbes, pas une succession de segments, et l'épaisseur ne varie pas.
+ */
+export function cheminLisse(pts: P[], tension = 1): string {
+  if (pts.length < 2) return '';
+  const f = (v: number) => Math.round(v * 10) / 10;
+  let d = `M${f(pts[0][0])} ${f(pts[0][1])}`;
+  for (let i = 0; i < pts.length - 1; i++) {
+    const p0 = pts[i - 1] ?? pts[i], p1 = pts[i], p2 = pts[i + 1], p3 = pts[i + 2] ?? p2;
+    const c1x = p1[0] + ((p2[0] - p0[0]) / 6) * tension, c1y = p1[1] + ((p2[1] - p0[1]) / 6) * tension;
+    const c2x = p2[0] - ((p3[0] - p1[0]) / 6) * tension, c2y = p2[1] - ((p3[1] - p1[1]) / 6) * tension;
+    d += `C${f(c1x)} ${f(c1y)},${f(c2x)} ${f(c2y)},${f(p2[0])} ${f(p2[1])}`;
+  }
+  return d;
+}
+
+/**
+ * Une bouclette : le fil revient sur lui-même en un petit tour, puis repart.
+ * `sens` 1 = la boucle passe au-dessus du trait, -1 = en dessous.
+ */
+export function bouclette(cx: number, cy: number, r: number, sens: 1 | -1 = 1, penche = 0.25): P[] {
+  const out: P[] = [];
+  for (let k = 0; k <= 14; k++) {
+    const a = Math.PI * 0.75 + sens * (k / 14) * Math.PI * 2.1;
+    out.push([cx + Math.cos(a) * r * (1 + penche), cy + Math.sin(a) * r * sens]);
+  }
+  return out;
+}
+
+/**
  * Un bruit doux, sans période audible : la main dérive, elle n'oscille pas.
  * Rend une fonction du « temps » (ici la distance parcourue) à valeurs dans [-1, 1].
  */

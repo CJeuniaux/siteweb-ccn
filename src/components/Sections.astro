@@ -11,7 +11,7 @@ import CarteArticle from './CarteArticle.astro';
 import Visuel from './Visuel.astro';
 import Trait from './Trait.astro';
 import ServiceLockup from './ServiceLockup.astro';
-import FilTraversant from './FilTraversant.astro';
+import FilVague from './FilVague.astro';
 import { FORMULAIRES_ACTIFS } from '../lib/etat';
 
 interface Props { sections: Record<string, any>[]; /** couleur de l'axe (pages de service) */ axe?: string }
@@ -66,13 +66,13 @@ const coord = (l: any): { valeur: string; lien: string } => {
       <section class="hero">
         <div class="wrap hero-grille">
           <div class="hero-txt">
-            <h1 data-fil="souligner"><Lignes texte={c.titre} /></h1>
+            <h1><Lignes texte={c.titre} /></h1>
             {c.texte && <p class="chapo">{c.texte}</p>}
             <div class="cta">
               {(c.boutons ?? []).map((b: any) => <a class={btnClasse(b.style)} href={b.lien}>{b.libelle} {b.icone === 'fleche' && <Icone nom="fleche" />}</a>)}
             </div>
           </div>
-          <div class="hero-visuel">
+          <div class="hero-visuel" data-fil="entourer">
             <Trait variante="eclat" graine={g(s, 'eclat')} couleur={teinte} class="accent-eclat" />
             {c.portrait && <Visuel class="hero-portrait" ref={c.portrait} alt={c.portrait_alt ?? ''} graine={g(s, 'portrait')} couleur={teinte} loading="eager" aplat={c.aplat ?? false} contour={c.trait !== false} anime />}
           </div>
@@ -144,7 +144,7 @@ const coord = (l: any): { valeur: string; lien: string } => {
         {c.image && <div class="visuel"><Visuel class="ph" ref={c.image} alt={c.image_alt ?? ''} graine={g(s, 'image')} couleur={teinte} loading="eager" aplat={c.aplat ?? false} contour={c.trait !== false} /></div>}
       </div>
       </section>
-      <div class="fil-bande fil-scroll" aria-hidden="true"><FilTraversant graine={g(s, 'fil')} noeud={0.3} pente={-1} /></div>
+      <FilVague graine={g(s, 'fil')} couleur={axe ?? 'encre'} noeud={0.38} />
     </>);
 
     case 'rangs_services': return (

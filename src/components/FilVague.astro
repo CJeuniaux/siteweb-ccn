@@ -1,0 +1,33 @@
+---
+// Le fil sous l'en-tête d'une page : une grande vague ample qui traverse toute la largeur et se
+// noue une fois en bouclette. Trait fin, d'épaisseur constante, dans la couleur de la page
+// (bleu nuit partout, couleur du service sur sa propre page). Statique : il ne s'anime pas.
+import { cheminLisse, bouclette } from '../lib/fils';
+import { hasard } from '../lib/pinceau';
+import type { P } from '../lib/stylo';
+
+interface Props {
+  graine: string;
+  /** nom d'un thème (rouge, bleu, jaune, vert, mauve, encre) */
+  couleur?: string;
+  /** position de la bouclette le long de la vague, de 0 (gauche) à 1 (droite) */
+  noeud?: number;
+  class?: string;
+}
+const { graine, couleur = 'encre', noeud = 0.42, class: classe = '' } = Astro.props;
+const L = 1600, H = 150, milieu = 92;
+const h = hasard(`vague:${graine}`).n;
+const ph = h() * Math.PI * 2, amp = 20 + h() * 10;
+const onde = (x: number) => milieu + Math.sin((x / L) * 3.4 + ph) * amp + Math.sin((x / L) * 7.1 + ph * 1.7) * amp * 0.3;
+
+const xn = L * noeud;
+const avant: P[] = [], apres: P[] = [];
+for (let x = -30; x <= L + 30; x += 70) (x < xn ? avant : apres).push([x, onde(x)]);
+const [nx, ny] = avant[avant.length - 1];
+const trait: P[] = [...avant, ...bouclette(nx + 34, ny - 26, 26, 1), ...apres.map(([x, y]) => [x + 22, y] as P)];
+const d = cheminLisse(trait);
+const teinte = /^[a-z]+$/.test(couleur) ? `var(--${couleur})` : couleur;
+---
+<svg class={`fil-vague ${classe}`.trim()} viewBox={`0 0 ${L} ${H}`} preserveAspectRatio="none" aria-hidden="true" focusable="false" style={`--t:${teinte}`}>
+  <path d={d} />
+</svg>
