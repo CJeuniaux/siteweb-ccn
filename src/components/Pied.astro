@@ -1,7 +1,7 @@
 ---
 import Media from './Media.astro';
 import Logo from './Logo.astro';
-import { reglages, menu } from '../lib/contenu';
+import { reglages, menu, lire } from '../lib/contenu';
 import Icone from './Icone.astro';
 
 const r = await reglages();
@@ -9,7 +9,16 @@ const services = await menu('pied_services');
 const pratique = await menu('pied_pratique');
 const don = (await menu('boutons')).find((b) => b.icone === 'coeur');
 const tel = (r.telephone ?? '').replace(/\D/g, '');
+// Les soutiens de l'association, sur toutes les pages juste avant le pied (la page Partenaires a son propre bloc)
+const soutiens = Astro.url.pathname.startsWith('/partenaires') ? [] : await lire('partenaires', (x) => x.type === 'financeur');
 ---
+{soutiens.length > 0 && <section class="bloc serre partenaires bande-soutiens" aria-labelledby="titre-soutiens"><div class="wrap">
+  <span class="sur">Ils nous soutiennent</span>
+  <h2 class="h2" id="titre-soutiens">Partenaires de {r.nom}</h2>
+  <ul class={`parts${soutiens.some((x) => x.logo) ? ' avec-logos' : ''}`}>
+    {soutiens.map((x) => { const contenu = x.logo ? <Media class="logo-partenaire" ref={x.logo} alt={x.nom} loading="lazy" /> : <span>{x.nom}</span>; return <li>{x.site ? <a href={x.site} target="_blank" rel="noopener" aria-label={x.logo ? `${x.nom} (nouvel onglet)` : undefined}>{contenu}</a> : contenu}</li>; })}
+  </ul>
+</div></section>}
 <footer><div class="wrap">
   <div class="cols">
     <div>

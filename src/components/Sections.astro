@@ -229,8 +229,11 @@ const coord = (l: any): { valeur: string; lien: string } => {
 
     case 'partenaires': {
       const liste = partenaires.filter((p) => !c.type || p.type === c.type);
-      return liste.length > 0 && (
-        <section class="bloc serre"><div class="wrap">
+      // Les soutiens (financeurs) sont affichés sur toutes les pages, juste avant le pied (Pied.astro) :
+      // ici on ne les répète pas, sauf sur la page Partenaires qui les présente en détail.
+      const horsPage = c.type === 'financeur' && s.page !== '/partenaires';
+      return liste.length > 0 && !horsPage && (
+        <section class="bloc serre partenaires"><div class="wrap">
           {c.sur && <span class="sur">{c.sur}</span>}
           {c.titre && <h2 class="h2">{c.titre}</h2>}
           {c.intro && <p class="intro">{c.intro}</p>}
