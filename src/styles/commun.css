@@ -2,12 +2,12 @@
    interventions au stylo, beaucoup de blanc. Une seule charte active : les jetons ci-dessous sont la source de vérité. */
 :root{
   /* Palette (aucun dégradé) */
-  /* Identité du 23/11/2026 : ce sont exactement les couleurs des cinq icônes de service fournies (A-INTEGRER/icones-services) */
-  --rouge:#E9543B;   /* corail — Le Rebond, et couleur d'accent du site */
-  --bleu:#316E99;    /* Chez Toît */
-  --jaune:#F5AA04;   /* Promotion de la santé */
-  --vert:#5B9524;    /* Toudi Boudji */
-  --mauve:#843382;   /* Parent'Elle */
+  /* Identité définitive (23/11/2026) : exactement les couleurs des logos fournis (A-INTEGRER/logos-definitifs) */
+  --rouge:#E47663;   /* corail — Le Rebond, et couleur d'accent du site */
+  --bleu:#699FBF;    /* Chez Toît */
+  --jaune:#FDCC6C;   /* Toudi Boudji */
+  --vert:#94B88D;    /* Promotion de la santé */
+  --mauve:#A08DB6;   /* Parent'Elle */
   --encre:#0B1E3B;   /* bleu marine : titres, textes, boutons, pied de page */
   --accent:var(--rouge); /* accents des pages générales : fil, soulignés, bouclettes */
   --fond:#F9F7F3;    /* fond blanc cassé */
@@ -37,7 +37,7 @@ section{position:relative}
 .t-mauve{--c:var(--mauve)}
 .t-encre,.t-nuit{--c:var(--encre)}
 /* Texte coloré lisible : le jaune et le rouge sont foncés quand ils servent de couleur de texte (contraste) */
-.t-rouge{--c-texte:#B93A22}.t-bleu{--c-texte:#2C6389}.t-jaune{--c-texte:#8A6200}.t-vert{--c-texte:#44701A}.t-mauve{--c-texte:#7A2F78}.t-encre,.t-nuit{--c-texte:var(--encre)}
+.t-rouge{--c-texte:#B24A36}.t-bleu{--c-texte:#3B6F92}.t-jaune{--c-texte:#8A6200}.t-vert{--c-texte:#4C7645}.t-mauve{--c-texte:#6D5889}.t-encre,.t-nuit{--c-texte:var(--encre)}
 
 .sr{position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0 0 0 0);white-space:nowrap}
 .evitement{position:absolute;left:12px;top:-60px;z-index:100;background:var(--encre);color:#fff;padding:10px 16px;font-weight:500}
@@ -270,7 +270,7 @@ button{font-family:inherit}
 /* Logo : emblème 2 × 2 + nom sur deux lignes */
 .logo{display:inline-flex;align-items:center;gap:11px}
 .logo-barre{align-self:stretch;width:2px;border-radius:2px;background:var(--accent);margin:5px 0;flex:none}
-.logo-embleme{width:62px;height:62px;flex:none;display:block;margin:-4px}
+.logo-embleme{width:60px;height:60px;flex:none;display:block}
 .logo-nom{font-family:var(--font-titre);font-size:27px;line-height:.92;letter-spacing:-.005em;font-variation-settings:var(--reglage-titre)}
 
 /* Tracés manuscrits : forme pleine (épaisseur variable dans le dessin), proportions toujours conservées */
@@ -278,8 +278,8 @@ button{font-family:inherit}
 .trait path{fill:none;stroke:var(--t);stroke-width:var(--e,2.8);stroke-linecap:round;stroke-linejoin:round;vector-effect:non-scaling-stroke}
 /* Pictogramme de service : même chemin que le logo, en couleur */
 .picto-service{display:block;height:64px;width:auto;fill:currentColor}
-/* Icône de service fournie : dessin au trait, dans la couleur du service (currentColor) */
-.picto-service.icone{overflow:visible}
+/* Pastille de service fournie : forme organique colorée et pictogramme blanc */
+.picto-service.pastille{overflow:visible;aspect-ratio:1}
 .lockup{display:inline-flex;flex-direction:column;align-items:flex-start;color:var(--pc,var(--c))}
 .lockup.t-jaune{--pc:var(--jaune)}
 .lockup-boucle{width:104px;margin:-4px 0 0 -6px}
@@ -407,8 +407,6 @@ main{position:relative;overflow-x:clip}
 .lockups .lockup{display:inline-flex;align-items:center;justify-content:center;width:var(--badge);height:var(--badge)}
 .lockups .lockup-boucle{display:none}
 .lockups .picto-service{height:100%;width:100%}
-/* dans le cercle de l'accueil, l'icône cache le trait du cercle qui passe derrière elle */
-.lockups .lockup{background:var(--fond);border-radius:50%;box-shadow:0 0 0 9px var(--fond)}
 /* L'étiquette est posée du côté extérieur du cercle (au-dessus, à droite, en dessous, à gauche) */
 .lockups .service-txt{position:absolute;display:block;width:215px;--ecart:20px}
 .lockups [data-cote=haut] .service-txt{left:50%;bottom:calc(100% + 16px);transform:translateX(-50%);text-align:center}

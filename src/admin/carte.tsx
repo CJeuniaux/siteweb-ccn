@@ -14,7 +14,7 @@ export function CarteLieu({ ligne, onChange }: { ligne: Ligne; onChange: (lat: n
       const centre: [number, number] = ligne.latitude != null ? [Number(ligne.latitude), Number(ligne.longitude)] : [50.4108, 4.4446];
       const carte = L.map(boite.current).setView(centre, 15);
       L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', { maxZoom: 19, attribution: '© OpenStreetMap' }).addTo(carte);
-      const point = L.circleMarker(centre, { radius: 9, color: '#fff', weight: 2.5, fillColor: '#E9543B', fillOpacity: ligne.latitude != null ? 1 : 0 }).addTo(carte);
+      const point = L.circleMarker(centre, { radius: 9, color: '#fff', weight: 2.5, fillColor: '#E47663', fillOpacity: ligne.latitude != null ? 1 : 0 }).addTo(carte);
       carte.on('click', (e: any) => { point.setLatLng(e.latlng).setStyle({ fillOpacity: 1 }); rappel.current(Number(e.latlng.lat.toFixed(6)), Number(e.latlng.lng.toFixed(6))); });
       etat.current = { carte, point };
     });

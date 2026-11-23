@@ -1,9 +1,9 @@
-// Fabrique les icônes du site (favicon, écran d'accueil des téléphones) à partir de l'emblème fourni le 23/11/2026 (A-INTEGRER/CCN_embleme_4_services.svg)
+// Fabrique les icônes du site (favicon, écran d'accueil des téléphones) à partir de l'emblème définitif (src/identite/embleme.svg, préparé par scripts/identite.mjs)
 // (les quatre pastilles organiques, sans texte). Usage : node scripts/icones.mjs
 import sharp from 'sharp';
 import { copyFileSync, writeFileSync } from 'node:fs';
 
-const source = 'A-INTEGRER/CCN_embleme_4_services.svg';
+const source = 'src/identite/embleme.svg';
 const creme = '#F9F7F3';
 
 // 1. Icône vectorielle (navigateurs récents)

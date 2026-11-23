@@ -8,8 +8,8 @@ import { PICTOS, PICTOS_PROVISOIRES } from '../lib/pictos';
 import { pastille } from '../lib/identite';
 interface Props { service: string; picto?: string | null; class?: string; titre?: string }
 const { service, picto, class: classe = '', titre } = Astro.props;
-// Identité du 23/11 : l'icône fournie (dessin au trait, couleur du service) passe avant tout le reste
-const nouvelle = pastille(service, `picto-service icone ${classe}`.trim(), titre);
+// Identité définitive : la pastille fournie (forme organique + pictogramme blanc) passe avant tout le reste
+const nouvelle = pastille(service, `picto-service pastille ${classe}`.trim(), titre);
 const p = PICTOS[service];
 const provisoire = !p && !picto ? PICTOS_PROVISOIRES[service] : undefined;
 const a11y = titre ? { role: 'img', 'aria-label': titre } : { 'aria-hidden': 'true' };
