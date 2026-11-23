@@ -1,5 +1,5 @@
 /* Administration — mêmes couleurs et polices que le site (charte Comme Chez Nous), interface sobre et lisible */
-:root{--rouge:#D4705C;--bleu:#5B8DB1;--jaune:#EFC25E;--vert:#86A873;--mauve:#9A80B9;--encre:#0B1E3B;--fond:#F9F7F3;--blanc:#fff;--filet:rgba(11,30,59,.16);--doux:rgba(11,30,59,.62);
+:root{--rouge:#E9543B;--bleu:#316E99;--jaune:#F5AA04;--vert:#5B9524;--mauve:#843382;--encre:#0B1E3B;--fond:#F9F7F3;--blanc:#fff;--filet:rgba(11,30,59,.16);--doux:rgba(11,30,59,.62);
   --titre:'Fraunces Variable',Georgia,serif;--texte:'Inter',system-ui,sans-serif}
 *{box-sizing:border-box}
 body{margin:0;background:var(--fond);color:var(--encre);font:15px/1.55 var(--texte);-webkit-font-smoothing:antialiased}

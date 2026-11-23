@@ -15,7 +15,7 @@ const lieux = (await lire('lieux_aide')).map((l) => l.coordonnees_ccn
 const categories = [...new Set(lieux.map((l) => l.categorie))];
 // Couleurs des catégories : mise en page (dans le code), tirées de la palette de la charte
 // (au-delà de 5 catégories, on reprend la palette : la catégorie reste nommée à côté de la pastille)
-const PALETTE = ['#D4705C', '#5B8DB1', '#EFC25E', '#86A873', '#0B1E3B'];
+const PALETTE = ['#E9543B', '#316E99', '#F5AA04', '#5B9524', '#0B1E3B'];
 const couleur = Object.fromEntries(categories.map((cat, i) => [cat, PALETTE[i % PALETTE.length]]));
 const tel = (t: string) => (t ?? '').replace(/[^\d+]/g, '');
 const points = lieux.filter((l) => l.latitude != null && l.longitude != null)
@@ -109,7 +109,7 @@ const points = lieux.filter((l) => l.latitude != null && l.longitude != null)
               return { el, d }; })
             .sort((a, b) => a.d - b.d).forEach(({ el }) => liste.appendChild(el));
         });
-        L.circleMarker(ici, { radius: 7, color: '#0B1E3B', weight: 3, fillColor: '#EFC25E', fillOpacity: 1 }).addTo(carte);
+        L.circleMarker(ici, { radius: 7, color: '#0B1E3B', weight: 3, fillColor: '#F5AA04', fillOpacity: 1 }).addTo(carte);
         carte.setView(ici, 15);
         etat.textContent = '';
       }, () => { etat.textContent = bloc.dataset.refus || ''; }, { enableHighAccuracy: false, timeout: 10000 });

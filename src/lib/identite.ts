@@ -1,13 +1,13 @@
 // Identité graphique du 23/11/2026 : les fichiers fournis par Charlotte (src/identite/, copies de A-INTEGRER/CCN_*.svg),
 // affichés tels quels. Seule la couleur des pastilles est reliée aux jetons du site (commun.css), pour qu'il n'y ait
 // qu'une palette à régler. Aucun tracé n'est redessiné ici.
-// Le pictogramme « Promotion de la santé » est une PROPOSITION PROVISOIRE, pas encore validée par l'association.
 import embleme from '../identite/embleme.svg?raw';
-import rebond from '../identite/picto-le-rebond.svg?raw';
-import chezToit from '../identite/picto-chez-toit.svg?raw';
-import parentElle from '../identite/picto-parent-elle.svg?raw';
-import toudi from '../identite/picto-toudi-boudji.svg?raw';
-import sante from '../identite/picto-promotion-sante.svg?raw';
+// Icônes de service : fichiers fournis le 23/11 (A-INTEGRER/icones-services), préparés par scripts/icones-services.mjs
+import rebond from '../identite/icone-le-rebond.svg?raw';
+import chezToit from '../identite/icone-chez-toit.svg?raw';
+import parentElle from '../identite/icone-parent-elle.svg?raw';
+import toudi from '../identite/icone-toudi-boudji.svg?raw';
+import sante from '../identite/icone-promotion-sante.svg?raw';
 
 // Couleurs écrites dans les fichiers → jetons du site
 const JETONS: Record<string, string> = {
@@ -31,7 +31,7 @@ const PASTILLES: Record<string, string> = {
   'le-rebond': rebond, 'chez-toit': chezToit, 'parent-elle': parentElle, 'toudi-boudji': toudi, 'promotion-sante': sante,
 };
 
-/** Pastille organique d'un service (forme colorée + pictogramme blanc), ou undefined si le service n'en a pas. */
+/** Icône d'un service (dessin au trait dans la couleur du service), ou undefined si le service n'en a pas. */
 export const pastille = (service: string, classe = 'picto-service', titre?: string): string | undefined =>
   PASTILLES[service] ? enLigne(PASTILLES[service], classe, titre) : undefined;
 
