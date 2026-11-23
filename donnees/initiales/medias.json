@@ -407,5 +407,27 @@
     "ordre": 38,
     "publie": true,
     "type_visuel": "photo"
+  },
+  {
+    "id": "m-logo-fse",
+    "fichier": "logo-fse.png",
+    "alt": "Agence FSE, Fonds social européen — cofinancé par l’Union européenne",
+    "credit": "",
+    "largeur": 383,
+    "hauteur": 131,
+    "ordre": 39,
+    "publie": true,
+    "type_visuel": "photo"
+  },
+  {
+    "id": "m-logo-spw",
+    "fichier": "logo-spw-social.png",
+    "alt": "Wallonie social SPW",
+    "credit": "",
+    "largeur": 809,
+    "hauteur": 400,
+    "ordre": 40,
+    "publie": true,
+    "type_visuel": "photo"
   }
 ]
