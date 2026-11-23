@@ -1,0 +1,14 @@
+COMME CHEZ NOUS — ASSETS POUR CLAUDE CODE
+
+Ces SVG sont transparents, vectoriels et redimensionnables. PNG transparents haute resolution inclus.
+
+A integrer :
+- CCN_logo_general.svg : logo complet pour header et footer.
+- CCN_embleme_4_services.svg : icone seule du logo principal.
+- CCN_picto_*.svg : pictogrammes individuels (pastilles organiques).
+- CCN_service_*.svg : pictogramme + nom du service + fil discret.
+
+IMPORTANT : CCN_picto_Promotion_Sante.svg et CCN_service_Promotion_Sante.svg sont des PROPOSITIONS PROVISOIRES, a valider graphiquement. Ils ne sont PAS approuves par la cliente. Ne pas les decrire comme definitifs.
+
+Les quatre pictogrammes des services historiques sont construits a partir des traces SVG existants. Les pastilles et l'assemblage general sont de nouveaux exports de travail.
+Les SVG utilisent Georgia pour le nom ; le rendu exact des lettres depend de la police installee. La couleur des fonds organiques est integree au SVG, mais le fond de la page reste transparent.
