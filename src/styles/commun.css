@@ -2,12 +2,12 @@
    interventions au stylo, beaucoup de blanc. Une seule charte active : les jetons ci-dessous sont la source de vérité. */
 :root{
   /* Palette (aucun dégradé) */
-  /* Identité du 23/11/2026 : couleurs relevées sur le nouveau logo et la planche « univers de marque » */
-  --rouge:#F2582F;   /* corail — Le Rebond, et couleur d'accent du site */
-  --bleu:#0A80B8;    /* Chez Toît */
-  --jaune:#FCB502;   /* Parent'Elle */
-  --vert:#619B4D;    /* Toudi Boudji */
-  --mauve:#9D62B3;   /* Promotion de la santé */
+  /* Identité du 23/11/2026 : ce sont exactement les couleurs des fichiers de logos fournis (A-INTEGRER/CCN_*.svg) */
+  --rouge:#D4705C;   /* corail — Le Rebond, et couleur d'accent du site */
+  --bleu:#5B8DB1;    /* Chez Toît */
+  --jaune:#EFC25E;   /* Parent'Elle */
+  --vert:#86A873;    /* Toudi Boudji */
+  --mauve:#9A80B9;   /* Promotion de la santé */
   --encre:#0B1E3B;   /* bleu marine : titres, textes, boutons, pied de page */
   --accent:var(--rouge); /* accents des pages générales : fil, soulignés, bouclettes */
   --fond:#F9F7F3;    /* fond blanc cassé */
@@ -37,7 +37,7 @@ section{position:relative}
 .t-mauve{--c:var(--mauve)}
 .t-encre,.t-nuit{--c:var(--encre)}
 /* Texte coloré lisible : le jaune et le rouge sont foncés quand ils servent de couleur de texte (contraste) */
-.t-rouge{--c-texte:#BD3D17}.t-bleu{--c-texte:#07628F}.t-jaune{--c-texte:#8A6200}.t-vert{--c-texte:#44752F}.t-mauve{--c-texte:#7B4491}.t-encre,.t-nuit{--c-texte:var(--encre)}
+.t-rouge{--c-texte:#A9503E}.t-bleu{--c-texte:#3F6E92}.t-jaune{--c-texte:#8A6A12}.t-vert{--c-texte:#55753F}.t-mauve{--c-texte:#6A5290}.t-encre,.t-nuit{--c-texte:var(--encre)}
 
 .sr{position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0 0 0 0);white-space:nowrap}
 .evitement{position:absolute;left:12px;top:-60px;z-index:100;background:var(--encre);color:#fff;padding:10px 16px;font-weight:500}
@@ -268,8 +268,9 @@ button{font-family:inherit}
 .version-travail{margin:0;background:var(--jaune);color:var(--encre);text-align:center;font-weight:500;font-size:12px;letter-spacing:.16em;text-transform:uppercase;padding:5px 12px}
 
 /* Logo : emblème 2 × 2 + nom sur deux lignes */
-.logo{display:inline-flex;align-items:center;gap:12px}
-.logo-embleme{width:54px;height:54px;flex:none;display:block}
+.logo{display:inline-flex;align-items:center;gap:11px}
+.logo-barre{align-self:stretch;width:2px;border-radius:2px;background:var(--accent);margin:5px 0;flex:none}
+.logo-embleme{width:62px;height:62px;flex:none;display:block;margin:-4px}
 .logo-nom{font-family:var(--font-titre);font-size:27px;line-height:.92;letter-spacing:-.005em;font-variation-settings:var(--reglage-titre)}
 
 /* Tracés manuscrits : forme pleine (épaisseur variable dans le dessin), proportions toujours conservées */
@@ -277,6 +278,8 @@ button{font-family:inherit}
 .trait path{fill:none;stroke:var(--t);stroke-width:var(--e,2.8);stroke-linecap:round;stroke-linejoin:round;vector-effect:non-scaling-stroke}
 /* Pictogramme de service : même chemin que le logo, en couleur */
 .picto-service{display:block;height:64px;width:auto;fill:currentColor}
+/* Pastille fournie : elle déborde un peu de sa boîte (forme organique), on la laisse respirer */
+.picto-service.pastille{overflow:visible;aspect-ratio:1}
 .lockup{display:inline-flex;flex-direction:column;align-items:flex-start;color:var(--pc,var(--c))}
 .lockup.t-jaune{--pc:var(--jaune)}
 .lockup-boucle{width:104px;margin:-4px 0 0 -6px}
@@ -401,13 +404,9 @@ main{position:relative;overflow-x:clip}
 .lockups{position:absolute;inset:0;list-style:none;margin:0;padding:0;z-index:21}
 .lockups li{position:absolute;left:calc(50% + var(--px)*var(--r));top:calc(var(--cy) + var(--py)*var(--r));transform:translate(-50%,-50%);width:var(--badge);height:var(--badge)}
 .lockups a{display:block;position:relative;width:100%;height:100%}
-.lockups .lockup{display:inline-flex;align-items:center;justify-content:center;width:var(--badge);height:var(--badge);border-radius:46% 54% 50% 50%/52% 46% 54% 48%;background:var(--c);color:#fff}
-.lockups li:nth-child(2) .lockup{border-radius:52% 48% 46% 54%/48% 54% 46% 52%}
-.lockups li:nth-child(3) .lockup{border-radius:48% 52% 54% 46%/54% 48% 52% 46%}
-.lockups li:nth-child(4) .lockup{border-radius:54% 46% 48% 52%/46% 52% 48% 54%}
-.lockups li:nth-child(5) .lockup{border-radius:50% 50% 46% 54%/50% 54% 46% 50%}
+.lockups .lockup{display:inline-flex;align-items:center;justify-content:center;width:var(--badge);height:var(--badge)}
 .lockups .lockup-boucle{display:none}
-.lockups .picto-service{height:calc(var(--badge)*.46);width:auto}
+.lockups .picto-service{height:100%;width:100%}
 /* L'étiquette est posée du côté extérieur du cercle (au-dessus, à droite, en dessous, à gauche) */
 .lockups .service-txt{position:absolute;display:block;width:215px;--ecart:20px}
 .lockups [data-cote=haut] .service-txt{left:50%;bottom:calc(100% + 16px);transform:translateX(-50%);text-align:center}
@@ -550,7 +549,7 @@ footer .bas p{margin:0;opacity:.75}
 @media (min-width:981px) and (max-width:1200px){
   .top{gap:18px}.top nav{gap:18px;font-size:15px}
   .top .btn{padding:10px 16px;font-size:14.5px}
-  .logo-embleme{width:46px;height:46px}.logo-nom{font-size:23px}
+  .logo-embleme{width:54px;height:54px}.logo-nom{font-size:23px}
 }
 @media (max-width:980px){
   .top{flex-wrap:wrap;gap:12px}
@@ -579,7 +578,7 @@ footer .bas p{margin:0;opacity:.75}
 }
 @media (max-width:560px){
   .wrap{padding:0 20px}
-  .logo-embleme{width:44px;height:44px}.logo-nom{font-size:22px}
+  .logo-embleme{width:52px;height:52px}.logo-nom{font-size:22px}
   .top{gap:12px 10px}
   .brand{flex-basis:100%}
   .top .btn{padding:9px 14px;font-size:14px;flex:1;justify-content:center}

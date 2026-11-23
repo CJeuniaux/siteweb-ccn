@@ -1,10 +1,10 @@
-// Fabrique les icônes du site (favicon, écran d'accueil des téléphones) à partir de LOGOS/LOGO-COULEUR.svg
-// (les quatre carrés de couleur, sans texte). Usage : node scripts/icones.mjs
+// Fabrique les icônes du site (favicon, écran d'accueil des téléphones) à partir de l'emblème fourni le 23/11/2026 (A-INTEGRER/CCN_embleme_4_services.svg)
+// (les quatre pastilles organiques, sans texte). Usage : node scripts/icones.mjs
 import sharp from 'sharp';
 import { copyFileSync, writeFileSync } from 'node:fs';
 
-const source = '../LOGOS/LOGO-COULEUR.svg';
-const creme = '#FCF5F3';
+const source = 'A-INTEGRER/CCN_embleme_4_services.svg';
+const creme = '#F9F7F3';
 
 // 1. Icône vectorielle (navigateurs récents)
 copyFileSync(source, 'public/favicon.svg');

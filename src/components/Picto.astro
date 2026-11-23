@@ -5,13 +5,18 @@
 //    sinon un pictogramme provisoire au trait (lib/pictos.ts, PICTOS_PROVISOIRES).
 import Media from './Media.astro';
 import { PICTOS, PICTOS_PROVISOIRES } from '../lib/pictos';
+import { pastille } from '../lib/identite';
 interface Props { service: string; picto?: string | null; class?: string; titre?: string }
 const { service, picto, class: classe = '', titre } = Astro.props;
+// Identité du 23/11 : la pastille fournie (forme organique + pictogramme blanc) passe avant tout le reste
+const nouvelle = pastille(service, `picto-service pastille ${classe}`.trim(), titre);
 const p = PICTOS[service];
 const provisoire = !p && !picto ? PICTOS_PROVISOIRES[service] : undefined;
 const a11y = titre ? { role: 'img', 'aria-label': titre } : { 'aria-hidden': 'true' };
 ---
-{p ? (
+{nouvelle ? (
+  <Fragment set:html={nouvelle} />
+) : p ? (
   <svg class={`picto-service ${classe}`.trim()} viewBox={`0 0 ${p.largeur} ${p.hauteur}`} {...a11y} focusable="false">
     <path d={p.d} fill-rule="evenodd" />
   </svg>
