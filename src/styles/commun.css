@@ -2,9 +2,14 @@
    interventions au stylo, beaucoup de blanc. Une seule charte active : les jetons ci-dessous sont la source de vérité. */
 :root{
   /* Palette (aucun dégradé) */
-  --rouge:#D4705C;--bleu:#5B8DB1;--jaune:#EFC25E;--vert:#86A873;
-  --mauve:#9279B6;   /* Promotion de la santé (5e service, demandé par Charlotte) */
-  --encre:#0B1E3B;   /* textes, boutons, structure */
+  /* Identité du 23/11/2026 : couleurs relevées sur le nouveau logo et la planche « univers de marque » */
+  --rouge:#F2582F;   /* corail — Le Rebond, et couleur d'accent du site */
+  --bleu:#0A80B8;    /* Chez Toît */
+  --jaune:#FCB502;   /* Parent'Elle */
+  --vert:#619B4D;    /* Toudi Boudji */
+  --mauve:#9D62B3;   /* Promotion de la santé */
+  --encre:#0B1E3B;   /* bleu marine : titres, textes, boutons, pied de page */
+  --accent:var(--rouge); /* accents des pages générales : fil, soulignés, bouclettes */
   --fond:#F9F7F3;    /* fond blanc cassé */
   --blanc:#fff;
   --pinceau:#D5D0C9;  /* coup de pinceau gris derrière les photos (charte) */
@@ -32,7 +37,7 @@ section{position:relative}
 .t-mauve{--c:var(--mauve)}
 .t-encre,.t-nuit{--c:var(--encre)}
 /* Texte coloré lisible : le jaune et le rouge sont foncés quand ils servent de couleur de texte (contraste) */
-.t-rouge{--c-texte:#A9503E}.t-bleu{--c-texte:#3F6E92}.t-jaune{--c-texte:#8A6A12}.t-vert{--c-texte:#55753F}.t-mauve{--c-texte:#6A5290}.t-encre,.t-nuit{--c-texte:var(--encre)}
+.t-rouge{--c-texte:#BD3D17}.t-bleu{--c-texte:#07628F}.t-jaune{--c-texte:#8A6200}.t-vert{--c-texte:#44752F}.t-mauve{--c-texte:#7B4491}.t-encre,.t-nuit{--c-texte:var(--encre)}
 
 .sr{position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0 0 0 0);white-space:nowrap}
 .evitement{position:absolute;left:12px;top:-60px;z-index:100;background:var(--encre);color:#fff;padding:10px 16px;font-weight:500}
@@ -388,7 +393,7 @@ main{position:relative;overflow-x:clip}
 /* Un mot souligné d'un trait de Charlotte */
 .mot-souligne{position:relative;display:inline-block}
 .mot-souligne svg{position:absolute;left:-3%;bottom:-.34em;width:106%;height:.42em;overflow:visible;pointer-events:none}
-.mot-souligne path{fill:none;stroke:var(--encre);stroke-width:2.8;stroke-linecap:round;vector-effect:non-scaling-stroke}
+.mot-souligne path{fill:none;stroke:var(--accent);stroke-width:2.8;stroke-linecap:round;vector-effect:non-scaling-stroke}
 /* Le cercle qui relie les services : le geste « entourer » de Charlotte, passé par les cinq pictos */
 .ronde-cercle{position:absolute;left:50%;top:var(--cy);width:calc(var(--r)*2);height:calc(var(--r)*2);transform:translate(-50%,-50%);overflow:visible;pointer-events:none}
 .ronde-cercle path{fill:none;stroke:var(--encre);stroke-width:2.8;stroke-linecap:round;vector-effect:non-scaling-stroke}
@@ -396,7 +401,11 @@ main{position:relative;overflow-x:clip}
 .lockups{position:absolute;inset:0;list-style:none;margin:0;padding:0;z-index:21}
 .lockups li{position:absolute;left:calc(50% + var(--px)*var(--r));top:calc(var(--cy) + var(--py)*var(--r));transform:translate(-50%,-50%);width:var(--badge);height:var(--badge)}
 .lockups a{display:block;position:relative;width:100%;height:100%}
-.lockups .lockup{display:inline-flex;align-items:center;justify-content:center;width:var(--badge);height:var(--badge);border-radius:19px;background:var(--c);color:#fff}
+.lockups .lockup{display:inline-flex;align-items:center;justify-content:center;width:var(--badge);height:var(--badge);border-radius:46% 54% 50% 50%/52% 46% 54% 48%;background:var(--c);color:#fff}
+.lockups li:nth-child(2) .lockup{border-radius:52% 48% 46% 54%/48% 54% 46% 52%}
+.lockups li:nth-child(3) .lockup{border-radius:48% 52% 54% 46%/54% 48% 52% 46%}
+.lockups li:nth-child(4) .lockup{border-radius:54% 46% 48% 52%/46% 52% 48% 54%}
+.lockups li:nth-child(5) .lockup{border-radius:50% 50% 46% 54%/50% 54% 46% 50%}
 .lockups .lockup-boucle{display:none}
 .lockups .picto-service{height:calc(var(--badge)*.46);width:auto}
 /* L'étiquette est posée du côté extérieur du cercle (au-dessus, à droite, en dessous, à gauche) */
@@ -445,6 +454,13 @@ main{position:relative;overflow-x:clip}
 .don .wrap{display:grid;grid-template-columns:1fr 1.1fr;gap:40px;align-items:center}
 .don h2{font-size:clamp(46px,5.6vw,84px);line-height:.96;margin-bottom:30px}
 .don-photo{max-width:560px;margin-left:auto}
+/* Le fil corail des pages générales : sous le titre du héros, et près du bouton de don (maquette du 23/11) */
+.fil-geste{display:block;height:auto;overflow:visible;pointer-events:none}
+.fil-geste path{fill:none;stroke:var(--accent);stroke-width:2.8;stroke-linecap:round;vector-effect:non-scaling-stroke}
+.hero h1:has(+ .fil-titre){margin-bottom:6px}
+.fil-titre{width:min(430px,82%);margin:0 0 20px -8px}
+.fil-don{width:min(300px,70%);margin:14px 0 0 96px}
+@media (max-width:560px){.fil-don{margin-left:40px}}
 
 /* ——— Page de service (modèle : Le Rebond) ——— */
 .tete{padding:22px 0 34px}

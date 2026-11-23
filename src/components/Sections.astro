@@ -69,6 +69,7 @@ const coord = (l: any): { valeur: string; lien: string } => {
         <div class="wrap hero-grille">
           <div class="hero-txt">
             <h1><Lignes texte={c.titre} /></h1>
+            <svg data-trace class="fil-geste fil-titre" viewBox={`0 0 ${dessins.relier.largeur} ${dessins.relier.hauteur}`} aria-hidden="true" focusable="false"><path d={cheminLisse((dessins.relier.traits[0] as [number, number][]))} pathLength="1" /></svg>
             {c.texte && <p class="chapo">{c.texte}</p>}
             <div class="cta">
               {(c.boutons ?? []).map((b: any) => <a class={btnClasse(b.style)} href={b.lien}>{b.libelle} {b.icone === 'fleche' && <Icone nom="fleche" />}</a>)}
@@ -148,7 +149,7 @@ const coord = (l: any): { valeur: string; lien: string } => {
         {c.image && <div class="visuel"><Visuel class="ph" ref={c.image} alt={c.image_alt ?? ''} graine={g(s, 'image')} couleur={teinte} loading="eager" aplat={c.aplat ?? false} contour={c.trait !== false} /></div>}
       </div>
       </section>
-      <FilVague graine={g(s, 'fil')} couleur={axe ?? 'encre'} noeud={0.38} />
+      <FilVague graine={g(s, 'fil')} couleur={axe ?? 'accent'} noeud={0.38} />
     </>);
 
     case 'rangs_services': return (
@@ -628,6 +629,7 @@ const coord = (l: any): { valeur: string; lien: string } => {
         <div>
           <h2><Lignes texte={c.titre ?? r.don_titre} /></h2>
           <a class="btn plein" href={r.don_lien}>{r.don_bouton} <Icone nom="fleche" /></a>
+          {!axe && <svg data-trace class="fil-geste fil-don" viewBox={`0 0 ${dessins.relier.largeur} ${dessins.relier.hauteur}`} aria-hidden="true" focusable="false"><path d={cheminLisse((dessins.relier.traits[0] as [number, number][]).map(([x, y]) => [dessins.relier.largeur - x, y] as [number, number]).reverse())} pathLength="1" /></svg>}
         </div>
         {r.don_image && <Visuel class="don-photo" ref={r.don_image} alt={r.don_image_alt ?? ''} graine={g(s, 'don')} couleur={axe ?? 'encre'} loading="lazy" />}
       </div></section>
