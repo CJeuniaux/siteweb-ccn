@@ -86,6 +86,77 @@ const r = await reglages();
       addEventListener('scroll', demander, { passive: true }); addEventListener('resize', demander); addEventListener('load', demander); tracer();
     }
 
+    // Le fil conducteur (.parcours) : un seul tracé qui descend le long de chaque photo puis traverse la page
+    // jusqu'à la suivante, avec une boucle de temps en temps. Il est calculé d'après la place réelle des
+    // sections, puis dessiné au fur et à mesure du défilement (la pointe du trait suit le milieu de l'écran).
+    document.querySelectorAll('.parcours').forEach((bloc) => {
+      const svg = bloc.querySelector('.fil-parcours'), trait = svg && svg.querySelector('path');
+      const etapes = [...bloc.querySelectorAll('[data-etape]')];
+      if (!trait || etapes.length < 2) return;
+      const calme = matchMedia('(prefers-reduced-motion: reduce)').matches;
+      let reperes = [], total = 0;
+      const lisse = (p) => {
+        let d = 'M' + p[0][0].toFixed(1) + ' ' + p[0][1].toFixed(1);
+        for (let i = 0; i < p.length - 1; i++) {
+          const a = p[Math.max(0, i - 1)], b = p[i], c = p[i + 1], e = p[Math.min(p.length - 1, i + 2)];
+          d += 'C' + (b[0] + (c[0] - a[0]) / 6).toFixed(1) + ' ' + (b[1] + (c[1] - a[1]) / 6).toFixed(1) + ',' + (c[0] - (e[0] - b[0]) / 6).toFixed(1) + ' ' + (c[1] - (e[1] - b[1]) / 6).toFixed(1) + ',' + c[0].toFixed(1) + ' ' + c[1].toFixed(1);
+        }
+        return d;
+      };
+      const avancer = () => {
+        if (!total) return;
+        const vise = innerHeight * 0.62 - bloc.getBoundingClientRect().top;
+        let l = 0;
+        for (const [y, len] of reperes) { if (y > vise) break; l = len; }
+        const fond = document.documentElement.scrollHeight - scrollY - innerHeight;
+        if (calme || fond < 40) l = total;
+        trait.style.strokeDashoffset = String(total - l);
+      };
+      const construire = () => {
+        const b = bloc.getBoundingClientRect(), W = b.width, H = b.height;
+        const libre = (document.documentElement.clientWidth - W) / 2;
+        if (libre < 30 || getComputedStyle(svg).display === 'none') { total = 0; trait.setAttribute('d', ''); return; }
+        const m = Math.min(66, libre * 0.62);
+        svg.setAttribute('viewBox', '0 0 ' + W + ' ' + H);
+        const pts = [];
+        etapes.forEach((e, i) => {
+          const r = e.getBoundingClientRect(), haut = r.top - b.top, bas = r.bottom - b.top, h = bas - haut;
+          const s = i % 2 === 0 ? 1 : -1;                    // côté de la photo : 1 à droite, -1 à gauche
+          const bord = s > 0 ? W + m : -m;
+          if (i === 0) pts.push([W * 0.7, haut - 34], [W * 0.9, haut - 20]);
+          // le long de la photo, dans la marge
+          pts.push([bord - s * 10, haut + h * 0.2], [bord + s * 6, haut + h * 0.5], [bord - s * 4, haut + h * 0.8]);
+          if (i < etapes.length - 1) {
+            // traversée vers la photo suivante, dans l'espace entre deux sections ; une boucle une fois sur deux
+            const cx = W / 2;
+            pts.push([cx + s * W * 0.37, bas - 24]);
+            if (i % 2 === 1) {
+              const R = 21, cy = bas - 4 - R;
+              pts.push([cx + s * 78, bas - 6]);
+              for (let k = 0; k <= 6; k++) { const t = (90 + s * k * 60) * Math.PI / 180; pts.push([cx + R * Math.cos(t), cy + R * Math.sin(t)]); }
+              pts.push([cx - s * 78, bas + 4]);
+            } else pts.push([cx + s * W * 0.17, bas + 12], [cx, bas - 2], [cx - s * W * 0.17, bas - 14]);
+            pts.push([cx - s * W * 0.37, bas + 24]);
+          } else pts.push([bord - s * 30, bas + 4], [cx0(W, s), bas + 26]);
+        });
+        trait.setAttribute('d', lisse(pts));
+        total = trait.getTotalLength();
+        trait.style.strokeDasharray = total + ' ' + total;
+        reperes = [];
+        let plusBas = -1e9;
+        for (let l = 0; l <= total; l += 14) { const y = trait.getPointAtLength(l).y; if (y > plusBas) { plusBas = y; reperes.push([y, l]); } }
+        reperes.push([plusBas + 1, total]);
+        avancer();
+      };
+      const cx0 = (W, s) => W / 2 + s * W * 0.3;
+      let attente = false;
+      const demander = () => { if (!attente) { attente = true; requestAnimationFrame(() => { attente = false; avancer(); }); } };
+      addEventListener('scroll', demander, { passive: true });
+      addEventListener('load', construire);
+      if ('ResizeObserver' in window) new ResizeObserver(construire).observe(bloc); else addEventListener('resize', construire);
+      construire();
+    });
+
     // Filtres de la liste des actualités
     document.querySelectorAll('.liste-articles').forEach((bloc) => {
       const boutons = bloc.querySelectorAll('.filtre');

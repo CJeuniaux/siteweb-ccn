@@ -674,8 +674,9 @@
     "ordre": 2,
     "publie": true,
     "contenu": {
-      "titre": "Nos services",
-      "intro": "Quatre parcours complémentaires pour un même objectif : une sortie durable de la rue."
+      "titre": "Cinq services\ncomplémentaires",
+      "accroche": "Un même objectif :",
+      "intro": "accompagner chaque personne vers plus de stabilité, d’autonomie et de bien-être."
     }
   },
   {
@@ -740,10 +741,22 @@
     }
   },
   {
+    "id": "sv-6",
+    "page": "/services",
+    "type": "grille_services",
+    "ordre": 2,
+    "publie": true,
+    "contenu": {
+      "titre": "Cinq services\ncomplémentaires",
+      "accroche": "Un même objectif :",
+      "intro": "accompagner chaque personne vers plus de stabilité, d’autonomie et de bien-être."
+    }
+  },
+  {
     "id": "sv-2",
     "page": "/services",
     "type": "rangs_services",
-    "ordre": 2,
+    "ordre": 3,
     "publie": true,
     "contenu": {
       "titre": "Quatre portes, une même maison.",
@@ -791,7 +804,7 @@
     "id": "sv-3",
     "page": "/services",
     "type": "transversal",
-    "ordre": 3,
+    "ordre": 4,
     "publie": false,
     "contenu": {}
   },
@@ -799,7 +812,7 @@
     "id": "sv-4",
     "page": "/services",
     "type": "partenaires",
-    "ordre": 4,
+    "ordre": 5,
     "publie": true,
     "contenu": {
       "sur": "Ils nous soutiennent",
@@ -811,7 +824,7 @@
     "id": "sv-5",
     "page": "/services",
     "type": "don",
-    "ordre": 5,
+    "ordre": 6,
     "publie": true,
     "contenu": {}
   },

@@ -13,6 +13,9 @@ import { image } from '../lib/contenu';
 import { pose } from '../lib/pinceau';
 import { contourGriffonne, bordsCoupes, type Griffon } from '../lib/trait';
 import { contourSouple, cheminLisse } from '../lib/fils';
+import { formePhoto } from '../lib/formes';
+import { hasard } from '../lib/pinceau';
+import Trait from './Trait.astro';
 
 interface Props {
   ref?: string | null; alt?: string; graine: string;
@@ -24,8 +27,13 @@ interface Props {
   anime?: boolean;
   /** Aplat de pinceau derrière la photo : numéro de forme (0-6) ou false (par défaut : aucun, choix de Charlotte du 15/11) */
   aplat?: number | false;
+  /** Forme organique qui découpe la photo : numéro (0-5) pour l'imposer, false pour garder la photo telle quelle.
+   *  Par défaut : oui dès que le trait est demandé (planche « Photographies des services »). */
+  forme?: number | boolean;
+  /** La forme est retournée (photo placée à gauche du texte) */
+  miroir?: boolean;
 }
-const { ref, alt, graine, couleur = 'rouge', class: classe = '', loading, contour = true, anime = false, aplat = false } = Astro.props;
+const { ref, alt, graine, couleur = 'rouge', class: classe = '', loading, contour = true, anime = false, aplat = false, forme, miroir = false } = Astro.props;
 const img = await image(ref);
 const type = img?.type ?? 'composite';
 const cote = pose(graine).cote;
@@ -41,8 +49,15 @@ if (img && type === 'detoure') {
 
 // Charte : la photo est cernée d'une forme souple et organique, qui respire autour d'elle.
 // Elle ne suit pas la silhouette et n'encadre pas non plus : c'est un geste, large et continu.
+// Photo découpée dans une forme organique (masque), aplat gris-beige décalé, trait fin partiel
+const enForme = !!img && type !== 'dessin' && (forme ?? contour) !== false;
+const ratio = img?.largeur && img?.hauteur ? Math.min(1.5, Math.max(1.05, +img.largeur / +img.hauteur)) : 1.4;
+const LT = 560, HT = Math.round(LT / ratio);   // repère du trait, proche de sa taille à l'écran
+const fo = enForme ? formePhoto(graine, typeof forme === 'number' ? forme : undefined, miroir, LT, HT) : null;
+const idForme = 'forme-' + Math.floor(hasard('id-forme:' + graine).n() * 1e9).toString(36);
+// Proportions du cadre : celles de la photo, bornées pour que la forme reste ample
 let griffon: Griffon | null = null, silhouette = false;
-if (img && contour && type !== 'dessin') {
+if (img && contour && type !== 'dessin' && !enForme) {
   if (type === 'detoure') { griffon = await contourGriffonne(img.srcOriginal ?? img.src, graine); silhouette = !!griffon; }
   if (!griffon && img.largeur && img.hauteur) griffon = contourSouple(+img.largeur, +img.hauteur, graine);
 }
@@ -51,6 +66,17 @@ const teinte = /^[a-z]+$/.test(couleur) ? `var(--${couleur})` : couleur;
 {img && (
   type === 'dessin' ? (
     <Media class={classe} ref={ref} alt={alt} loading={loading} />
+  ) : fo ? (
+    <figure class={`photo-detouree en-forme ${miroir ? 'miroir ' : ''}${classe}`.trim()} data-type={type} style={`--t:${teinte};--ratio:${ratio.toFixed(3)}`}>
+      <svg class="forme-defs" width="0" height="0" aria-hidden="true" focusable="false"><clipPath id={idForme} clipPathUnits="objectBoundingBox"><path d={fo.masque} /></clipPath></svg>
+      <svg class="aplat-fond" viewBox="0 0 1 1" preserveAspectRatio="none" aria-hidden="true" focusable="false"><path d={fo.aplat} /></svg>
+      <div class="forme-masque" style={`clip-path:url(#${idForme})`}>
+        {type === 'detoure' && <Aplat class="forme-pinceau" couleur="var(--gris-photo)" graine={`fond:${graine}`} opacite={1} tourner={false} />}
+        <Media class="photo-image" ref={ref} alt={alt} loading={loading} />
+      </div>
+      {contour && <svg data-trace class="photo-trait" viewBox={`0 0 ${LT} ${HT}`} aria-hidden="true" focusable="false"><path d={fo.trait} pathLength="1" /></svg>}
+      {contour && <Trait variante="eclat" graine={`${graine}:eclat`} couleur={couleur} class="forme-eclat" />}
+    </figure>
   ) : (
     <figure class={`photo-detouree cote-${cote} ${classe}`.trim()} data-type={type} style={`--t:${teinte}`}>
       {/* Charte : la photo repose sur un coup de pinceau gris, jamais incrusté dans le fichier */}

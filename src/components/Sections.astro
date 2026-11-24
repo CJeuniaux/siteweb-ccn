@@ -14,6 +14,7 @@ import ServiceLockup from './ServiceLockup.astro';
 import FilVague from './FilVague.astro';
 import dessins from '../lib/dessins.json';
 import { cheminLisse } from '../lib/fils';
+import { courbe, formePhoto } from '../lib/formes';
 import { FORMULAIRES_ACTIFS } from '../lib/etat';
 
 interface Props { sections: Record<string, any>[]; /** couleur de l'axe (pages de service) */ axe?: string }
@@ -76,8 +77,7 @@ const coord = (l: any): { valeur: string; lien: string } => {
             </div>
           </div>
           <div class="hero-visuel">
-            <Trait variante="eclat" graine={g(s, 'eclat')} couleur="encre" class="accent-eclat" />
-            {c.portrait && <Visuel class="hero-portrait" ref={c.portrait} alt={c.portrait_alt ?? ''} graine={g(s, 'portrait')} couleur="encre" loading="eager" aplat={c.aplat ?? false} contour={c.trait !== false} />}
+            {c.portrait && <Visuel class="hero-portrait" ref={c.portrait} alt={c.portrait_alt ?? ''} graine={g(s, 'portrait')} couleur="accent" loading="eager" aplat={c.aplat ?? false} contour={c.trait !== false} />}
           </div>
         </div>
       </section>
@@ -96,27 +96,35 @@ const coord = (l: any): { valeur: string; lien: string } => {
     );
 
     case 'grille_services': {
-      // Les services autour d'un cercle (titre au centre), reliés par un fil tracé au rythme du défilement.
-      // Position de chaque badge sur le cercle (fractions du rayon, repère CSS --px/--py), le premier en haut.
+      // Les cinq services disposés autour du titre, reliés par un trait organique (planche « Interaction – Services »).
+      // Position de chaque pastille (fractions du rayon, repère CSS --px/--py), la première en haut.
       const n = services.length;
       const place = (i: number) => { const a = -Math.PI / 2 + (i * 2 * Math.PI) / n; return `--px:${Math.cos(a).toFixed(4)};--py:${Math.sin(a).toFixed(4)}`; };
-      // Étiquette du côté extérieur du cercle, pour que le fil ne la traverse jamais
+      // Étiquette du côté extérieur, pour que le trait ne la traverse jamais
       const cote = (i: number) => { const a = -Math.PI / 2 + (i * 2 * Math.PI) / n, x = Math.cos(a), y = Math.sin(a); return y > 0.45 ? 'bas' : x > 0.3 ? 'droite' : x < -0.3 ? 'gauche' : 'haut'; };
+      // Le trait qui relie : une boucle souple, jamais un cercle parfait ; elle passe sous chaque pastille
+      const anneau = courbe(Array.from({ length: 38 }, (_, k) => { const a = ((-112 + k * 10) * Math.PI) / 180, rr = 1 + 0.055 * Math.sin(3 * a + 0.6) + 0.04 * Math.sin(5 * a + 2); return [236 * rr * Math.cos(a), 236 * rr * Math.sin(a)] as [number, number]; }), false);
+      // Sur la page qui détaille les services, une pastille mène à sa section ; ailleurs, à la page du service
+      const ancres = sections.some((x) => x.type === 'rangs_services');
+      const sousHero = sections[0]?.type === 'accueil_hero';
       return (
         <section class="services-accueil">
           <div class="wrap">
             <div class="ronde">
               <div class="ronde-centre">
-                <h2>{c.titre}</h2>
+                <svg class="ronde-fond" viewBox="0 0 1 1" preserveAspectRatio="none" aria-hidden="true" focusable="false"><path d={formePhoto('ronde', 3).masque} /></svg>
+                <h2><Lignes texte={c.titre} /></h2>
+                {c.accroche && <p class="ronde-accroche">{c.accroche}</p>}
                 {c.intro && <p>{c.intro}</p>}
               </div>
               <div class="ronde-corps">
-              <div class="ronde-lien" aria-hidden="true"><svg data-trace="defile" viewBox="0 0 300 200" preserveAspectRatio="none" focusable="false"><path class="amorce" d="M286 2 C288 18, 285 36, 286 52" pathLength="1" /><path d="M286 52 C287 92, 232 106, 156 120 S24 148, 8 198" pathLength="1" /></svg><svg class="lien-pointe" viewBox="0 0 24 16" focusable="false"><path d="M2 2 C6 6, 9 10, 12 13 C15 10, 18 6, 22 2" /></svg></div>
-              <svg class="ronde-cercle" data-trace viewBox={`0 0 ${dessins.entourer.largeur} ${dessins.entourer.hauteur}`} preserveAspectRatio="none" aria-hidden="true" focusable="false"><path d={cheminLisse(dessins.entourer.traits[0] as [number, number][])} pathLength="1" /></svg>
+              {sousHero && <div class="ronde-lien" aria-hidden="true"><svg data-trace="defile" viewBox="0 0 300 200" preserveAspectRatio="none" focusable="false"><path class="amorce" d="M286 2 C288 18, 285 36, 286 52" pathLength="1" /><path d="M286 52 C287 92, 232 106, 156 120 S24 148, 8 198" pathLength="1" /></svg><svg class="lien-pointe" viewBox="0 0 24 16" focusable="false"><path d="M2 2 C6 6, 9 10, 12 13 C15 10, 18 6, 22 2" /></svg></div>}
+              <svg class="ronde-cercle" data-trace viewBox="-236 -236 472 472" aria-hidden="true" focusable="false"><path d={anneau} pathLength="1" /></svg>
               <ul class="lockups">
                 {services.map((x, i) => (
-                  <li style={place(i)} data-cote={cote(i)}><a class={`service t-${x.theme}`} href={`/services/${x.slug}`}>
+                  <li style={place(i)} data-cote={cote(i)}><a class={`service t-${x.theme}`} href={ancres ? `#${x.slug}` : `/services/${x.slug}`}>
                     <ServiceLockup service={x.slug} theme={x.theme} picto={x.picto} />
+                    <Trait variante="eclat" graine={g(s, `eclat:${x.slug}`)} couleur={x.theme} class="service-eclat" />
                     <span class="service-txt"><h3>{x.nom}</h3><p>{x.accroche || x.sous_titre}</p></span>
                   </a></li>
                 ))}
@@ -156,11 +164,14 @@ const coord = (l: any): { valeur: string; lien: string } => {
       <section class="bloc serre"><div class="wrap">
         {c.titre && <h2 class="h2">{c.titre}</h2>}
         {c.intro && <p class="intro">{c.intro}</p>}
+        {/* Le fil conducteur : un seul tracé corail qui serpente d'un service à l'autre, dessiné au défilement (Base.astro) */}
+        <div class="parcours">
+        <svg class="fil-parcours" aria-hidden="true" focusable="false"><path d="" /></svg>
         {(c.rangs ?? []).map((rg: any, i: number, tous: any[]) => {
           const x = serviceDe(rg.service);
           if (!x) return null;
           return <>
-            <div class={`rang t-${x.theme}`}>
+            <div class={`rang t-${x.theme}`} id={x.slug} data-etape>
               <div class="txt">
                 <ServiceLockup service={x.slug} theme={x.theme} picto={x.picto} />
                 <h2>{x.nom}</h2>
@@ -169,10 +180,11 @@ const coord = (l: any): { valeur: string; lien: string } => {
                 <a class="btn plein" href={`/services/${x.slug}`}>{c.bouton} <Icone nom="fleche" /></a>
               </div>
               {!rg.image && <div class="visuel visuel-trait" aria-hidden="true"><Trait variante="boucle-droite" graine={g(s, `${rg.service}:trait`)} couleur={x.theme} epaisseur={6} /></div>}
-              {rg.image && <div class="visuel"><Visuel class="ph" ref={rg.image} alt={rg.image_alt ?? ''} graine={g(s, rg.service)} couleur={x.theme} loading="lazy" aplat={rg.aplat ?? false} contour={rg.trait !== false} /></div>}
+              {rg.image && <div class="visuel"><Visuel class="ph" ref={rg.image} alt={rg.image_alt ?? ''} graine={g(s, rg.service)} couleur={x.theme} loading="lazy" forme={i} miroir={i % 2 === 1} aplat={rg.aplat ?? false} contour={rg.trait !== false} /></div>}
             </div>
           </>;
         })}
+        </div>
       </div></section>
     );
 

@@ -39,7 +39,6 @@ const aDesInfos = sections.some((x) => x.type === 'infos');
     )}
     {s.photo && (
       <div class="visuel">
-        <Trait variante="eclat" graine={`/services/${s.slug}:eclat`} couleur={s.theme} class="accent-eclat" />
         <Visuel class="ph" ref={s.photo} alt={s.photo_alt ?? ''} graine={`/services/${s.slug}:photo`} couleur={s.theme} loading="eager" aplat={s.aplat ?? false} contour={s.trait !== false} />
       </div>
     )}
