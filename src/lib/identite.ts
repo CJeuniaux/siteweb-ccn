@@ -10,7 +10,7 @@ import sante from '../identite/pastille-promotion-sante.svg?raw';
 
 // Couleurs écrites dans les fichiers → jetons du site
 const JETONS: Record<string, string> = {
-  '#E47663': '--rouge', '#699FBF': '--bleu', '#FDCC6C': '--jaune', '#94B88D': '--vert', '#A08DB6': '--mauve',
+  '#D4705C': '--rouge', '#5B8DB1': '--bleu', '#F9C74F': '--jaune', '#94B88D': '--vert', '#9A80B9': '--mauve',
 };
 
 /** Prépare un SVG fourni pour l'afficher dans la page : classe, accessibilité, couleurs reliées aux jetons. */

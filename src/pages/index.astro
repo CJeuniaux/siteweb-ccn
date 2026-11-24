@@ -20,8 +20,8 @@
 <link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,400..700;1,9..144,400..600&family=Inter:wght@400;500;600&display=swap" rel="stylesheet" />
 <style>
   :root{
-    --rouge:#E47663; --bleu:#699FBF; --jaune:#FDCC6C; --vert:#94B88D; --mauve:#A08DB6;
-    --encre:#0B1E3B; --fond:#F9F7F3; --filet:rgba(11,30,59,.16);
+    --rouge:#D4705C; --bleu:#5B8DB1; --jaune:#F9C74F; --vert:#94B88D; --mauve:#9A80B9;
+    --encre:#0B203F; --fond:#FBF7F2; --filet:rgba(11,32,63,.16);
     --titre:'Fraunces',Georgia,serif; --texte:'Inter',system-ui,sans-serif;
   }
   *{box-sizing:border-box}
@@ -33,13 +33,13 @@
   .sur{display:block;font-size:12.5px;font-weight:500;letter-spacing:.18em;text-transform:uppercase;color:var(--encre);opacity:.6;margin-bottom:18px}
   h1{font-family:var(--titre);font-weight:600;font-size:clamp(38px,6.4vw,64px);line-height:1.02;letter-spacing:-.02em;margin:0 0 22px;font-variation-settings:'SOFT' 100,'WONK' 0}
   h1 em{font-style:normal;color:var(--rouge)}
-  .chapo{font-size:19px;max-width:38em;margin:0 0 10px;color:rgba(11,30,59,.82)}
+  .chapo{font-size:19px;max-width:38em;margin:0 0 10px;color:rgba(11,32,63,.82)}
   /* Le fil : il souligne le titre, puis descend vers l'aide — un seul trait, comme sur le site */
   .fil{display:block;width:100%;height:auto;margin:-4px 0 30px;overflow:visible}
   .fil path{fill:none;stroke:var(--encre);stroke-width:2.4;stroke-linecap:round}
   .aide{border:1px solid var(--filet);border-radius:18px;padding:28px 26px;background:#fff;margin:34px 0 30px}
   .aide h2{font-family:var(--titre);font-weight:600;font-size:25px;margin:0 0 4px;font-variation-settings:'SOFT' 100,'WONK' 0}
-  .aide p{margin:0 0 20px;font-size:16px;color:rgba(11,30,59,.72)}
+  .aide p{margin:0 0 20px;font-size:16px;color:rgba(11,32,63,.72)}
   .urgences{display:grid;gap:12px}
   @media(min-width:620px){.urgences{grid-template-columns:1fr 1fr}}
   .num{display:flex;align-items:center;gap:12px;padding:16px 20px;border-radius:999px;text-decoration:none;font-weight:600;font-size:17px}
@@ -51,9 +51,9 @@
   @media(min-width:620px){.coord{grid-template-columns:repeat(3,1fr);gap:0}}
   .coord li{padding:18px 0;border-top:1px solid var(--filet)}
   @media(min-width:620px){.coord li{padding:18px 22px 18px 0}}
-  .coord dt,.coord b{display:block;font-size:12px;font-weight:500;letter-spacing:.14em;text-transform:uppercase;color:rgba(11,30,59,.55);margin-bottom:6px}
+  .coord dt,.coord b{display:block;font-size:12px;font-weight:500;letter-spacing:.14em;text-transform:uppercase;color:rgba(11,32,63,.55);margin-bottom:6px}
   .coord a{color:inherit;text-decoration:underline;text-underline-offset:3px}
-  .pied{margin-top:48px;padding-top:22px;border-top:1px solid var(--filet);font-size:14.5px;color:rgba(11,30,59,.6);display:flex;flex-wrap:wrap;gap:8px 22px;justify-content:space-between}
+  .pied{margin-top:48px;padding-top:22px;border-top:1px solid var(--filet);font-size:14.5px;color:rgba(11,32,63,.6);display:flex;flex-wrap:wrap;gap:8px 22px;justify-content:space-between}
   .pied a{color:inherit}
 </style>
 </head>

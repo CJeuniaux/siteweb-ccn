@@ -16,11 +16,11 @@ Une couleur par service, plus l'encre et le fond. Aucun dégradé décoratif.
 
 | Jeton | Valeur | Emploi |
 |---|---|---|
-| `--rouge` | `#E47663` | Le Rebond |
-| `--bleu` | `#699FBF` | Chez Toît |
-| `--jaune` | `#FDCC6C` | Promotion de la santé |
+| `--rouge` | `#D4705C` | Le Rebond |
+| `--bleu` | `#5B8DB1` | Chez Toît |
+| `--jaune` | `#F9C74F` | Promotion de la santé |
 | `--vert` | `#94B88D` | Toudi Boudji |
-| `--mauve` | `#A08DB6` | Parent'Elle |
+| `--mauve` | `#9A80B9` | Parent'Elle |
 | `--encre` | `#121B30` | textes, boutons, pied de page |
 | `--fond` | `#FAF9F6` | fond de page |
 | `--filet` | `rgba(18,27,48,.2)` | filets de séparation |

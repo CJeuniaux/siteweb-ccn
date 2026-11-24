@@ -10,8 +10,8 @@ export async function GET() {
       { src: '/icone-192.png', sizes: '192x192', type: 'image/png' },
       { src: '/icone-512.png', sizes: '512x512', type: 'image/png' },
     ],
-    theme_color: '#0B1E3B',
-    background_color: '#F9F7F3',
+    theme_color: '#0B203F',
+    background_color: '#FBF7F2',
     display: 'browser',
   };
   return new Response(JSON.stringify(manifeste), { headers: { 'Content-Type': 'application/manifest+json' } });

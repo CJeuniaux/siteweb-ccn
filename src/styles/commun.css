@@ -3,18 +3,18 @@
 :root{
   /* Palette (aucun dégradé) */
   /* Identité définitive (23/11/2026) : exactement les couleurs des logos fournis (A-INTEGRER/logos-definitifs) */
-  --rouge:#E47663;   /* corail — Le Rebond, et couleur d'accent du site */
-  --bleu:#699FBF;    /* Chez Toît */
-  --jaune:#FDCC6C;   /* Toudi Boudji */
-  --vert:#94B88D;    /* Promotion de la santé */
-  --mauve:#A08DB6;   /* Parent'Elle */
-  --encre:#0B1E3B;   /* bleu marine : titres, textes, boutons, pied de page */
+  --rouge:#D4705C;   /* corail — Le Rebond, et couleur d'accent du site */
+  --bleu:#5B8DB1;    /* Chez Toît */
+  --jaune:#F9C74F;   /* Promotion de la santé */
+  --vert:#94B88D;    /* Toudi Boudji */
+  --mauve:#9A80B9;   /* Parent'Elle */
+  --encre:#0B203F;   /* bleu marine : titres, textes, boutons, pied de page */
   --accent:var(--rouge); /* accents des pages générales : fil, soulignés, bouclettes */
-  --fond:#F9F7F3;    /* fond blanc cassé */
+  --fond:#FBF7F2;    /* fond blanc cassé */
   --blanc:#fff;
   --gris-photo:#8B8B89; /* fond gris des photos détourées, à l'intérieur de leur forme */
   --pinceau:#D5D0C9;  /* coup de pinceau gris derrière les photos (charte) */
-  --filet:rgba(11,30,59,.2); /* filets fins de séparation (encre transparente) */
+  --filet:rgba(11,32,63,.2); /* filets fins de séparation (encre transparente) */
   /* Typographies : titres éditoriaux (sérif), textes, menus et données (sans-serif) */
   --font-titre:'Fraunces Variable',Georgia,serif;
   --graisse-titre:600;
@@ -52,7 +52,7 @@ button{font-family:inherit}
 .puces li::marker{color:var(--c)}
 .coches{list-style:none;padding:0;margin:18px 0 0;display:grid;gap:12px}
 .coches li{padding-left:34px;position:relative}
-.coches li::before{content:"";position:absolute;left:0;top:5px;width:20px;height:16px;background:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 26 22'%3E%3Cpath d='M3 12 C6 14 8 17 10 19 C13 12 18 6 23 3' fill='none' stroke='%230B1E3B' stroke-width='3' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E") no-repeat center/contain}
+.coches li::before{content:"";position:absolute;left:0;top:5px;width:20px;height:16px;background:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 26 22'%3E%3Cpath d='M3 12 C6 14 8 17 10 19 C13 12 18 6 23 3' fill='none' stroke='%230B203F' stroke-width='3' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E") no-repeat center/contain}
 .coches.deux{grid-template-columns:1fr 1fr;column-gap:32px}
 .note{margin-top:18px;font-size:15px;opacity:.8}
 
@@ -160,7 +160,7 @@ button{font-family:inherit}
 .formulaire fieldset.champs:disabled .btn{cursor:not-allowed}
 .champ{display:grid;gap:6px}
 .champ label,.formulaire legend{font-weight:500;font-size:15.5px}
-.champ input,.champ textarea{font:inherit;font-size:16px;padding:12px 14px;border:1px solid rgba(11,30,59,.45);border-radius:2px;background:var(--fond);color:var(--encre);width:100%}
+.champ input,.champ textarea{font:inherit;font-size:16px;padding:12px 14px;border:1px solid rgba(11,32,63,.45);border-radius:2px;background:var(--fond);color:var(--encre);width:100%}
 .champ input:focus,.champ textarea:focus{outline:2px solid var(--encre);outline-offset:1px;border-color:var(--encre)}
 .champ small{font-size:14px;opacity:.75}
 .cases{display:grid;grid-template-columns:1fr 1fr;gap:8px 18px;margin-top:8px}

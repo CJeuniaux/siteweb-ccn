@@ -4,7 +4,7 @@ import sharp from 'sharp';
 import { copyFileSync, writeFileSync } from 'node:fs';
 
 const source = 'src/identite/embleme.svg';
-const creme = '#F9F7F3';
+const creme = '#FBF7F2';
 
 // 1. Icône vectorielle (navigateurs récents)
 copyFileSync(source, 'public/favicon.svg');
