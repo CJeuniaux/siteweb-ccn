@@ -2,12 +2,12 @@
 // Logo général : l'emblème fourni (quatre formes organiques, fichier src/identite/embleme.svg),
 // un filet corail, puis le nom sur deux lignes dans la sérif du site. emblemeSeul : avatar.
 import { emblemeLogo } from '../lib/identite';
-interface Props { nom?: string; emblemeSeul?: boolean; class?: string }
-const { nom = '', emblemeSeul = false, class: classe = '' } = Astro.props;
+interface Props { nom?: string; emblemeSeul?: boolean; variante?: 'couleurs' | 'blanc'; class?: string }
+const { nom = '', emblemeSeul = false, variante = 'couleurs', class: classe = '' } = Astro.props;
 const mots = nom.split(' ');
 const lignes = mots.length > 2 ? [mots[0], mots.slice(1).join(' ')] : [nom];
 ---
-<span class={`logo ${classe}`.trim()}>
-  <Fragment set:html={emblemeLogo()} />
+<span class={`logo ${variante === 'blanc' ? 'logo-blanc' : ''} ${classe}`.trim()}>
+  <Fragment set:html={emblemeLogo('logo-embleme', variante)} />
   {!emblemeSeul && nom && <><span class="logo-barre" aria-hidden="true"></span><span class="logo-nom">{lignes.map((l, i) => <>{i > 0 && <br />}{l}</>)}</span></>}
 </span>

@@ -76,7 +76,7 @@ const r = await reglages();
         gestes.forEach((g) => {
           const r = g.getBoundingClientRect();
           // « defile » : la descente sous le héros part de zéro et suit le tout début du défilement
-          const p = g.dataset.trace === 'defile' ? Math.min(1, Math.max(0, (scrollY - 10) / (vh * 0.6))) : Math.min(1, Math.max(0, (vh * 0.88 - r.top) / (vh * 0.5 + r.height * 0.6)));
+          const p = g.dataset.trace === 'defile' ? Math.min(1, Math.max(0, (scrollY - 10) / (vh * 0.35))) : Math.min(1, Math.max(0, (vh * 0.95 - r.top) / (vh * 0.28 + r.height * 0.4)));
           // tout en bas de la page, un geste ne peut plus monter : il se termine quand même
           const fin = fond < vh * 0.35 ? 1 - fond / (vh * 0.35) : 0;
           g.querySelectorAll('path:not(.amorce)').forEach((c) => { c.style.strokeDashoffset = String(1 - Math.max(p, g.dataset.trace === 'defile' ? 0 : fin)); });
@@ -105,7 +105,8 @@ const r = await reglages();
       };
       const avancer = () => {
         if (!total) return;
-        const vise = innerHeight * 0.62 - bloc.getBoundingClientRect().top;
+        // la pointe se tient plus bas dans l'écran : le trait apparaît plus tôt pendant le défilement
+        const vise = innerHeight * 0.88 - bloc.getBoundingClientRect().top;
         let l = 0;
         for (const [y, len] of reperes) { if (y > vise) break; l = len; }
         const fond = document.documentElement.scrollHeight - scrollY - innerHeight;

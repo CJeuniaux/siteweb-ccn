@@ -2,6 +2,7 @@
 // préparés par scripts/identite.mjs dans src/identite/. Ils sont affichés tels quels ; seules les couleurs sont
 // reliées aux jetons du site (commun.css), qui portent exactement les mêmes valeurs : une seule palette à régler.
 import embleme from '../identite/embleme.svg?raw';
+import emblemeBlanc from '../identite/embleme-blanc.svg?raw';
 import rebond from '../identite/pastille-le-rebond.svg?raw';
 import chezToit from '../identite/pastille-chez-toit.svg?raw';
 import parentElle from '../identite/pastille-parent-elle.svg?raw';
@@ -34,5 +35,7 @@ const PASTILLES: Record<string, string> = {
 export const pastille = (service: string, classe = 'picto-service', titre?: string): string | undefined =>
   PASTILLES[service] ? enLigne(PASTILLES[service], classe, titre) : undefined;
 
-/** Emblème du logo général : les quatre formes organiques (Le Rebond, Chez Toît, Toudi Boudji, Parent'Elle). */
-export const emblemeLogo = (classe = 'logo-embleme'): string => enLigne(embleme, classe);
+/** Emblème du logo général : les quatre formes organiques (Le Rebond, Chez Toît, Toudi Boudji, Parent'Elle).
+ *  variante : 'couleurs' (défaut) ou 'blanc' (formes blanches, pictogrammes bleu marine, pour le pied de page). */
+export const emblemeLogo = (classe = 'logo-embleme', variante: 'couleurs' | 'blanc' = 'couleurs'): string =>
+  enLigne(variante === 'blanc' ? emblemeBlanc : embleme, classe);

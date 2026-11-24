@@ -22,7 +22,7 @@ const soutiens = Astro.url.pathname.startsWith('/partenaires') ? [] : await lire
 <footer><div class="wrap">
   <div class="cols">
     <div>
-      <a class="brand" href="/accueil" aria-label={`${r.nom}, accueil`}><Logo nom={r.nom} /></a>{r.sous_nom && <p class="sous-nom">{r.sous_nom}</p>}
+      <a class="brand" href="/accueil" aria-label={`${r.nom}, accueil`}><Logo nom={r.nom} variante="blanc" /></a>{r.sous_nom && <p class="sous-nom">{r.sous_nom}</p>}
       {r.slogan && <p class="slogan">{r.slogan}</p>}
       {don && <a class="btn plein" href={don.lien}>{don.libelle} <Icone nom="fleche" /></a>}
     </div>
