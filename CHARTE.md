@@ -18,9 +18,9 @@ Une couleur par service, plus l'encre et le fond. Aucun dégradé décoratif.
 |---|---|---|
 | `--rouge` | `#E47663` | Le Rebond |
 | `--bleu` | `#699FBF` | Chez Toît |
-| `--jaune` | `#FDCC6C` | Parent'Elle |
+| `--jaune` | `#FDCC6C` | Promotion de la santé |
 | `--vert` | `#94B88D` | Toudi Boudji |
-| `--mauve` | `#A08DB6` | Promotion de la santé — **et le fil** |
+| `--mauve` | `#A08DB6` | Parent'Elle |
 | `--encre` | `#121B30` | textes, boutons, pied de page |
 | `--fond` | `#FAF9F6` | fond de page |
 | `--filet` | `rgba(18,27,48,.2)` | filets de séparation |
