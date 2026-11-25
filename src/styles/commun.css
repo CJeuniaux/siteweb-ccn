@@ -581,14 +581,16 @@ footer .btn.plein{background:#fff;color:var(--encre);border-color:#fff}
 footer .bas{border-top:1px solid rgba(255,255,255,.2);margin-top:40px;padding-top:18px;font-size:13.5px;display:flex;align-items:center;justify-content:space-between;gap:20px}
 footer .bas p{margin:0;opacity:.75}
 /* Signature Nomad Impact : bande noire tout en bas de chaque page */
-/* Crédit Nomad Impact : bandeau cliquable en entier, couleur signature pour attirer le regard */
-.realise-par{display:flex;align-items:center;justify-content:center;gap:14px;background:var(--accent);color:#fff;padding:20px 24px;font-size:15px;font-weight:600;line-height:1.35;text-align:center;text-decoration:none;transition:background .18s ease-out}
-.realise-par img{width:38px;height:38px;flex:none}
-.realise-par span{text-decoration:underline;text-decoration-color:rgba(255,255,255,.4);text-underline-offset:4px;transition:text-decoration-color .18s ease-out}
-.realise-par:hover,.realise-par:focus-visible{background:#C25A46}
-.realise-par:hover span,.realise-par:focus-visible span{text-decoration-color:#fff}
-.realise-par .fleche-ext{flex:none;opacity:.9}
-@media (prefers-reduced-motion:reduce){.realise-par,.realise-par span{transition:none}}
+/* Crédit Nomad Impact : pastille rebondie posée sur un fond bleu marine, avec une lueur douce pour attirer le regard */
+.realise-par-zone{background:var(--encre);padding:30px 24px 44px;display:flex;justify-content:center}
+.realise-par{display:inline-flex;align-items:center;gap:14px;background:rgba(255,255,255,.04);color:#fff;padding:14px 32px;font-size:15.5px;line-height:1.3;text-decoration:none;border-radius:999px;border:1px solid rgba(255,255,255,.18);box-shadow:0 0 0 6px rgba(212,112,92,.08),0 0 32px rgba(212,112,92,.22);transition:background .2s ease-out,box-shadow .2s ease-out,transform .2s ease-out}
+.realise-par img{width:28px;height:28px;flex:none}
+.realise-par span{color:#fff}
+.realise-par strong{color:#fff;font-weight:700}
+.realise-par:hover,.realise-par:focus-visible{background:rgba(212,112,92,.14);box-shadow:0 0 0 8px rgba(212,112,92,.14),0 0 44px rgba(212,112,92,.38);transform:translateY(-1px)}
+.realise-par:focus-visible{outline:2px solid #fff;outline-offset:3px}
+@media (max-width:640px){.realise-par{padding:12px 20px;font-size:14px;gap:10px}.realise-par img{width:24px;height:24px}}
+@media (prefers-reduced-motion:reduce){.realise-par{transition:none}.realise-par:hover,.realise-par:focus-visible{transform:none}}
 
 /* ——— Écrans moyens et téléphone ——— */
 @media (min-width:981px) and (max-width:1200px){

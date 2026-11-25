@@ -40,8 +40,7 @@ const soutiens = Astro.url.pathname.startsWith('/partenaires') ? [] : await lire
   </div>
   {r.phrase_fin && <div class="bas"><p>{r.phrase_fin}</p></div>}
 </div></footer>
-{r.credit_lien && <a class="realise-par" href={r.credit_lien} target="_blank" rel="noopener" aria-label={`${r.credit_libelle} (ouvre nomadimpact.org dans un nouvel onglet)`}>
+{r.credit_lien && <div class="realise-par-zone"><a class="realise-par" href={r.credit_lien} target="_blank" rel="noopener" aria-label={`${r.credit_libelle} (ouvre nomadimpact.org dans un nouvel onglet)`}>
   {r.credit_logo && <Media ref={r.credit_logo} alt="" width="32" height="32" />}
   <span>{r.credit_libelle}</span>
-  <svg class="fleche-ext" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><path d="M7 17 17 7"/><path d="M8 7h9v9"/></svg>
-</a>}
+</a></div>}
