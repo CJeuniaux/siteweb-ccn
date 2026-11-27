@@ -86,7 +86,11 @@ async function toutesLesImages(): Promise<Map<string, Image>> {
 /** Résout une image du CMS : référence de la médiathèque, ou adresse directe (rétrocompatibilité). */
 export async function image(ref?: string | null): Promise<Image | null> {
   if (!ref) return null;
-  if (ref.startsWith('/') || /^https?:\/\//.test(ref)) return { src: ref, alt: '' };
+  if (ref.startsWith('/') || /^https?:\/\//.test(ref)) {
+    // Un chemin direct vers une image : on infère le type depuis l'extension.
+    const type = /\.png$/i.test(ref) ? 'detoure' : undefined;
+    return { src: ref, alt: '', type, srcOriginal: type === 'detoure' ? ref : undefined };
+  }
   resolues ??= toutesLesImages();
   return (await resolues).get(ref) ?? null;
 }

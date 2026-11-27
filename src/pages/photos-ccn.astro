@@ -1,0 +1,66 @@
+---
+// Page vitrine : les 14 photos d'Alexandra traitées (filtre CCN). Détourées en PNG,
+// lieux et objets en WebP. Le trait griffonné et le liseré blanc sont appliqués à l'affichage
+// par <Visuel> (charte).
+import Base from '../layouts/Base.astro';
+import Visuel from '../components/Visuel.astro';
+
+const DETOUREES = [
+  { src: '/img/claptis-boxing.png',             alt: 'Un homme avec des gants de boxe, concentré',          couleur: 'rouge',  legende: 'Le Rebond — résilience' },
+  { src: '/img/claptis-hublot.png',             alt: 'Une jeune femme regarde dans le hublot d’une machine à laver', couleur: 'bleu',   legende: 'Chez Toît — salle de bain' },
+  { src: '/img/claptis-cuisine-collective.png', alt: 'Deux hommes en cuisine, casquettes',                   couleur: 'vert',   legende: 'Toudi Boudji — atelier cuisine' },
+  { src: '/img/claptis-mains-casserole.png',    alt: 'Des mains qui mélangent une casserole',                couleur: 'vert',   legende: 'Toudi Boudji — gestes' },
+  { src: '/img/claptis-consultation.png',       alt: 'Un homme en entretien au bureau',                      couleur: 'bleu',   legende: 'Accompagnement administratif' },
+  { src: '/img/claptis-sourire-bureau.png',     alt: 'Une jeune femme souriante, cheveux clairs, à son bureau', couleur: 'mauve',  legende: 'Équipe — accueil' },
+  { src: '/img/claptis-equipe-tshirt.png',      alt: 'Deux membres de l’équipe CCN en tshirt noir',       couleur: 'encre',  legende: 'L’association — équipe' },
+];
+
+const CADRES = [
+  { src: '/img/claptis-facade.webp',    alt: 'La façade de l’immeuble CCN',          couleur: 'encre', legende: 'L’association — bâtiment' },
+  { src: '/img/claptis-cour.webp',      alt: 'La cour intérieure',                       couleur: 'encre', legende: 'L’association — cour' },
+  { src: '/img/claptis-serviettes.webp',alt: 'Des serviettes pliées',                    couleur: 'bleu',  legende: 'Chez Toît — vestiboutique' },
+  { src: '/img/claptis-gants-boxe.webp',alt: 'Des gants de boxe empilés',                couleur: 'rouge', legende: 'Le Rebond — matériel' },
+  { src: '/img/claptis-barbapapa.webp', alt: 'Une cuisinette Barbapapa pour enfants',     couleur: 'mauve', legende: 'Parent’Elle — espace enfants' },
+  { src: '/img/claptis-infirmerie.webp',alt: 'Une étagère d’infirmerie',             couleur: 'jaune', legende: 'Promotion de la santé — matériel' },
+  { src: '/img/claptis-stetho.webp',    alt: 'Un stéthoscope',                           couleur: 'jaune', legende: 'Promotion de la santé — soins' },
+];
+---
+<Base titre="Photos CCN — filtre" description="Prévisualisation des 14 photos sélectionnées avec le filtre CCN appliqué.">
+  <section class="vitrine">
+    <div class="wrap">
+      <h1>Photos Alexandra — filtre CCN</h1>
+      <p class="intro">Sélection de 14 photos sur les 150. Les sept premières sont détourées, les sept autres sont présentées avec un cadre griffonné. Le trait et le liseré sont posés à l'affichage par le site (charte).</p>
+
+      <h2>Détourées — personnages et scènes</h2>
+      <div class="grille">
+        {DETOUREES.map((p) => (
+          <figure class="carte">
+            <Visuel ref={p.src} alt={p.alt} graine={p.src} couleur={p.couleur} loading="lazy" />
+            <figcaption>{p.legende}</figcaption>
+          </figure>
+        ))}
+      </div>
+
+      <h2>Cadre griffonné — lieux et objets</h2>
+      <div class="grille">
+        {CADRES.map((p) => (
+          <figure class="carte">
+            <Visuel ref={p.src} alt={p.alt} graine={p.src} couleur={p.couleur} loading="lazy" />
+            <figcaption>{p.legende}</figcaption>
+          </figure>
+        ))}
+      </div>
+    </div>
+  </section>
+</Base>
+
+<style>
+.vitrine { padding: 60px 0 100px; }
+.vitrine h1 { font-size: 2.4rem; margin-bottom: 8px; color: var(--encre); }
+.vitrine h2 { font-size: 1.6rem; margin: 48px 0 20px; color: var(--encre); }
+.intro { max-width: 720px; color: var(--encre); opacity: .8; margin-bottom: 20px; }
+.grille { display: grid; grid-template-columns: repeat(auto-fill, minmax(320px, 1fr)); gap: 32px; }
+.carte { margin: 0; }
+.carte figcaption { margin-top: 10px; font-size: .95rem; color: var(--encre); opacity: .85; text-align: center; }
+.carte :global(.photo-detouree) { aspect-ratio: 3/2; }
+</style>
