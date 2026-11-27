@@ -83,9 +83,27 @@ async function toutesLesImages(): Promise<Map<string, Image>> {
   return carte;
 }
 
+/** Override temporaire : remplace certaines fiches médias par des photos locales (Alexandra),
+ *  le temps que ces nouvelles images soient enregistrées dans Supabase. */
+const OVERRIDES_MEDIAS: Record<string, { src: string; alt: string; largeur?: number; hauteur?: number }> = {
+  'm-hero-rebond':   { src: '/img/claptis-sourire-bureau.png',    alt: 'Une jeune femme souriante à son bureau', largeur: 2000, hauteur: 1333 },
+  'm-hero-immeuble': { src: '/img/claptis-facade.webp',           alt: 'La façade de Comme Chez Nous', largeur: 2000, hauteur: 1333 },
+  'm-asso-equipe':   { src: '/img/claptis-equipe-tshirt.png',     alt: 'Deux membres de l’équipe CCN', largeur: 2000, hauteur: 1333 },
+  'm-chez-toit-cles':{ src: '/img/claptis-hublot.png',            alt: 'Une jeune femme regarde dans le hublot d’une machine à laver', largeur: 2000, hauteur: 1333 },
+  'm-don-mains':     { src: '/img/claptis-serviettes.webp',       alt: 'Des serviettes pliées, don en nature', largeur: 2000, hauteur: 1333 },
+  'm-don-nature':    { src: '/img/claptis-chaussures.webp',       alt: 'Des chaussures alignées, don en nature', largeur: 2000, hauteur: 1333 },
+  'm-rebond-repas':  { src: '/img/claptis-cuisine-collective.png',alt: 'Deux hommes dans la cuisine collective', largeur: 2000, hauteur: 1333 },
+};
+
 /** Résout une image du CMS : référence de la médiathèque, ou adresse directe (rétrocompatibilité). */
 export async function image(ref?: string | null): Promise<Image | null> {
   if (!ref) return null;
+  // Override tactique : certaines fiches CMS sont remplacées par des photos locales.
+  const over = OVERRIDES_MEDIAS[ref];
+  if (over) {
+    const type = /\.png$/i.test(over.src) ? 'detoure' : 'composite';
+    return { src: over.src, alt: over.alt, type, largeur: over.largeur, hauteur: over.hauteur, srcOriginal: type === 'detoure' ? over.src : undefined };
+  }
   if (ref.startsWith('/') || /^https?:\/\//.test(ref)) {
     // Un chemin direct vers une image : on infère le type depuis l'extension.
     const type = /\.png$/i.test(ref) ? 'detoure' : undefined;

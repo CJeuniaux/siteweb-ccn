@@ -19,6 +19,17 @@ const r = await reglages();
 const sections = await sectionsDe(`/services/${s.slug}`);
 const aide = (await menu('boutons')).find((b) => b.lien === '/aide');
 const aDesInfos = sections.some((x) => x.type === 'infos');
+// Override photo hero avec la sélection Alexandra (le temps que le CMS soit mis à jour).
+const OVERRIDES_PHOTO: Record<string, { src: string; alt: string }> = {
+  'le-rebond':       { src: '/img/claptis-boxing.png',             alt: 'Un homme avec des gants de boxe' },
+  'chez-toit':       { src: '/img/claptis-hublot.png',             alt: 'Une jeune femme regarde dans le hublot d’une machine à laver' },
+  'toudi-boudji':    { src: '/img/claptis-cuisine-collective.png', alt: 'Deux hommes dans la cuisine collective' },
+  'parent-elle':     { src: '/img/claptis-barbapapa.webp',         alt: 'Une cuisinette Barbapapa pour enfants' },
+  'promotion-sante': { src: '/img/claptis-infirmerie.webp',        alt: 'Le matériel de l’infirmerie' },
+};
+const over = OVERRIDES_PHOTO[s.slug];
+const photoSrc = over?.src ?? s.photo;
+const photoAlt = over?.alt ?? s.photo_alt ?? '';
 ---
 <Base titre={s.nom} description={s.description_seo || s.accroche} theme={s.theme}>
   <section class="tete tete-service"><div class="wrap">
@@ -32,14 +43,14 @@ const aDesInfos = sections.some((x) => x.type === 'infos');
         {aide && <a class="btn contour" href={aide.lien}>{aide.libelle}</a>}
       </div>
     </div>
-    {!s.photo && (
+    {!photoSrc && (
       <div class="visuel visuel-trait" aria-hidden="true">
         <Trait variante="boucle-droite" graine={`/services/${s.slug}:tete-trait`} couleur={['rouge', 'bleu', 'jaune', 'vert', 'mauve'].includes(s.theme) ? s.theme : 'rouge'} epaisseur={6} />
       </div>
     )}
-    {s.photo && (
+    {photoSrc && (
       <div class="visuel">
-        <Visuel class="ph" ref={s.photo} alt={s.photo_alt ?? ''} graine={`/services/${s.slug}:photo`} couleur={s.theme} loading="eager" aplat={s.aplat ?? false} contour={s.trait !== false} />
+        <Visuel class="ph" ref={photoSrc} alt={photoAlt} graine={`/services/${s.slug}:photo`} couleur={s.theme} loading="eager" aplat={s.aplat ?? false} contour={s.trait !== false} />
       </div>
     )}
   </div>
