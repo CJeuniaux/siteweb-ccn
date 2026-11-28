@@ -86,7 +86,6 @@ async function toutesLesImages(): Promise<Map<string, Image>> {
 /** Override temporaire : remplace certaines fiches médias par des photos locales (Alexandra),
  *  le temps que ces nouvelles images soient enregistrées dans Supabase. */
 const OVERRIDES_MEDIAS: Record<string, { src: string; alt: string; largeur?: number; hauteur?: number }> = {
-  'm-hero-rebond':   { src: '/img/claptis-sourire-bureau.png',    alt: 'Une jeune femme souriante à son bureau', largeur: 2000, hauteur: 1333 },
   'm-hero-immeuble': { src: '/img/claptis-facade.webp',           alt: 'La façade de Comme Chez Nous', largeur: 2000, hauteur: 1333 },
   'm-asso-equipe':   { src: '/img/claptis-equipe-tshirt.png',     alt: 'Deux membres de l’équipe CCN', largeur: 2000, hauteur: 1333 },
   'm-chez-toit-cles':{ src: '/img/claptis-hublot.png',            alt: 'Une jeune femme regarde dans le hublot d’une machine à laver', largeur: 2000, hauteur: 1333 },
